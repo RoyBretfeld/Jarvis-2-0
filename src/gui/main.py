@@ -302,7 +302,7 @@ with st.sidebar:
         from src.senses.vision import VisionSense
         vision = VisionSense()
         
-        st.image(uploaded_file, caption='Visual Data', use_container_width=True)
+        st.image(uploaded_file, caption='Visual Data', use_column_width=True)
         with st.spinner("Analyzing Visual Data..."):
              # Convert to bytes
              bytes_data = uploaded_file.getvalue()
