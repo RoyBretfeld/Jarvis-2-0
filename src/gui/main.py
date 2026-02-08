@@ -142,8 +142,7 @@ with st.sidebar:
 
 import importlib
 
-# --- Agent Initialization (Cached) ---
-@st.cache_resource
+# --- Agent Initialization (No cache to ensure fresh LLM config) ---
 def load_agent():
     base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
