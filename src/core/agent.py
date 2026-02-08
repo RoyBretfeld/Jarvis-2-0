@@ -1,9 +1,12 @@
 import os
 import sys
 import datetime
+import logging
 import ollama
 from pathlib import Path
 from dotenv import load_dotenv
+
+logger = logging.getLogger(__name__)
 
 # Load environment variables
 load_dotenv()
@@ -347,6 +350,69 @@ class ForgeAgent:
             self.voice.speak("Höre nicht mehr zu.", is_async=True)
 
         self.ears.stop_listening()
+
+    def force_write(self, filepath: str, content: str) -> dict:
+        """
+        Generic force write for body/ directory
+
+        TAIA's physical write interface for autonomous knowledge storage.
+        Creates missing subdirectories automatically.
+
+        Args:
+            filepath: Relative path from base (e.g., 'body/skills/alexa.md')
+            content: Content to write
+
+        Returns:
+            {status, path, size, message}
+        """
+        try:
+            # 1. Build full path
+            full_path = self.base_path / filepath
+            parent_dir = full_path.parent
+
+            # 2. Create parent directories if missing
+            parent_dir.mkdir(parents=True, exist_ok=True)
+
+            # 3. Verify Sentinel allows write
+            sentinel_check = self.sentinel.can_write(str(full_path))
+            if not sentinel_check:
+                error_msg = f"Sentinel denied write: {filepath}"
+                logger.error(error_msg)
+                return {
+                    "status": "DENIED",
+                    "path": str(full_path),
+                    "message": error_msg
+                }
+
+            # 4. Write with UTF-8
+            with open(full_path, "w", encoding="utf-8") as f:
+                f.write(content)
+
+            # 5. Verify write success
+            if full_path.exists() and full_path.stat().st_size > 0:
+                file_size = full_path.stat().st_size
+                logger.info(f"✅ Written: {filepath} ({file_size} bytes)")
+
+                return {
+                    "status": "SUCCESS",
+                    "path": str(full_path),
+                    "size": file_size,
+                    "message": f"Successfully written {file_size} bytes"
+                }
+            else:
+                return {
+                    "status": "ERROR",
+                    "path": str(full_path),
+                    "message": "Write verification failed (size check)"
+                }
+
+        except Exception as e:
+            error_msg = f"Force write failed: {e}"
+            logger.error(error_msg)
+            return {
+                "status": "ERROR",
+                "message": error_msg
+            }
 
     def force_write_skill(self, skill_name: str, content: str) -> dict:
         """

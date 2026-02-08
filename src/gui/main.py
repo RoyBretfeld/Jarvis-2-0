@@ -296,6 +296,17 @@ except Exception as e:
 
 st.caption("Secure Line... Encryption Active.")
 
+# System Status Row
+col1, col2, col3 = st.columns(3)
+with col1:
+    st.metric("🛡️ Sentinel", "ACTIVE", "Safe Mode")
+with col2:
+    st.metric("💾 Disk Access", "GRANTED", "body/ writable")
+with col3:
+    st.metric("🧠 LLM", "Groq", "llama-3.3-70b")
+
+st.divider()
+
 # Initialize Chat History
 if "messages" not in st.session_state:
     st.session_state.messages = []

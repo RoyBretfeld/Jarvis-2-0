@@ -243,8 +243,8 @@ class SentinelGatekeeper:
         """
         TAIA's physical write permission check for skill autonomy.
 
-        ✅ ALWAYS allows body/skills/*.md (autonomous skill documentation)
-        ✅ Allows all body/ knowledge files (.md, .json, .txt, .csv, .yaml)
+        ✅ ALWAYS allows entire body/ directory (.md, .json, .txt, .csv, .yaml)
+        ✅ Creates missing subdirectories automatically
         ❌ Denies src/ code changes without approval
         ❌ Blocks dangerous operations entirely
 
@@ -256,16 +256,34 @@ class SentinelGatekeeper:
         """
         path = Path(file_path)
 
-        # 1. HARD RULE: body/skills/ always writable (TAIA's skill autonomy zone)
+        # 1. HARD RULE: Entire body/ is writable autonomy zone
         try:
             rel_path = path.relative_to(self.base_path)
-            if "body/skills" in str(rel_path) or str(rel_path).startswith("body\\skills"):
-                logger.info(f"✅ Skill write allowed: {file_path}")
-                return True
+            rel_str = str(rel_path).replace("\\", "/")  # Normalize path separators
+
+            if rel_str.startswith("body/"):
+                # Check file extension safety
+                extension = path.suffix.lower()
+                if extension in self.SAFE_EXTENSIONS or extension == "":
+                    logger.info(f"✅ Body write allowed: {file_path}")
+                    return True
+                else:
+                    logger.warning(f"❌ Unsafe extension in body/: {file_path}")
+                    return False
         except ValueError:
             pass
 
-        # 2. Use standard access check
+        # 2. Block access outside body/ without explicit approval
+        try:
+            rel_path = path.relative_to(self.base_path)
+            rel_str = str(rel_path).replace("\\", "/")
+            if rel_str.startswith("src/"):
+                logger.warning(f"❌ Code write denied (requires approval): {file_path}")
+                return False
+        except ValueError:
+            pass
+
+        # 3. Use standard access check for edge cases
         access_level, reason = self.check_file_access(file_path, "write")
         allowed = access_level in {AccessLevel.ALLOW, AccessLevel.WARN}
 
