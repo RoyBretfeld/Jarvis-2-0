@@ -1,0 +1,19 @@
+{
+  "initialized": "2026-02-03T21:44:54.412Z",
+  "windowDays": 14,
+  "currentDay": "2026-02-03",
+  "sessions": {
+    "active": [],
+    "archived": []
+  },
+  "memories": {
+    "observations": [],
+    "insights": [],
+    "connections": []
+  },
+  "stats": {
+    "totalSessions": 0,
+    "totalObservations": 0,
+    "totalInsights": 0
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "protocol_version": "1.0",
+  "application_type": "llm_agent",
+  "llm_enabled": true,
+  "components": {
+    "core": true,
+    "modules": true,
+    "cli": true,
+    "skills": true,
+    "skill_manager": true
+  }
+}

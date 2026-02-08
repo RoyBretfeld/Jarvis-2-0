@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "The Forge Configuration Schema",
+  "description": "Configuration schema for The Forge application",
+  "type": "object",
+  "required": ["llm", "paths"],
+  "properties": {
+    "llm": {
+      "type": "object",
+      "description": "LLM Provider Configuration",
+      "required": ["providers", "default_provider"],
+      "properties": {
+        "providers": {
+          "type": "object",
+          "description": "LLM Provider Configurations",
+          "properties": {
+            "groq": {
+              "type": "object",
+              "description": "Groq LLM Provider",
+              "properties": {
+                "api_key": {
+                  "type": "string",
+                  "minLength": 10,
+                  "description": "Groq API Key"
+                },
+                "model": {
+                  "type": "string",
+                  "default": "llama-3.3-70b-versatile"
+                },
+                "base_url": {
+                  "type": "string",
+                  "format": "uri",
+                  "default": "https://api.groq.com/openai/v1"
+                }
+              }
+            },
+            "ollama": {
+              "type": "object",
+              "description": "Ollama LLM Provider",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "format": "uri",
+                  "default": "http://localhost:11434"
+                },
+                "model": {
+                  "type": "string",
+                  "default": "qwen2.5-coder:14b"
+                }
+              }
+            }
+          }
+        },
+        "default_provider": {
+          "type": "string",
+          "enum": ["groq", "ollama"],
+          "default": "groq"
+        }
+      }
+    },
+    "email": {
+      "type": "object",
+      "description": "Email Configuration",
+      "properties": {
+        "smtp_server": {
+          "type": "string"
+        },
+        "smtp_port": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535
+        },
+        "sender": {
+          "type": "string",
+          "format": "email"
+        },
+        "receiver": {
+          "type": "string",
+          "format": "email"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "paths": {
+      "type": "object",
+      "description": "Directory Paths",
+      "properties": {
+        "body": {
+          "type": "string",
+          "default": "./body"
+        },
+        "brain": {
+          "type": "string",
+          "default": "./brain"
+        },
+        "uploads": {
+          "type": "string",
+          "default": "./uploads"
+        }
+      }
+    },
+    "server": {
+      "type": "object",
+      "description": "Server Configuration",
+      "properties": {
+        "port": {
+          "type": "integer",
+          "minimum": 1000,
+          "maximum": 65535,
+          "default": 3000
+        },
+        "host": {
+          "type": "string",
+          "default": "localhost"
+        }
+      }
+    },
+    "logging": {
+      "type": "object",
+      "description": "Logging Configuration",
+      "properties": {
+        "level": {
+          "type": "string",
+          "enum": ["debug", "info", "warn", "error"],
+          "default": "info"
+        },
+        "file": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

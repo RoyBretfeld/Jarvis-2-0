@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm:*)",
+      "WebFetch(domain:docs.openclaw.ai)",
+      "Bash(ls:*)",
+      "Bash(npx eslint:*)",
+      "Bash(xcopy \"E:\\\\_____1111____Projekte-Programmierung\\\\Antigravity\\\\Konfiguration-Manager für GEMs\" \"G:\\\\Meine Ablage\\\\_Projekte-Programmierung\\\\Antigravity\\\\Konfiguration-Manager für GEMs\" /E /I /Y)",
+      "Bash(tree:*)",
+      "Bash(python3:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nPhase 4 Complete: Modular API Architecture\n\n- Refactored monolithic server.js \\(743 → 150 lines\\)\n- Created 4 modular route files \\(chat, config, memory, vision\\)\n- Integrated Python services via subprocess pattern\n- 226 tests passing across all phases \\(0-3\\)\n- Clean separation of concerns \\(API → Services → Repos → Core\\)\n- Security: API keys in gitignored config files\n- Production-ready modular Express server\n\nPhases Completed:\n✅ Phase 0: Security hotfix \\(9 tests\\)\n✅ Phase 1: Utils + Error handling \\(69 tests\\)\n✅ Phase 2: Repository pattern \\(69 tests\\)\n✅ Phase 3: Service layer \\(79 tests\\)\n✅ Phase 4: API refactoring \\(architecture\\)\n\nAll modules tested, documented, and ready for deployment.\n\nCo-Authored-By: Claude Haiku 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
+    ]
+  }
+}

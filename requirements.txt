@@ -1,0 +1,17 @@
+# Core Dependencies
+streamlit
+chromadb
+ollama
+python-dotenv
+trafilatura
+requests
+beautifulsoup4
+
+# JSON Schema Validation
+jsonschema>=4.0.0
+
+# Testing Dependencies
+pytest>=7.0.0
+pytest-cov>=4.0.0
+pytest-timeout>=2.1.0
+pytest-mock>=3.10.0

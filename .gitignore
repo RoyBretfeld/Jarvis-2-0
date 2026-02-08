@@ -1,0 +1,25 @@
+# env & config
+.env
+.env.*
+config/development.json
+config/production.json
+
+# python
+.venv/
+__pycache__/
+*.pyc
+
+# node
+node_modules/
+
+# dumps
+PROJECT_CONTEXT_DUMP_*.txt
+.rb_dumps/
+
+# db dumps
+*.db
+*.sqlite
+
+# OS
+.DS_Store
+Thumbs.db

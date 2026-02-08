@@ -1,0 +1,9 @@
+ERROR    TheForge:logger.py:108 ValueError: Test error
+ERROR    TheForge:logger.py:108 ForgeError: Test
+ERROR    TheForge:logger.py:108 StorageError: File not found
+CRITICAL TheForge:logger.py:108 MemoryError: Minor issue
+ERROR    TheForge:logger.py:108 ValueError: Test
+WARNING  TheForge:logger.py:161 Failed to clear log: [WinError 32] Der Prozess kann nicht auf die Datei zugreifen, da sie von einem anderen Prozess verwendet wird: 'C:\\Users\\Matri\\AppData\\Local\\Temp\\pytest-of-Matri\\pytest-156\\test_clear_log0\\forge.log'
+ERROR    TheForge:logger.py:108 ValueError: Test
+ERROR    TheForge:logger.py:108 ForgeError: Operation failed
+ERROR    TheForge:logger.py:108 StorageError: Failed to save

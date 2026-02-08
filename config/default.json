@@ -1,0 +1,36 @@
+{
+  "llm": {
+    "providers": {
+      "groq": {
+        "api_key": "YOUR_GROQ_API_KEY_HERE",
+        "model": "llama-3.3-70b-versatile",
+        "base_url": "https://api.groq.com/openai/v1"
+      },
+      "ollama": {
+        "url": "http://localhost:11434",
+        "model": "qwen2.5-coder:14b"
+      }
+    },
+    "default_provider": "groq"
+  },
+  "email": {
+    "smtp_server": "smtp.web.de",
+    "smtp_port": 587,
+    "sender": "YOUR_EMAIL_HERE",
+    "receiver": "YOUR_EMAIL_HERE",
+    "password": "YOUR_PASSWORD_HERE"
+  },
+  "paths": {
+    "body": "./body",
+    "brain": "./brain",
+    "uploads": "./uploads"
+  },
+  "server": {
+    "port": 3000,
+    "host": "localhost"
+  },
+  "logging": {
+    "level": "info",
+    "file": "./logs/forge.log"
+  }
+}
