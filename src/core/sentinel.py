@@ -239,6 +239,43 @@ class SentinelGatekeeper:
         path = self.body_path / f"{name}{extension}"
         return path
 
+    def can_write(self, file_path: str) -> bool:
+        """
+        TAIA's physical write permission check for skill autonomy.
+
+        ✅ ALWAYS allows body/skills/*.md (autonomous skill documentation)
+        ✅ Allows all body/ knowledge files (.md, .json, .txt, .csv, .yaml)
+        ❌ Denies src/ code changes without approval
+        ❌ Blocks dangerous operations entirely
+
+        Args:
+            file_path: Path to file
+
+        Returns:
+            True if write is allowed, False if denied
+        """
+        path = Path(file_path)
+
+        # 1. HARD RULE: body/skills/ always writable (TAIA's skill autonomy zone)
+        try:
+            rel_path = path.relative_to(self.base_path)
+            if "body/skills" in str(rel_path) or str(rel_path).startswith("body\\skills"):
+                logger.info(f"✅ Skill write allowed: {file_path}")
+                return True
+        except ValueError:
+            pass
+
+        # 2. Use standard access check
+        access_level, reason = self.check_file_access(file_path, "write")
+        allowed = access_level in {AccessLevel.ALLOW, AccessLevel.WARN}
+
+        if allowed:
+            logger.info(f"✅ Write allowed: {file_path}")
+        else:
+            logger.warning(f"❌ Write denied: {file_path} ({reason})")
+
+        return allowed
+
     def __call__(
         self,
         file_path: str,

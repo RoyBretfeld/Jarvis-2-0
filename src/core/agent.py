@@ -348,6 +348,78 @@ class ForgeAgent:
 
         self.ears.stop_listening()
 
+    def force_write_skill(self, skill_name: str, content: str) -> dict:
+        """
+        Force write skill documentation to body/skills/
+
+        This is TAIA's physical write interface for skill autonomy.
+        Bypasses standard I/O to ensure file write success.
+
+        Args:
+            skill_name: Skill filename (e.g., 'alexa' for alexa.md)
+            content: Markdown content to write
+
+        Returns:
+            {status, path, size, message}
+        """
+        try:
+            # 1. Build path (body/skills/[skill].md)
+            skills_dir = self.base_path / "body" / "skills"
+            skills_dir.mkdir(parents=True, exist_ok=True)
+
+            filepath = skills_dir / f"{skill_name}.md"
+
+            # 2. Verify Sentinel allows body/skills/ writes
+            sentinel_check = self.sentinel.can_write(str(filepath))
+            if not sentinel_check:
+                print(f"⚠️ Sentinel denied write to {filepath}")
+                return {
+                    "status": "DENIED",
+                    "path": str(filepath),
+                    "message": "Sentinel security check failed"
+                }
+
+            # 3. Write with UTF-8 (double-check encoding)
+            with open(filepath, "w", encoding="utf-8") as f:
+                f.write(content)
+
+            # 4. Verify write success
+            if filepath.exists():
+                file_size = filepath.stat().st_size
+                print(f"✅ Skill written: {filepath} ({file_size} bytes)")
+
+                # 5. Voice confirmation
+                if self.voice:
+                    self.voice.speak(
+                        f"Sir, die Dokumentation für {skill_name} wurde erfolgreich gespeichert.",
+                        is_async=True
+                    )
+
+                return {
+                    "status": "SUCCESS",
+                    "path": str(filepath),
+                    "size": file_size,
+                    "message": f"Skill '{skill_name}' written successfully"
+                }
+            else:
+                return {
+                    "status": "ERROR",
+                    "path": str(filepath),
+                    "message": "File write verification failed"
+                }
+
+        except Exception as e:
+            error_msg = f"Force write failed: {e}"
+            print(f"❌ {error_msg}")
+
+            if self.voice:
+                self.voice.speak("Fehler beim Schreiben der Skill-Datei.", is_async=True)
+
+            return {
+                "status": "ERROR",
+                "message": error_msg
+            }
+
     def speak(self, text: str):
         """Speak text using voice"""
         if not self.voice:
