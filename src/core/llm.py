@@ -17,10 +17,13 @@ class LLMProvider:
         self.model_local = os.getenv("OLLAMA_MODEL", "qwen2.5-coder:14b")
         self.model_cloud = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
         
-        # Active State
-        self.active_provider = "ollama" # or 'groq'
-        # Default to user preference if available, else generic
-        self.active_model = os.getenv("OLLAMA_MODEL", "qwen2.5-coder:14b") 
+        # Active State - Default to Groq if API key present, else Ollama
+        if self.groq_api_key:
+            self.active_provider = "groq"
+            self.active_model = self.model_cloud
+        else:
+            self.active_provider = "ollama"
+            self.active_model = self.model_local 
 
     def list_local_models(self):
         """Fetches list of available models from Ollama."""
