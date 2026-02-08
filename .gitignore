@@ -23,3 +23,7 @@ PROJECT_CONTEXT_DUMP_*.txt
 # OS
 .DS_Store
 Thumbs.db
+
+# IDE
+.claude/settings.local.json
+*.code-workspace
