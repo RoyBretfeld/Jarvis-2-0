@@ -288,7 +288,7 @@ try:
     if os.path.exists(taia_logo_path):
         with open(taia_logo_path, "rb") as f:
             taia_logo_data = f.read()
-        st.image(taia_logo_data, use_column_width=True)
+        st.image(taia_logo_data, width=400)  # Display at 1/3 size
     else:
         st.title(">> TACTICAL OPS // TAIA CORE")
 except Exception as e:
