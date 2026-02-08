@@ -2,6 +2,10 @@ import streamlit as st
 import os
 import sys
 import time
+from dotenv import load_dotenv
+
+# Load environment variables from .env
+load_dotenv()
 
 # Add project root to path to find src.core
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))

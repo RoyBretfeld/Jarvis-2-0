@@ -14,6 +14,10 @@ import sys
 import io
 import logging
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Force UTF-8 output on Windows
 if sys.platform == "win32":

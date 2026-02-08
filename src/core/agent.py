@@ -3,6 +3,10 @@ import sys
 import datetime
 import ollama
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Adjust path to find body modules (until completely migrated)
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
