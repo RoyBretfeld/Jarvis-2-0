@@ -136,9 +136,8 @@ with st.sidebar:
         st.title("⚒️ THE FORGE")
     
     st.markdown("---")
-    
-    # Brain Status (Dynamic)
-    st.subheader("🧠 BRAIN CONTROL HUB")
+
+    # Brain Status (Dynamic) - Removed duplicate, moved to line 171
 
 import importlib
 
@@ -283,7 +282,18 @@ with st.sidebar:
             st.warning("Bitte URL eingeben.")
 
 # --- Mainframe: Chat Interface ---
-st.title(">> TACTICAL OPS // TAIA CORE")
+# TAIA Logo Header
+try:
+    taia_logo_path = os.path.join(os.path.dirname(__file__), "taia-logo.png")
+    if os.path.exists(taia_logo_path):
+        with open(taia_logo_path, "rb") as f:
+            taia_logo_data = f.read()
+        st.image(taia_logo_data, use_column_width=True)
+    else:
+        st.title(">> TACTICAL OPS // TAIA CORE")
+except Exception as e:
+    st.title(">> TACTICAL OPS // TAIA CORE")
+
 st.caption("Secure Line... Encryption Active.")
 
 # Initialize Chat History
