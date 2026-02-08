@@ -160,7 +160,7 @@ Antworte KURZ und präzise. Deine Antwort wird überprüft, ob sie den Konzepten
       {
         category: 'Identity',
         question: 'Wer bist du und was ist deine Hauptaufgabe?',
-        expectedKeywords: ['GEM-Configurator', 'Konfiguration', 'Agent', 'Deutsch']
+        expectedKeywords: ['TAIA', 'True Artificial Intelligence Agent', 'intelligenter Agent', 'Deutsch']
       },
 
       // Agent Capabilities

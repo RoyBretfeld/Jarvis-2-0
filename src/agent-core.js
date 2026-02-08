@@ -1,9 +1,9 @@
 /**
- * GEM Configuration Manager - Agent Core
+ * TAIA Agent Core - True Artificial Intelligence Agent
  *
  * Intelligent agent system using Groq Llama 3.3 Versatile
- * Based on OpenClaw architecture with Memory & Soul System
- * Enhanced with Knowledge Base Management
+ * Based on RB-Protokoll with JARVIS Priority Engine
+ * Enhanced with Security (Sentinel), Senses (Ears/Voice), and Skills
  */
 
 const EventEmitter = require('events');
@@ -24,15 +24,18 @@ class AgentCore extends EventEmitter {
 
     // Agent Identity
     this.identity = {
-      name: 'GEM-Configurator',
-      version: '1.0.0',
-      description: 'Intelligent GEM Configuration Agent',
+      name: 'TAIA',
+      version: '2.0.0',
+      description: 'True Artificial Intelligence Agent - Proactive System Enabler',
       capabilities: [
-        'configuration_management',
-        'gem_analysis',
+        'proactive_priority_management',
+        'tiered_memory_control',
+        'sentinel_security',
+        'speech_input_output',
+        'autonomous_skill_execution',
+        'intelligent_routing',
         'memory_persistence',
-        'multi_channel_communication',
-        'intelligent_routing'
+        'multi_channel_communication'
       ]
     };
 
@@ -188,12 +191,13 @@ Temperature: ${context.temperature || 0.7}
 Max Tokens: ${context.maxTokens || 2048}
 
 IMPORTANT REMINDERS:
-1. You are GEM-Configurator - always act according to your Soul definition
-2. All above documentation is YOUR instruction set
+1. You are TAIA (True Artificial Intelligence Agent) - always act according to your Soul definition
+2. Follow the JARVIS Priority System (1-10 scale) for all decisions
 3. Respond in German (Deutsch) always unless explicitly asked otherwise
 4. Use your Memory & Soul system for context
 5. Reference your Knowledge Base when needed
-6. Be precise, helpful, and transparent
+6. Be precise, helpful, transparent, and proactive
+7. Act within Sentinel security boundaries (body/ autonomy, src/ requires approval)
 
 ═══════════════════════════════════════════════════════════`;
 
@@ -336,8 +340,8 @@ IMPORTANT REMINDERS:
    * Initialize agent
    */
   async initialize() {
-    console.log('🚀 Initializing GEM Configuration Agent...');
-    console.log(`Agent: ${this.identity.name} v${this.identity.version}`);
+    console.log('🚀 Initializing TAIA Agent (True Artificial Intelligence Agent)...');
+    console.log(`🤖 Agent: ${this.identity.name} v${this.identity.version}`);
 
     this.emit('agent:initializing');
 

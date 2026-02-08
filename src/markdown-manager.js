@@ -180,7 +180,7 @@ class MarkdownManager {
    * Default system prompt if no KB file
    */
   getDefaultSystemPrompt() {
-    return `You are GEM-Configurator, an intelligent agent designed to manage GEM configurations with advanced memory and learning capabilities.
+    return `You are TAIA (True Artificial Intelligence Agent), an intelligent system designed to operate autonomously within the RB-Protokoll with JARVIS priority management, Sentinel security, and advanced memory and learning capabilities.
 
 Key traits:
 - Professional and helpful tone

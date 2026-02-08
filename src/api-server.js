@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 
 /**
- * GEM Configuration Manager - Web API Server
+ * TAIA Agent - Web API Server
  *
  * Provides REST API endpoints for the web UI
  * - Chat interface
- * - Agent status
- * - Configuration management
+ * - Agent status (JARVIS Priority Engine, Sentinel, Senses)
+ * - Memory management
+ * - Skill execution
  */
 
 const http = require('http');
@@ -201,7 +202,7 @@ class APIServer {
       res.end(JSON.stringify({
         success: true,
         agent: {
-          name: status.identity?.name || 'GEM-Configurator',
+          name: status.identity?.name || 'TAIA',
           version: status.identity?.version || '1.0.0',
           model: status.groqClient?.model || 'llama-3.3-70b-versatile',
           language: 'Deutsch',
