@@ -1,9 +1,734 @@
-ERROR    TheForge:logger.py:108 ValueError: Test error
-ERROR    TheForge:logger.py:108 ForgeError: Test
-ERROR    TheForge:logger.py:108 StorageError: File not found
-CRITICAL TheForge:logger.py:108 MemoryError: Minor issue
-ERROR    TheForge:logger.py:108 ValueError: Test
-WARNING  TheForge:logger.py:161 Failed to clear log: [WinError 32] Der Prozess kann nicht auf die Datei zugreifen, da sie von einem anderen Prozess verwendet wird: 'C:\\Users\\Matri\\AppData\\Local\\Temp\\pytest-of-Matri\\pytest-156\\test_clear_log0\\forge.log'
-ERROR    TheForge:logger.py:108 ValueError: Test
-ERROR    TheForge:logger.py:108 ForgeError: Operation failed
-ERROR    TheForge:logger.py:108 StorageError: Failed to save
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_init_creates_scheduler0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_init_creates_scheduler0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_init_creates_scheduler0\archives
+DEBUG    tzlocal:win32.py:55 Looking up time zone info from registry
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_init_sets_default_config0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_init_sets_default_config0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_init_sets_default_config0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_init_with_jarvis_callback0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_init_with_jarvis_callback0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_init_with_jarvis_callback0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_init_not_running0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_init_not_running0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_init_not_running0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_start_scheduler0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_start_scheduler0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_start_scheduler0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     apscheduler.scheduler:base.py:507 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO     apscheduler.scheduler:base.py:507 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO     apscheduler.scheduler:base.py:507 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO     apscheduler.scheduler:base.py:1090 Added job "Daily Memory Compression" to job store "default"
+INFO     apscheduler.scheduler:base.py:1090 Added job "Weekly Memory Archival" to job store "default"
+INFO     apscheduler.scheduler:base.py:1090 Added job "Memory Threshold Monitor" to job store "default"
+INFO     apscheduler.scheduler:base.py:214 Scheduler started
+DEBUG    apscheduler.scheduler:base.py:1151 Looking for jobs to run
+INFO     src.services.memory.scheduler:scheduler.py:124 [MemoryScheduler] Scheduler started successfully
+DEBUG    apscheduler.scheduler:base.py:1258 Next wakeup is due at 2026-02-10 19:35:02.981495+01:00 (in 3599.998997 seconds)
+INFO     apscheduler.scheduler:base.py:245 Scheduler has been shut down
+INFO     src.services.memory.scheduler:scheduler.py:145 [MemoryScheduler] Scheduler stopped
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_stop_scheduler0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_stop_scheduler0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_stop_scheduler0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     apscheduler.scheduler:base.py:507 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO     apscheduler.scheduler:base.py:507 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO     apscheduler.scheduler:base.py:507 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO     apscheduler.scheduler:base.py:1090 Added job "Daily Memory Compression" to job store "default"
+INFO     apscheduler.scheduler:base.py:1090 Added job "Weekly Memory Archival" to job store "default"
+INFO     apscheduler.scheduler:base.py:1090 Added job "Memory Threshold Monitor" to job store "default"
+INFO     apscheduler.scheduler:base.py:214 Scheduler started
+DEBUG    apscheduler.scheduler:base.py:1151 Looking for jobs to run
+INFO     src.services.memory.scheduler:scheduler.py:124 [MemoryScheduler] Scheduler started successfully
+DEBUG    apscheduler.scheduler:base.py:1258 Next wakeup is due at 2026-02-10 19:35:02.984505+01:00 (in 3599.998463 seconds)
+INFO     apscheduler.scheduler:base.py:245 Scheduler has been shut down
+INFO     src.services.memory.scheduler:scheduler.py:145 [MemoryScheduler] Scheduler stopped
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_start_twice_returns_false0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_start_twice_returns_false0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_start_twice_returns_false0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     apscheduler.scheduler:base.py:507 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO     apscheduler.scheduler:base.py:507 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO     apscheduler.scheduler:base.py:507 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO     apscheduler.scheduler:base.py:1090 Added job "Daily Memory Compression" to job store "default"
+INFO     apscheduler.scheduler:base.py:1090 Added job "Weekly Memory Archival" to job store "default"
+INFO     apscheduler.scheduler:base.py:1090 Added job "Memory Threshold Monitor" to job store "default"
+INFO     apscheduler.scheduler:base.py:214 Scheduler started
+DEBUG    apscheduler.scheduler:base.py:1151 Looking for jobs to run
+INFO     src.services.memory.scheduler:scheduler.py:124 [MemoryScheduler] Scheduler started successfully
+DEBUG    apscheduler.scheduler:base.py:1258 Next wakeup is due at 2026-02-10 19:35:02.988977+01:00 (in 3599.999470 seconds)
+WARNING  src.services.memory.scheduler:scheduler.py:95 [MemoryScheduler] Already running, skipping start
+INFO     apscheduler.scheduler:base.py:245 Scheduler has been shut down
+DEBUG    apscheduler.scheduler:base.py:1151 Looking for jobs to run
+DEBUG    apscheduler.scheduler:base.py:1252 No jobs; waiting until a job is added
+INFO     src.services.memory.scheduler:scheduler.py:145 [MemoryScheduler] Scheduler stopped
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_stop_not_running_returns_0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_stop_not_running_returns_0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_stop_not_running_returns_0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_scheduler_registers_jobs0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_scheduler_registers_jobs0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_scheduler_registers_jobs0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     apscheduler.scheduler:base.py:507 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO     apscheduler.scheduler:base.py:507 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO     apscheduler.scheduler:base.py:507 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO     apscheduler.scheduler:base.py:1090 Added job "Daily Memory Compression" to job store "default"
+INFO     apscheduler.scheduler:base.py:1090 Added job "Weekly Memory Archival" to job store "default"
+INFO     apscheduler.scheduler:base.py:1090 Added job "Memory Threshold Monitor" to job store "default"
+INFO     apscheduler.scheduler:base.py:214 Scheduler started
+DEBUG    apscheduler.scheduler:base.py:1151 Looking for jobs to run
+INFO     src.services.memory.scheduler:scheduler.py:124 [MemoryScheduler] Scheduler started successfully
+DEBUG    apscheduler.scheduler:base.py:1258 Next wakeup is due at 2026-02-10 19:35:02.994639+01:00 (in 3599.999473 seconds)
+INFO     apscheduler.scheduler:base.py:245 Scheduler has been shut down
+INFO     src.services.memory.scheduler:scheduler.py:145 [MemoryScheduler] Scheduler stopped
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_trigger_compression_now0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_trigger_compression_now0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_trigger_compression_now0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     src.services.memory.scheduler:scheduler.py:159 [MemoryScheduler] Manual compression trigger
+INFO     src.services.memory.scheduler:scheduler.py:205 [MemoryScheduler] Starting compression job
+INFO     src.services.memory.scheduler:scheduler.py:213 [MemoryScheduler] Compression complete: {'status': 'SUCCESS'}
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_trigger_archival_now0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_trigger_archival_now0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_trigger_archival_now0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     src.services.memory.scheduler:scheduler.py:169 [MemoryScheduler] Manual archival trigger
+INFO     src.services.memory.scheduler:scheduler.py:228 [MemoryScheduler] Starting archival job
+INFO     src.services.memory.archive:archive.py:76 [ArchiveService] Starting archival (older than 21 days)
+WARNING  src.services.memory.archive:archive.py:81 [ArchiveService] No memory to archive
+INFO     src.services.memory.scheduler:scheduler.py:239 [MemoryScheduler] No entries to archive
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_trigger_compression_calls0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_trigger_compression_calls0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_trigger_compression_calls0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     src.services.memory.scheduler:scheduler.py:159 [MemoryScheduler] Manual compression trigger
+INFO     src.services.memory.scheduler:scheduler.py:205 [MemoryScheduler] Starting compression job
+INFO     src.services.memory.scheduler:scheduler.py:213 [MemoryScheduler] Compression complete: {'status': 'SUCCESS'}
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_check_thresholds_ok0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_check_thresholds_ok0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_check_thresholds_ok0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_check_thresholds_exceeded0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_check_thresholds_exceeded0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_check_thresholds_exceeded0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+WARNING  src.services.memory.scheduler:scheduler.py:266 [MemoryScheduler] Memory threshold exceeded: 6.00MB > 5.0MB
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_check_thresholds_calls_ja0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_check_thresholds_calls_ja0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_check_thresholds_calls_ja0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+WARNING  src.services.memory.scheduler:scheduler.py:266 [MemoryScheduler] Memory threshold exceeded: 6.00MB > 5.0MB
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_status_not_running0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_status_not_running0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_status_not_running0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_status_running0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_status_running0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_status_running0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     apscheduler.scheduler:base.py:507 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO     apscheduler.scheduler:base.py:507 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO     apscheduler.scheduler:base.py:507 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO     apscheduler.scheduler:base.py:1090 Added job "Daily Memory Compression" to job store "default"
+INFO     apscheduler.scheduler:base.py:1090 Added job "Weekly Memory Archival" to job store "default"
+INFO     apscheduler.scheduler:base.py:1090 Added job "Memory Threshold Monitor" to job store "default"
+INFO     apscheduler.scheduler:base.py:214 Scheduler started
+DEBUG    apscheduler.scheduler:base.py:1151 Looking for jobs to run
+INFO     src.services.memory.scheduler:scheduler.py:124 [MemoryScheduler] Scheduler started successfully
+DEBUG    apscheduler.scheduler:base.py:1258 Next wakeup is due at 2026-02-10 19:35:03.060797+01:00 (in 3599.999497 seconds)
+INFO     apscheduler.scheduler:base.py:245 Scheduler has been shut down
+INFO     src.services.memory.scheduler:scheduler.py:145 [MemoryScheduler] Scheduler stopped
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_status_includes_next_run0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_status_includes_next_run0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_status_includes_next_run0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     apscheduler.scheduler:base.py:507 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO     apscheduler.scheduler:base.py:507 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO     apscheduler.scheduler:base.py:507 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO     apscheduler.scheduler:base.py:1090 Added job "Daily Memory Compression" to job store "default"
+INFO     apscheduler.scheduler:base.py:1090 Added job "Weekly Memory Archival" to job store "default"
+INFO     apscheduler.scheduler:base.py:1090 Added job "Memory Threshold Monitor" to job store "default"
+INFO     apscheduler.scheduler:base.py:214 Scheduler started
+DEBUG    apscheduler.scheduler:base.py:1151 Looking for jobs to run
+INFO     src.services.memory.scheduler:scheduler.py:124 [MemoryScheduler] Scheduler started successfully
+DEBUG    apscheduler.scheduler:base.py:1258 Next wakeup is due at 2026-02-10 19:35:03.064398+01:00 (in 3600.000000 seconds)
+INFO     apscheduler.scheduler:base.py:245 Scheduler has been shut down
+INFO     src.services.memory.scheduler:scheduler.py:145 [MemoryScheduler] Scheduler stopped
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_reconfigure_compression_t0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_reconfigure_compression_t0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_reconfigure_compression_t0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     src.services.memory.scheduler:scheduler.py:346 [MemoryScheduler] Reconfigured with 2 parameters
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_reconfigure_archival_day0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_reconfigure_archival_day0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_reconfigure_archival_day0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     src.services.memory.scheduler:scheduler.py:346 [MemoryScheduler] Reconfigured with 2 parameters
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_reconfigure_threshold0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_reconfigure_threshold0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_reconfigure_threshold0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     src.services.memory.scheduler:scheduler.py:346 [MemoryScheduler] Reconfigured with 2 parameters
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_reconfigure_restarts_if_r0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_reconfigure_restarts_if_r0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_reconfigure_restarts_if_r0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     apscheduler.scheduler:base.py:507 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO     apscheduler.scheduler:base.py:507 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO     apscheduler.scheduler:base.py:507 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO     apscheduler.scheduler:base.py:1090 Added job "Daily Memory Compression" to job store "default"
+INFO     apscheduler.scheduler:base.py:1090 Added job "Weekly Memory Archival" to job store "default"
+INFO     apscheduler.scheduler:base.py:1090 Added job "Memory Threshold Monitor" to job store "default"
+INFO     apscheduler.scheduler:base.py:214 Scheduler started
+DEBUG    apscheduler.scheduler:base.py:1151 Looking for jobs to run
+INFO     src.services.memory.scheduler:scheduler.py:124 [MemoryScheduler] Scheduler started successfully
+DEBUG    apscheduler.scheduler:base.py:1258 Next wakeup is due at 2026-02-10 19:35:03.077175+01:00 (in 3599.999469 seconds)
+INFO     apscheduler.scheduler:base.py:245 Scheduler has been shut down
+INFO     src.services.memory.scheduler:scheduler.py:145 [MemoryScheduler] Scheduler stopped
+INFO     src.services.memory.scheduler:scheduler.py:346 [MemoryScheduler] Reconfigured with 1 parameters
+INFO     apscheduler.scheduler:base.py:507 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO     apscheduler.scheduler:base.py:507 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO     apscheduler.scheduler:base.py:507 Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO     apscheduler.scheduler:base.py:1090 Added job "Daily Memory Compression" to job store "default"
+INFO     apscheduler.scheduler:base.py:1090 Added job "Weekly Memory Archival" to job store "default"
+INFO     apscheduler.scheduler:base.py:1090 Added job "Memory Threshold Monitor" to job store "default"
+INFO     apscheduler.scheduler:base.py:214 Scheduler started
+DEBUG    apscheduler.scheduler:base.py:1151 Looking for jobs to run
+INFO     src.services.memory.scheduler:scheduler.py:124 [MemoryScheduler] Scheduler started successfully
+DEBUG    apscheduler.scheduler:base.py:1258 Next wakeup is due at 2026-02-10 19:35:03.078221+01:00 (in 3599.999471 seconds)
+INFO     apscheduler.scheduler:base.py:245 Scheduler has been shut down
+INFO     src.services.memory.scheduler:scheduler.py:145 [MemoryScheduler] Scheduler stopped
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_reconfigure_multiple_para0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_reconfigure_multiple_para0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_reconfigure_multiple_para0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     src.services.memory.scheduler:scheduler.py:346 [MemoryScheduler] Reconfigured with 6 parameters
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_compression_error_handlin0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_compression_error_handlin0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_compression_error_handlin0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     src.services.memory.scheduler:scheduler.py:205 [MemoryScheduler] Starting compression job
+ERROR    src.services.memory.scheduler:scheduler.py:217 [MemoryScheduler] Compression failed: Compression failed
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archival_error_handling0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archival_error_handling0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archival_error_handling0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     src.services.memory.scheduler:scheduler.py:228 [MemoryScheduler] Starting archival job
+ERROR    src.services.memory.scheduler:scheduler.py:244 [MemoryScheduler] Archival failed: Archive error
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_threshold_check_error_han0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_threshold_check_error_han0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_threshold_check_error_han0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+ERROR    src.services.memory.scheduler:scheduler.py:294 [MemoryScheduler] Threshold check failed: Stats error
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_compression_job_execution0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_compression_job_execution0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_compression_job_execution0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     src.services.memory.scheduler:scheduler.py:205 [MemoryScheduler] Starting compression job
+INFO     src.services.memory.scheduler:scheduler.py:213 [MemoryScheduler] Compression complete: {'status': 'SUCCESS'}
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archival_job_execution0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archival_job_execution0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archival_job_execution0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     src.services.memory.scheduler:scheduler.py:228 [MemoryScheduler] Starting archival job
+INFO     src.services.memory.archive:archive.py:76 [ArchiveService] Starting archival (older than 21 days)
+INFO     src.services.memory.archive:archive.py:90 [ArchiveService] Found 1 total entries
+INFO     src.services.memory.archive:archive.py:105 [ArchiveService] Will archive 1 entries
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:160 [ArchiveRepository] Index not found, returning empty
+INFO     src.repositories.archive_repo:archive_repo.py:226 [ArchiveRepository] Updated index with 2026-01
+INFO     src.services.memory.archive:archive.py:119 [ArchiveService] Archived 1 entries to 2026-01
+INFO     src.services.memory.archive:archive.py:135 [ArchiveService] Updated MEMORY.md (removed 1 entries)
+INFO     src.services.memory.archive:archive.py:147 [ArchiveService] Archival complete: 1 entries archived
+INFO     src.services.memory.scheduler:scheduler.py:237 [MemoryScheduler] Archived 1 entries to 1 month files
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_threshold_monitoring_inte0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_threshold_monitoring_inte0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_threshold_monitoring_inte0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_default_compression_prior0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_default_compression_prior0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_default_compression_prior0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_default_archival_priority0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_default_archival_priority0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_default_archival_priority0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_default_threshold_priorit0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_default_threshold_priorit0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_default_threshold_priorit0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_default_memory_threshold0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_default_memory_threshold0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_default_memory_threshold0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_threshold_interval_defaul0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_threshold_interval_defaul0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_threshold_interval_defaul0\archives
+INFO     src.services.memory.scheduler:scheduler.py:81 [MemoryScheduler] Initialized
+INFO     src.services.memory.scheduler:scheduler.py:82   Compression: Daily at 04:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:83   Archival: SUN at 03:00 (Priority 3)
+INFO     src.services.memory.scheduler:scheduler.py:84   Threshold check: Every 1h (Alert if > 5.0MB)
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_init_creates_service0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_init_creates_service0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_init_creates_service0\archives
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_init_with_paths0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_init_with_paths0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_init_with_paths0\archives
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_no_entries0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_no_entries0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_no_entries0\archives
+INFO     src.services.memory.archive:archive.py:76 [ArchiveService] Starting archival (older than 21 days)
+WARNING  src.services.memory.archive:archive.py:81 [ArchiveService] No memory to archive
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_returns_statistic0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_returns_statistic0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_returns_statistic0\archives
+INFO     src.services.memory.archive:archive.py:76 [ArchiveService] Starting archival (older than 21 days)
+INFO     src.services.memory.archive:archive.py:90 [ArchiveService] Found 1 total entries
+INFO     src.services.memory.archive:archive.py:98 [ArchiveService] No entries to archive
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_keeps_recent_entr0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_keeps_recent_entr0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_keeps_recent_entr0\archives
+INFO     src.services.memory.archive:archive.py:76 [ArchiveService] Starting archival (older than 21 days)
+INFO     src.services.memory.archive:archive.py:90 [ArchiveService] Found 1 total entries
+INFO     src.services.memory.archive:archive.py:98 [ArchiveService] No entries to archive
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_moves_old_entries0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_moves_old_entries0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_moves_old_entries0\archives
+INFO     src.services.memory.archive:archive.py:76 [ArchiveService] Starting archival (older than 21 days)
+INFO     src.services.memory.archive:archive.py:90 [ArchiveService] Found 1 total entries
+INFO     src.services.memory.archive:archive.py:105 [ArchiveService] Will archive 1 entries
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:160 [ArchiveRepository] Index not found, returning empty
+INFO     src.repositories.archive_repo:archive_repo.py:226 [ArchiveRepository] Updated index with 2026-01
+INFO     src.services.memory.archive:archive.py:119 [ArchiveService] Archived 1 entries to 2026-01
+INFO     src.services.memory.archive:archive.py:135 [ArchiveService] Updated MEMORY.md (removed 1 entries)
+INFO     src.services.memory.archive:archive.py:147 [ArchiveService] Archival complete: 1 entries archived
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_creates_month_fil0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_creates_month_fil0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_creates_month_fil0\archives
+INFO     src.services.memory.archive:archive.py:76 [ArchiveService] Starting archival (older than 21 days)
+INFO     src.services.memory.archive:archive.py:90 [ArchiveService] Found 2 total entries
+INFO     src.services.memory.archive:archive.py:105 [ArchiveService] Will archive 1 entries
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:160 [ArchiveRepository] Index not found, returning empty
+INFO     src.repositories.archive_repo:archive_repo.py:226 [ArchiveRepository] Updated index with 2026-01
+INFO     src.services.memory.archive:archive.py:119 [ArchiveService] Archived 1 entries to 2026-01
+INFO     src.services.memory.archive:archive.py:135 [ArchiveService] Updated MEMORY.md (removed 1 entries)
+INFO     src.services.memory.archive:archive.py:147 [ArchiveService] Archival complete: 1 entries archived
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_removes_from_memo0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_removes_from_memo0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_removes_from_memo0\archives
+INFO     src.services.memory.archive:archive.py:76 [ArchiveService] Starting archival (older than 21 days)
+INFO     src.services.memory.archive:archive.py:90 [ArchiveService] Found 2 total entries
+INFO     src.services.memory.archive:archive.py:105 [ArchiveService] Will archive 1 entries
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:160 [ArchiveRepository] Index not found, returning empty
+INFO     src.repositories.archive_repo:archive_repo.py:226 [ArchiveRepository] Updated index with 2026-01
+INFO     src.services.memory.archive:archive.py:119 [ArchiveService] Archived 1 entries to 2026-01
+INFO     src.services.memory.archive:archive.py:135 [ArchiveService] Updated MEMORY.md (removed 1 entries)
+INFO     src.services.memory.archive:archive.py:147 [ArchiveService] Archival complete: 1 entries archived
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_preserves_entry_f0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_preserves_entry_f0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_preserves_entry_f0\archives
+INFO     src.services.memory.archive:archive.py:76 [ArchiveService] Starting archival (older than 21 days)
+INFO     src.services.memory.archive:archive.py:90 [ArchiveService] Found 1 total entries
+INFO     src.services.memory.archive:archive.py:105 [ArchiveService] Will archive 1 entries
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:160 [ArchiveRepository] Index not found, returning empty
+INFO     src.repositories.archive_repo:archive_repo.py:226 [ArchiveRepository] Updated index with 2026-01
+INFO     src.services.memory.archive:archive.py:119 [ArchiveService] Archived 1 entries to 2026-01
+INFO     src.services.memory.archive:archive.py:135 [ArchiveService] Updated MEMORY.md (removed 1 entries)
+INFO     src.services.memory.archive:archive.py:147 [ArchiveService] Archival complete: 1 entries archived
+INFO     src.repositories.archive_repo:archive_repo.py:75 [ArchiveRepository] Read archive: 2026-01 (56 bytes)
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_multiple_old_entr0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_multiple_old_entr0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_multiple_old_entr0\archives
+INFO     src.services.memory.archive:archive.py:76 [ArchiveService] Starting archival (older than 21 days)
+INFO     src.services.memory.archive:archive.py:90 [ArchiveService] Found 5 total entries
+INFO     src.services.memory.archive:archive.py:105 [ArchiveService] Will archive 5 entries
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:160 [ArchiveRepository] Index not found, returning empty
+INFO     src.repositories.archive_repo:archive_repo.py:226 [ArchiveRepository] Updated index with 2026-01
+INFO     src.services.memory.archive:archive.py:119 [ArchiveService] Archived 5 entries to 2026-01
+INFO     src.services.memory.archive:archive.py:135 [ArchiveService] Updated MEMORY.md (removed 5 entries)
+INFO     src.services.memory.archive:archive.py:147 [ArchiveService] Archival complete: 5 entries archived
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_updates_index0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_updates_index0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_updates_index0\archives
+INFO     src.services.memory.archive:archive.py:76 [ArchiveService] Starting archival (older than 21 days)
+INFO     src.services.memory.archive:archive.py:90 [ArchiveService] Found 1 total entries
+INFO     src.services.memory.archive:archive.py:105 [ArchiveService] Will archive 1 entries
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:160 [ArchiveRepository] Index not found, returning empty
+INFO     src.repositories.archive_repo:archive_repo.py:226 [ArchiveRepository] Updated index with 2026-01
+INFO     src.services.memory.archive:archive.py:119 [ArchiveService] Archived 1 entries to 2026-01
+INFO     src.services.memory.archive:archive.py:135 [ArchiveService] Updated MEMORY.md (removed 1 entries)
+INFO     src.services.memory.archive:archive.py:147 [ArchiveService] Archival complete: 1 entries archived
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_respects_threshol0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_respects_threshol0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_respects_threshol0\archives
+INFO     src.services.memory.archive:archive.py:76 [ArchiveService] Starting archival (older than 20 days)
+INFO     src.services.memory.archive:archive.py:90 [ArchiveService] Found 2 total entries
+INFO     src.services.memory.archive:archive.py:105 [ArchiveService] Will archive 1 entries
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:160 [ArchiveRepository] Index not found, returning empty
+INFO     src.repositories.archive_repo:archive_repo.py:226 [ArchiveRepository] Updated index with 2026-01
+INFO     src.services.memory.archive:archive.py:119 [ArchiveService] Archived 1 entries to 2026-01
+INFO     src.services.memory.archive:archive.py:135 [ArchiveService] Updated MEMORY.md (removed 1 entries)
+INFO     src.services.memory.archive:archive.py:147 [ArchiveService] Archival complete: 1 entries archived
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_handles_mixed_dat0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_handles_mixed_dat0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_handles_mixed_dat0\archives
+INFO     src.services.memory.archive:archive.py:76 [ArchiveService] Starting archival (older than 21 days)
+INFO     src.services.memory.archive:archive.py:90 [ArchiveService] Found 3 total entries
+INFO     src.services.memory.archive:archive.py:105 [ArchiveService] Will archive 2 entries
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:160 [ArchiveRepository] Index not found, returning empty
+INFO     src.repositories.archive_repo:archive_repo.py:226 [ArchiveRepository] Updated index with 2026-01
+INFO     src.services.memory.archive:archive.py:119 [ArchiveService] Archived 2 entries to 2026-01
+INFO     src.services.memory.archive:archive.py:135 [ArchiveService] Updated MEMORY.md (removed 2 entries)
+INFO     src.services.memory.archive:archive.py:147 [ArchiveService] Archival complete: 2 entries archived
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_empty_archives0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_empty_archives0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_empty_archives0\archives
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_returns_structu0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_returns_structu0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_returns_structu0\archives
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_counts_archives0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_counts_archives0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_counts_archives0\archives
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-02
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-03
+INFO     src.repositories.archive_repo:archive_repo.py:160 [ArchiveRepository] Index not found, returning empty
+INFO     src.repositories.archive_repo:archive_repo.py:226 [ArchiveRepository] Updated index with 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:226 [ArchiveRepository] Updated index with 2026-02
+INFO     src.repositories.archive_repo:archive_repo.py:226 [ArchiveRepository] Updated index with 2026-03
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_identifies_olde0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_identifies_olde0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_identifies_olde0\archives
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-03
+INFO     src.repositories.archive_repo:archive_repo.py:160 [ArchiveRepository] Index not found, returning empty
+INFO     src.repositories.archive_repo:archive_repo.py:226 [ArchiveRepository] Updated index with 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:226 [ArchiveRepository] Updated index with 2026-03
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_identifies_newe0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_identifies_newe0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_identifies_newe0\archives
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-03
+INFO     src.repositories.archive_repo:archive_repo.py:160 [ArchiveRepository] Index not found, returning empty
+INFO     src.repositories.archive_repo:archive_repo.py:226 [ArchiveRepository] Updated index with 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:226 [ArchiveRepository] Updated index with 2026-03
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_aggregates_entr0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_aggregates_entr0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_aggregates_entr0\archives
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-02
+INFO     src.repositories.archive_repo:archive_repo.py:160 [ArchiveRepository] Index not found, returning empty
+INFO     src.repositories.archive_repo:archive_repo.py:226 [ArchiveRepository] Updated index with 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:226 [ArchiveRepository] Updated index with 2026-02
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_calculates_size0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_calculates_size0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_calculates_size0\archives
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:160 [ArchiveRepository] Index not found, returning empty
+INFO     src.repositories.archive_repo:archive_repo.py:226 [ArchiveRepository] Updated index with 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_per_archive_met0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_per_archive_met0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_per_archive_met0\archives
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:160 [ArchiveRepository] Index not found, returning empty
+INFO     src.repositories.archive_repo:archive_repo.py:226 [ArchiveRepository] Updated index with 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_restore_returns_dict0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_restore_returns_dict0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_restore_returns_dict0\archives
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-01
+WARNING  src.services.memory.archive:archive.py:233 [ArchiveService] Restoring archive 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:75 [ArchiveRepository] Read archive: 2026-01 (36 bytes)
+INFO     src.services.memory.archive:archive.py:269 [ArchiveService] Restored 1 entries from 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_restore_nonexistent_archi0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_restore_nonexistent_archi0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_restore_nonexistent_archi0\archives
+WARNING  src.services.memory.archive:archive.py:233 [ArchiveService] Restoring archive 2099-99
+WARNING  src.repositories.archive_repo:archive_repo.py:69 [ArchiveRepository] Archive not found: 2099-99
+WARNING  src.services.memory.archive:archive.py:239 [ArchiveService] Archive not found: 2099-99
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_restore_adds_entries_to_m0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_restore_adds_entries_to_m0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_restore_adds_entries_to_m0\archives
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-01
+WARNING  src.services.memory.archive:archive.py:233 [ArchiveService] Restoring archive 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:75 [ArchiveRepository] Read archive: 2026-01 (39 bytes)
+INFO     src.services.memory.archive:archive.py:269 [ArchiveService] Restored 1 entries from 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_restore_merges_with_exist0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_restore_merges_with_exist0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_restore_merges_with_exist0\archives
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-01
+WARNING  src.services.memory.archive:archive.py:233 [ArchiveService] Restoring archive 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:75 [ArchiveRepository] Read archive: 2026-01 (39 bytes)
+INFO     src.services.memory.archive:archive.py:269 [ArchiveService] Restored 1 entries from 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_restore_sorts_by_timestam0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_restore_sorts_by_timestam0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_restore_sorts_by_timestam0\archives
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-01
+WARNING  src.services.memory.archive:archive.py:233 [ArchiveService] Restoring archive 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:75 [ArchiveRepository] Read archive: 2026-01 (34 bytes)
+INFO     src.services.memory.archive:archive.py:269 [ArchiveService] Restored 1 entries from 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_restore_multiple_entries0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_restore_multiple_entries0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_restore_multiple_entries0\archives
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-01
+WARNING  src.services.memory.archive:archive.py:233 [ArchiveService] Restoring archive 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:75 [ArchiveRepository] Read archive: 2026-01 (111 bytes)
+INFO     src.services.memory.archive:archive.py:269 [ArchiveService] Restored 3 entries from 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_parse_memory_entries0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_parse_memory_entries0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_parse_memory_entries0\archives
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_parse_timestamp0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_parse_timestamp0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_parse_timestamp0\archives
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_group_by_month0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_group_by_month0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_group_by_month0\archives
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_format_entries_to_memory0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_format_entries_to_memory0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_format_entries_to_memory0\archives
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_handles_parse_err0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_handles_parse_err0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_archive_handles_parse_err0\archives
+INFO     src.services.memory.archive:archive.py:76 [ArchiveService] Starting archival (older than 21 days)
+INFO     src.services.memory.archive:archive.py:90 [ArchiveService] Found 0 total entries
+INFO     src.services.memory.archive:archive.py:98 [ArchiveService] No entries to archive
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_handles_error0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_handles_error0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_get_stats_handles_error0\archives
+ERROR    src.services.memory.archive:archive.py:213 [ArchiveService] Get stats failed: Read error
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_restore_handles_write_err0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_restore_handles_write_err0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_restore_handles_write_err0\archives
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-01
+WARNING  src.services.memory.archive:archive.py:233 [ArchiveService] Restoring archive 2026-01
+ERROR    src.repositories.archive_repo:archive_repo.py:79 [ArchiveRepository] Read failed for 2026-01: Permission denied
+WARNING  src.services.memory.archive:archive.py:239 [ArchiveService] Archive not found: 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_full_archival_lifecycle0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_full_archival_lifecycle0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_full_archival_lifecycle0\archives
+INFO     src.services.memory.archive:archive.py:76 [ArchiveService] Starting archival (older than 21 days)
+INFO     src.services.memory.archive:archive.py:90 [ArchiveService] Found 2 total entries
+INFO     src.services.memory.archive:archive.py:105 [ArchiveService] Will archive 1 entries
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:160 [ArchiveRepository] Index not found, returning empty
+INFO     src.repositories.archive_repo:archive_repo.py:226 [ArchiveRepository] Updated index with 2026-01
+INFO     src.services.memory.archive:archive.py:119 [ArchiveService] Archived 1 entries to 2026-01
+INFO     src.services.memory.archive:archive.py:135 [ArchiveService] Updated MEMORY.md (removed 1 entries)
+INFO     src.services.memory.archive:archive.py:147 [ArchiveService] Archival complete: 1 entries archived
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_monthly_archival_spanning0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_monthly_archival_spanning0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_monthly_archival_spanning0\archives
+INFO     src.services.memory.archive:archive.py:76 [ArchiveService] Starting archival (older than 21 days)
+INFO     src.services.memory.archive:archive.py:90 [ArchiveService] Found 3 total entries
+INFO     src.services.memory.archive:archive.py:105 [ArchiveService] Will archive 3 entries
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2025-01
+INFO     src.repositories.archive_repo:archive_repo.py:160 [ArchiveRepository] Index not found, returning empty
+INFO     src.repositories.archive_repo:archive_repo.py:226 [ArchiveRepository] Updated index with 2025-01
+INFO     src.services.memory.archive:archive.py:119 [ArchiveService] Archived 1 entries to 2025-01
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2025-02
+INFO     src.repositories.archive_repo:archive_repo.py:226 [ArchiveRepository] Updated index with 2025-02
+INFO     src.services.memory.archive:archive.py:119 [ArchiveService] Archived 1 entries to 2025-02
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2025-03
+INFO     src.repositories.archive_repo:archive_repo.py:226 [ArchiveRepository] Updated index with 2025-03
+INFO     src.services.memory.archive:archive.py:119 [ArchiveService] Archived 1 entries to 2025-03
+INFO     src.services.memory.archive:archive.py:135 [ArchiveService] Updated MEMORY.md (removed 3 entries)
+INFO     src.services.memory.archive:archive.py:147 [ArchiveService] Archival complete: 3 entries archived
+INFO     src.repositories.archive_repo:archive_repo.py:53 [ArchiveRepository] Initialized at C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_repeated_archival_idempot0\archives
+INFO     src.services.memory.archive:archive.py:48 [ArchiveService] Initialized
+INFO     src.services.memory.archive:archive.py:49   Memory: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_repeated_archival_idempot0\body
+INFO     src.services.memory.archive:archive.py:50   Archive: C:\Users\Matri\AppData\Local\Temp\pytest-of-Matri\pytest-181\test_repeated_archival_idempot0\archives
+INFO     src.services.memory.archive:archive.py:76 [ArchiveService] Starting archival (older than 21 days)
+INFO     src.services.memory.archive:archive.py:90 [ArchiveService] Found 1 total entries
+INFO     src.services.memory.archive:archive.py:105 [ArchiveService] Will archive 1 entries
+INFO     src.repositories.archive_repo:archive_repo.py:99 [ArchiveRepository] Appended to 2026-01
+INFO     src.repositories.archive_repo:archive_repo.py:160 [ArchiveRepository] Index not found, returning empty
+INFO     src.repositories.archive_repo:archive_repo.py:226 [ArchiveRepository] Updated index with 2026-01
+INFO     src.services.memory.archive:archive.py:119 [ArchiveService] Archived 1 entries to 2026-01
+INFO     src.services.memory.archive:archive.py:135 [ArchiveService] Updated MEMORY.md (removed 1 entries)
+INFO     src.services.memory.archive:archive.py:147 [ArchiveService] Archival complete: 1 entries archived
+INFO     src.services.memory.archive:archive.py:76 [ArchiveService] Starting archival (older than 21 days)
+INFO     src.services.memory.archive:archive.py:90 [ArchiveService] Found 0 total entries
+INFO     src.services.memory.archive:archive.py:98 [ArchiveService] No entries to archive

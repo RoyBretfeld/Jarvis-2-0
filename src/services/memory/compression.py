@@ -35,15 +35,25 @@ class CompressionService:
         self,
         llm_provider: Any,
         compression_ratio: float = 0.5,
-        preserve_recent: int = 7
+        preserve_recent: int = 7,
+        warm_days: int = 14,
+        cold_days: int = 21
     ) -> bool:
         """
-        Compress memory via LLM summarization
+        Compress memory via LLM summarization (Phase D tiering)
+
+        Uses 7/14/21-day tiering system:
+        - HOT (0-7d): Full detail, no compression
+        - WARM (7-14d): Summarized via LLM
+        - COLD (14-21d): Heavily compressed
+        - ARCHIVE (>21d): Moved to brain/archives
 
         Args:
             llm_provider: LLM provider instance with summarize() method
             compression_ratio: Target compression ratio (0.0-1.0)
-            preserve_recent: Days of recent entries to preserve uncompressed
+            preserve_recent: Days of recent entries to preserve uncompressed (default 7)
+            warm_days: Days for warm tier (default 14)
+            cold_days: Days for cold tier (default 21)
 
         Returns:
             True if successful
@@ -57,8 +67,13 @@ class CompressionService:
             if not entries:
                 return True
 
-            # Classify entries by temperature
-            hot, warm, cold = self.tier_entries(entries, preserve_recent)
+            # Classify entries by temperature (Phase D: 7/14/21 tiering)
+            hot, warm, cold = self.tier_entries(
+                entries,
+                preserve_recent=preserve_recent,
+                warm_days=warm_days,
+                cold_days=cold_days
+            )
 
             # Summarize warm and cold entries
             compressed_parts = []
@@ -88,18 +103,23 @@ class CompressionService:
     def tier_entries(
         self,
         entries: List[Dict[str, Any]],
-        preserve_recent: int = 7
+        preserve_recent: int = 7,
+        warm_days: int = 14,
+        cold_days: int = 21
     ) -> tuple:
         """
         Classify entries into Hot/Warm/Cold tiers
 
-        Hot: Last N days
-        Warm: Last 30 days
-        Cold: Older than 30 days
+        Hot: 0-7 days (recent, full detail)
+        Warm: 7-14 days (medium-term, summarized)
+        Cold: 14-21 days (old, compressed)
+        Archive: >21 days (moved to archives)
 
         Args:
             entries: List of memory entries
-            preserve_recent: Days to keep in HOT tier
+            preserve_recent: Days to keep in HOT tier (0-N days, default 7)
+            warm_days: Days for WARM tier (default 14)
+            cold_days: Days for COLD tier (default 21)
 
         Returns:
             Tuple of (hot_entries, warm_entries, cold_entries)
@@ -108,7 +128,7 @@ class CompressionService:
 
         now = datetime.now()
         hot_cutoff = now - timedelta(days=preserve_recent)
-        warm_cutoff = now - timedelta(days=30)
+        warm_cutoff = now - timedelta(days=warm_days)
 
         hot = []
         warm = []

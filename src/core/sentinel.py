@@ -244,6 +244,7 @@ class SentinelGatekeeper:
         TAIA's physical write permission check for skill autonomy.
 
         ✅ ALWAYS allows entire body/ directory (.md, .json, .txt, .csv, .yaml)
+        ✅ ALWAYS allows brain/archives/ for memory archival (Phase D)
         ✅ Creates missing subdirectories automatically
         ❌ Denies src/ code changes without approval
         ❌ Blocks dangerous operations entirely
@@ -269,6 +270,23 @@ class SentinelGatekeeper:
                     return True
                 else:
                     logger.warning(f"❌ Unsafe extension in body/: {file_path}")
+                    return False
+        except ValueError:
+            pass
+
+        # 1.5 HARD RULE: brain/archives/ is writable for autonomous archival (Phase D)
+        try:
+            rel_path = path.relative_to(self.base_path)
+            rel_str = str(rel_path).replace("\\", "/")  # Normalize path separators
+
+            if rel_str.startswith("brain/archives/"):
+                # Check file extension safety
+                extension = path.suffix.lower()
+                if extension in self.SAFE_EXTENSIONS or extension == "":
+                    logger.info(f"✅ Archive write allowed: {file_path}")
+                    return True
+                else:
+                    logger.warning(f"❌ Unsafe extension in archives/: {file_path}")
                     return False
         except ValueError:
             pass

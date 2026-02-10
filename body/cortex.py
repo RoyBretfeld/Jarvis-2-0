@@ -2,6 +2,8 @@ import os
 import chromadb
 import ollama
 import glob
+import gc
+import time
 
 class Cortex:
     def __init__(self, brain_path):
@@ -9,7 +11,9 @@ class Cortex:
         self.chroma_path = os.path.join(brain_path, "chroma_db")
         self.knowledge_path = os.path.join(brain_path, "knowledge")
         self.collection_name = "long_term_memory"
-        
+        self.client = None
+        self.collection = None
+
         # Initialize ChromaDB
         try:
             self.client = chromadb.PersistentClient(path=self.chroma_path)
@@ -19,6 +23,22 @@ class Cortex:
         except Exception as e:
             print(f"⚠️ [Cortex] Memory Init Failed: {e}")
             self.active = False
+
+    def close(self):
+        """Close ChromaDB connection gracefully"""
+        if self.client is not None:
+            try:
+                # Force garbage collection to release SQLite locks
+                self.client = None
+                self.collection = None
+                gc.collect()
+                time.sleep(0.1)  # Allow filesystem to release lock
+            except Exception as e:
+                print(f"⚠️ [Cortex] Close Failed: {e}")
+
+    def __del__(self):
+        """Ensure cleanup on garbage collection"""
+        self.close()
 
     def embed_text(self, text):
         """Generates embedding via Ollama."""

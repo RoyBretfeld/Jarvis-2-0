@@ -8,5 +8,25 @@
     "cli": true,
     "skills": true,
     "skill_manager": true
+  },
+  "memory": {
+    "tiering": {
+      "enable_auto_compression": true,
+      "hot_days": 7,
+      "warm_days": 14,
+      "cold_days": 21,
+      "compression_hour": 4,
+      "compression_minute": 0,
+      "archival_day": "sun",
+      "archival_hour": 3,
+      "archival_minute": 0,
+      "threshold_check_interval_hours": 1,
+      "memory_size_threshold_mb": 5.0
+    },
+    "archival": {
+      "enabled": true,
+      "archive_path": "brain/archives",
+      "partition_by": "month"
+    }
   }
 }

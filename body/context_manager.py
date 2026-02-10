@@ -9,14 +9,23 @@ class ContextManager:
         self.memory_path = os.path.join(base_path, "brain", "MEMORY.md")
         self.error_db_path = os.path.join(base_path, "brain", "ERROR_DB.md")
         self.brain_path = os.path.join(base_path, "brain") # Path for Cortex
-        
+
         # Initialize Cortex (Hippocampus)
         self.cortex = Cortex(self.brain_path)
         self.error_db_path = os.path.join(self.brain_path, "ERROR_DB.md")
-        
+
         # Ensure brain directory exists
         if not os.path.exists(self.brain_path):
             os.makedirs(self.brain_path)
+
+    def close(self):
+        """Close all resources"""
+        if self.cortex:
+            self.cortex.close()
+
+    def __del__(self):
+        """Cleanup on destruction"""
+        self.close()
 
     def load_context(self, user_query=None):
         """Loads identity (Soul) and current memory."""

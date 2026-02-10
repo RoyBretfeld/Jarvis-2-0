@@ -1,7 +1,6 @@
 """UTF-8 Output Handler for Cross-Platform Support"""
 
 import sys
-import io
 from typing import Optional
 
 
@@ -21,19 +20,13 @@ def ensure_utf8_output() -> None:
         >>> print("Hello 世界 🌍")  # Will work on Windows now
     """
     if sys.platform == "win32":
-        # Force UTF-8 output on Windows
-        sys.stdout = io.TextIOWrapper(
-            sys.stdout.buffer,
-            encoding="utf-8",
-            errors="replace",
-            newline=""
-        )
-        sys.stderr = io.TextIOWrapper(
-            sys.stderr.buffer,
-            encoding="utf-8",
-            errors="replace",
-            newline=""
-        )
+        # Force UTF-8 output on Windows using reconfigure (Pytest-compatible)
+        # Use reconfigure() instead of replacing sys.stdout/stderr to avoid
+        # breaking Pytest's stdout/stderr capture mechanism
+        if hasattr(sys.stdout, 'reconfigure'):
+            sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+        if hasattr(sys.stderr, 'reconfigure'):
+            sys.stderr.reconfigure(encoding='utf-8', errors='replace')
 
 
 def safe_print(

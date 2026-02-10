@@ -1,0 +1,30 @@
+{
+    "Database_Connection_Timeout": {
+        "template": "import mongoose from 'mongoose';\n\nexport const fix = () => {\n  const db = mongoose.connection;\n  db.on('disconnected', () => {\n    console.log('🔄 Reconnecting...');\n    setTimeout(() => mongoose.connect(process.env.DB_URI), 5000);\n  });\n};",
+        "description": "Robustes Reconnect-Muster für MongoDB/Mongoose."
+    },
+    "KeyError_DB_HOST": {
+        "template": "import fs from 'fs';\n\nexport const fix = () => {\n  const reqPath = 'requirements.txt';\n  if (fs.existsSync(reqPath)) {\n    const content = fs.readFileSync(reqPath, 'utf8');\n    if (!content.includes('python-dotenv')) {\n      fs.appendFileSync(reqPath, '\\npython-dotenv');\n      console.log('✅ Added python-dotenv to requirements.txt');\n    }\n  }\n  console.log('ℹ️ Ensure load_dotenv() is called in your entrypoint.');\n};",
+        "description": "Fügt python-dotenv hinzu, wenn ENV-Variablen (DB_HOST) nicht geladen werden."
+    },
+    "Migration_Hang_Interactive": {
+        "template": "import fs from 'fs';\n\nexport const fix = () => {\n  const startScript = 'start.sh';\n  if (fs.existsSync(startScript)) {\n    let content = fs.readFileSync(startScript, 'utf8');\n    if (!content.includes('--no-input')) {\n      content = content.replace(/migrate/g, 'migrate --no-input');\n      fs.writeFileSync(startScript, content);\n      console.log('✅ Added --no-input flag to migrations in start.sh');\n    }\n  }\n};",
+        "description": "Verhindert Hängenbleiben bei DB-Migrationen durch Erzwingen des Non-Interactive Mode."
+    },
+    "CORS_Policy_Error": {
+        "template": "import fs from 'fs';\n\nexport const fix = () => {\n  console.log('⚠️ CORS Configuration Update Required');\n  console.log('1. Check backend config for CORS_ORIGINS list.');\n  console.log('2. Add the failing origin (domain/port) to the whitelist.');\n  console.log('3. In Production: Do NOT use wildcard \"*\"');\n};",
+        "description": "Anleitung zur Korrektur von CORS-Fehlern (Frontend API Calls blocked)."
+    },
+    "Nginx_Body_Size_Limit": {
+        "template": "import fs from 'fs';\n\nexport const fix = () => {\n  const nginxConf = 'nginx.conf';\n  if (fs.existsSync(nginxConf)) {\n    let content = fs.readFileSync(nginxConf, 'utf8');\n    if (!content.includes('client_max_body_size')) {\n       // Simplified insertion logic or manual prompt\n       console.log('⚠️ Add \"client_max_body_size 15M;\" to your nginx.conf http/server block.');\n    } else {\n       content = content.replace(/client_max_body_size\\s+\\w+;/g, 'client_max_body_size 15M;');\n       fs.writeFileSync(nginxConf, content);\n       console.log('✅ Updated client_max_body_size to 15M');\n    }\n  }\n};",
+        "description": "Erhöht Upload-Limit in Nginx bei 'Entity Too Large' Fehlern."
+    },
+    "Docker_Network_Connection_Refused": {
+        "template": "import fs from 'fs';\n\nexport const fix = () => {\n   console.log('⚠️ Docker Network Issue Detected');\n   console.log('Ensure both services share a defined network in docker-compose.yml:');\n   console.log('networks:\\n  - app-tier');\n};",
+        "description": "Prüfung auf fehlende Shared Networks in Docker Compose."
+    },
+    "JSON_Serialization_TypeError": {
+        "template": "export const fix = () => {\n  console.log('ℹ️ Use .model_dump() (Pydantic v2) or .dict() for SQLAlchemy models before returning JSON.');\n  console.log('Example: return jsonify(user.model_dump())');\n};",
+        "description": "Fix für 'datetime not JSON serializable' Fehler."
+    }
+}

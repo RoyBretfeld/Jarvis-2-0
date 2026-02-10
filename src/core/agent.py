@@ -21,6 +21,9 @@ from src.senses.k8s import K8sMotorics
 from src.senses.ears import ForgeEars
 from src.senses.voice import ForgeVoice, VoicePreference
 from src.core.skills import SkillMatrix
+from src.services.memory.compression import CompressionService
+from src.services.memory.archive import ArchiveService
+from src.services.memory.scheduler import MemoryScheduler
 
 class ForgeAgent:
     def __init__(self, base_path, model="llama3"):
@@ -54,6 +57,28 @@ class ForgeAgent:
 
         # 5.1 Initialize Skill Matrix (Output Autonomy)
         self.skills = SkillMatrix(self.base_path, sentinel=self.sentinel)
+
+        # 5.2 Initialize Phase D Memory Tiering (Archive + Compression + Scheduler)
+        body_path = self.base_path / "body"
+        archive_path = self.brain_path / "archives"
+
+        self.compression_service = CompressionService(body_path)
+        self.archive_service = ArchiveService(body_path, archive_path)
+        self.memory_scheduler = MemoryScheduler(
+            body_path=body_path,
+            archive_path=archive_path,
+            compression_service=self.compression_service,
+            archive_service=self.archive_service,
+            jarvis_callback=self._on_memory_action
+        )
+
+        # Start scheduler if configured (autonomous at Priority 3-4)
+        try:
+            if self._get_config_value("memory.tiering.enable_auto_compression", True):
+                self.memory_scheduler.start()
+                print(f"⏰ [MemoryScheduler] Automatic tiering enabled (7/14/21 days)")
+        except Exception as e:
+            print(f"⚠️ [MemoryScheduler] Could not start: {e}")
 
         # 6. Initialize Senses
         from src.senses.collector import ForgeCollector
@@ -91,6 +116,35 @@ class ForgeAgent:
         if os.path.exists(path):
             with open(path, "r", encoding="utf-8") as f:
                 return f.read()
+        return default
+
+    def _get_config_value(self, key: str, default=None):
+        """
+        Get configuration value from rb_config.json
+
+        Args:
+            key: Dot-separated key path (e.g., "memory.tiering.enable_auto_compression")
+            default: Default value if not found
+
+        Returns:
+            Config value or default
+        """
+        try:
+            import json
+            config_file = self.base_path / "rb_config.json"
+            if config_file.exists():
+                with open(config_file, "r") as f:
+                    config = json.load(f)
+
+                # Navigate nested keys
+                value = config
+                for part in key.split("."):
+                    value = value.get(part, {})
+
+                return value if value else default
+        except Exception:
+            pass
+
         return default
 
     def build_context(self, user_input):
@@ -251,6 +305,28 @@ class ForgeAgent:
 
         print(msg)
         # In full UI, this would show a modal dialog
+
+    def _on_memory_action(self, priority: int, action: str):
+        """
+        Called by MemoryScheduler for autonomous actions (Priority 3-4)
+
+        Integrates with JARVIS for priority-based execution
+        """
+        if priority <= 4:
+            # Silent housekeeping (autonomous, logged)
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.info(f"[MemoryScheduler] Autonomous action (Priority {priority}): {action}")
+        elif priority == 6:
+            # Threshold warning (suggest, wait for approval)
+            print(f"💡 [Memory] {action} (Priority {priority})")
+            if self.voice:
+                self.voice.speak(f"Speicher-Warnung: {action}", is_async=True)
+        elif priority >= 8:
+            # Critical (immediate interrupt)
+            print(f"🚨 [Memory] {action} (Priority {priority})")
+            if self.voice:
+                self.voice.speak(f"Kritische Speicher-Warnung: {action}", is_async=False)
 
     # ============ SENSES CALLBACKS ============
 
