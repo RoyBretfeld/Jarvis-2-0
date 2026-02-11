@@ -23,10 +23,56 @@ class TAIABridge {
         this.integrityAudit = options.integrityAudit || 'brain/INTEGRITY_AUDIT.md';
         this.requireApprovalOn = options.requireApprovalOn || ['BLOCKER', 'CRITICAL'];
         this.protectedZones = ['src', 'brain', 'config'];
-        this.version = '1.0.0-veritas';
+        this.version = '1.0.0-veritas+registry';
+
+        // Registry reference (injected later to avoid circular deps)
+        this.registry = options.registry || null;
 
         console.log(chalk.blue(`[TAIA-INIT] Bridge v${this.version} initialized: ${this.namespace}`));
         console.log(chalk.yellow(`[VERITAS] Integrity checks ENABLED - no simulations allowed`));
+        if (this.registry) {
+            const stats = this.registry.getStats();
+            console.log(chalk.cyan(`[REGISTRY] Federation integrated - ${stats.agentCount} agents active`));
+        }
+    }
+
+    /**
+     * Injiziere Registry nachträglich (für Circular Dependency Vermeidung)
+     */
+    setRegistry(registry) {
+        this.registry = registry;
+        console.log(chalk.cyan(`[BRIDGE] Registry injected - federation ready`));
+    }
+
+    /**
+     * Agent-gestützte Aktion: Prüfe Agent Skill-Berechtigung
+     * Gesetz 4: Kritische Skills brauchen Approval
+     */
+    async verifyAgentSkill(agentId, skillId, approvalToken = null) {
+        if (!this.registry) {
+            throw new Error(`[BRIDGE] Registry not available`);
+        }
+
+        if (!this.registry.canUseSkill(agentId, skillId)) {
+            const message = `[BRIDGE] Agent ${agentId} cannot use skill ${skillId} (not assigned)`;
+            console.error(message);
+            throw new Error(message);
+        }
+
+        // Wenn Skill kritisch ist und kein Token vorhanden
+        const skill = this.registry.skills.get(skillId);
+        if (skill && skill.level >= 9 && !approvalToken) {
+            const message = `[BRIDGE] Skill ${skillId} (level ${skill.level}) requires human approval`;
+            console.warn(chalk.red(message));
+            throw new Error(message);
+        }
+
+        return {
+            allowed: true,
+            agentId,
+            skillId,
+            skillLevel: skill?.level || 0
+        };
     }
 
     /**
