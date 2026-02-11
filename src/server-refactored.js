@@ -20,6 +20,7 @@ import chatRouter from './api/routes/chat.js';
 import configRouter from './api/routes/config.js';
 import memoryRouter from './api/routes/memory.js';
 import visionRouter from './api/routes/vision.js';
+import voiceRouter from './api/routes/voice.js';
 
 // Configuration
 dotenv.config();
@@ -62,6 +63,9 @@ app.use('/api', memoryRouter);
 
 // Vision routes (upload, analyze)
 app.use('/api/vision', visionRouter);
+
+// Voice routes (speech input/output)
+app.use('/api/voice', voiceRouter);
 
 // ============================================================================
 // HEALTH CHECK & STATUS
