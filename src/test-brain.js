@@ -13,16 +13,12 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { config as loadEnv } from 'dotenv';
-import { createRequire } from 'module';
+import { AgentCore } from './agent-core.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const require = createRequire(import.meta.url);
 
 loadEnv();
-
-// Import CommonJS AgentCore using createRequire
-const AgentCore = require('./agent-core.cjs');
 
 class BrainDiagnostic {
   constructor(AgentCoreClass) {

@@ -9,11 +9,13 @@
  * Status: Production Ready
  */
 
-import { exec } from 'child_process';
+import { exec as execCallback } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { promisify } from 'util';
+
+const exec = execCallback;  // Non-promisified version for PowerShell async
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -21,9 +23,14 @@ const execAsync = promisify(exec);
 
 class VoiceEngine {
   constructor(config = {}) {
+    this.platform = process.platform;  // 'win32', 'linux', 'darwin'
+
+    // Windows uses PowerShell, others use backend detection
+    const defaultBackend = this.platform === 'win32' ? 'powershell' : 'piper';
+
     this.config = {
       enabled: true,
-      backend: config.backend || 'piper',  // 'piper', 'gtts', or 'espeak'
+      backend: config.backend || defaultBackend,
       language: config.language || 'de',
       audioDir: config.audioDir || path.join(__dirname, '../../brain/audio'),
       speakAloud: config.speakAloud !== false,
@@ -32,9 +39,10 @@ class VoiceEngine {
     };
 
     this.supportedBackends = {
-      piper: { name: 'Piper TTS (Offline)', installed: false },
-      gtts: { name: 'gTTS (Google)', installed: false },
-      espeak: { name: 'eSpeak NG (System)', installed: false }
+      piper: { name: 'Piper TTS (Offline Linux/Mac)', installed: false, platform: ['linux', 'darwin'] },
+      gtts: { name: 'gTTS (Google Cloud)', installed: false, platform: ['linux', 'darwin', 'win32'] },
+      espeak: { name: 'eSpeak NG (System)', installed: false, platform: ['linux'] },
+      powershell: { name: 'Windows PowerShell SAPI', installed: process.platform === 'win32', platform: ['win32'] }
     };
 
     // Initialize audio directory
@@ -101,6 +109,8 @@ class VoiceEngine {
       console.log(`[VOICE] Speaking (${backend}): "${text.substring(0, 50)}..."`);
 
       switch (backend) {
+        case 'powershell':
+          return await this._speakWithPowerShell(text, language);
         case 'piper':
           return await this._speakWithPiper(text, language);
         case 'gtts':
@@ -113,6 +123,36 @@ class VoiceEngine {
     } catch (error) {
       console.error(`[VOICE] Error: ${error.message}`);
       return { success: false, error: error.message };
+    }
+  }
+
+  /**
+   * Windows PowerShell SAPI - Native Windows Text-to-Speech
+   * No installation required. Uses System.Speech.Synthesis
+   * Available on: Windows 7+
+   */
+  async _speakWithPowerShell(text, language) {
+    try {
+      // Sanitize text for PowerShell (remove quotes and backticks)
+      const cleanText = text.replace(/["'`]/g, '');
+
+      // Windows SAPI command via PowerShell
+      const psCommand = `Add-Type -AssemblyName System.Speech; (New-Object System.Speech.Synthesis.SpeechSynthesizer).Speak('${cleanText}')`;
+      const cmd = `powershell -Command "${psCommand}"`;
+
+      if (this.config.debug) console.log(`[VOICE] PowerShell command: ${cmd}`);
+
+      // Execute without blocking - let it run in background
+      exec(cmd, (error) => {
+        if (error && this.config.debug) {
+          console.warn(`[VOICE] PowerShell warning: ${error.message}`);
+        }
+      });
+
+      // Resolve immediately (async execution)
+      return { success: true, backend: 'powershell' };
+    } catch (error) {
+      return { success: false, error: error.message, backend: 'powershell' };
     }
   }
 
