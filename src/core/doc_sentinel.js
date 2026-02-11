@@ -25,7 +25,7 @@ const __dirname = path.dirname(__filename);
 
 export class DocSentinel {
     constructor(options = {}) {
-        this.agentId = 'doc-sentinel-01';
+        this.agentId = 'doc-sentinel';  // Muss Registry ID matchen
         this.name = 'Documentation Sentinel';
         this.bridge = options.bridge || null;
         this.registry = options.registry || null;

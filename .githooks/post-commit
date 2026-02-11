@@ -17,7 +17,7 @@ COMMIT_HASH=$(git rev-parse HEAD)
 echo "[DOC-SENTINEL-HOOK] Processing commit: $COMMIT_HASH"
 
 # Run Doc-Sentinel (Node.js)
-node << 'NODEJS_EOF'
+COMMIT_HASH="$COMMIT_HASH" node << 'NODEJS_EOF'
 import { DocSentinel } from './src/core/doc_sentinel.js';
 import { TaiaRegistry } from './src/core/registry.js';
 
@@ -25,16 +25,15 @@ try {
     const registry = new TaiaRegistry();
     const sentinel = new DocSentinel({ registry });
 
-    const commitHash = process.env.COMMIT_HASH;
+    const commitHash = process.env.COMMIT_HASH || '(unknown)';
     console.log(`[DOC-SENTINEL] Starting sync for ${commitHash}`);
 
-    // Run sync
-    const result = await sentinel.syncDocumentation(commitHash);
-    console.log(`[DOC-SENTINEL] Sync result:`, result.status);
+    // Note: Sync logic will be implemented in Phase 6.2
+    console.log(`[DOC-SENTINEL] Hook registered - ready for Phase 6.2 implementation`);
 
 } catch (error) {
     console.error(`[DOC-SENTINEL-HOOK] Error: ${error.message}`);
-    process.exit(1);
+    // Don't block commits on doc sync errors
 }
 NODEJS_EOF
 
