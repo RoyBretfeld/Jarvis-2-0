@@ -41,12 +41,14 @@ class VoiceChatDirect {
     console.log(chalk.cyan(`
 ╔════════════════════════════════════════════════════════════════╗
 ║                                                                ║
-║     🎤 TAIA VOICE-CHAT-DIRECT (VCD) v1.0                     ║
+║     🎤 TAIA VOICE-CHAT-DIRECT (VCD) v1.1                     ║
 ║     Vollständige Voice Integration im Terminal                ║
 ║                                                                ║
-║     🎤 [LEERTASTE] = Push-to-Talk (Mikrofon)                 ║
-║     ⌨️  [TEXT]      = Normales Tippen                          ║
-║     🛑 [Ctrl+C]    = Exit                                      ║
+║     Commands:                                                 ║
+║     > text              = Normal tippen + Enter              ║
+║     > :voice            = Mikrofon aktivieren (3-5s)         ║
+║     > /voice deine frage = Text sprechen lassen              ║
+║     > exit              = Programm beenden                    ║
 ║                                                                ║
 ║     Session: ${this.sessionId}                      ║
 ║                                                                ║
@@ -54,11 +56,10 @@ class VoiceChatDirect {
     `));
 
     this.setupReadline();
-    this.setupKeypress();
   }
 
   /**
-   * Setup Interactive Readline
+   * Setup Interactive Readline (Text-based commands)
    */
   setupReadline() {
     this.rl = readline.createInterface({
@@ -67,39 +68,43 @@ class VoiceChatDirect {
     });
 
     this.rl.on('line', async (input) => {
-      if (this.inputMode === 'text' && input.trim()) {
-        await this.handleInput(input);
+      const trimmed = input.trim().toLowerCase();
+
+      if (!trimmed) {
+        this.promptInput();
+        return;
       }
+
+      // Exit command
+      if (trimmed === 'exit' || trimmed === 'quit') {
+        console.log(chalk.yellow('\n👋 Auf Wiedersehen!'));
+        this.saveSession();
+        process.exit(0);
+      }
+
+      // Voice Command: `:voice` = start listening (case-insensitive)
+      if (trimmed === ':voice') {
+        await this.voiceInput();
+        this.promptInput();
+        return;
+      }
+
+      // Voice Shortcut: `/voice Text here` = speak text directly
+      if (trimmed.startsWith('/voice ')) {
+        const text = input.trim().slice(7);  // Preserve original case
+        await this.handleInput(text);
+        this.promptInput();
+        return;
+      }
+
+      // Normal text input (preserve original case)
+      await this.handleInput(input.trim());
+      this.promptInput();
     });
 
     this.rl.on('close', () => {
       this.saveSession();
       process.exit(0);
-    });
-  }
-
-  /**
-   * Setup Keypress Listener für Push-to-Talk
-   */
-  setupKeypress() {
-    // Raw mode für Tastatur-Events
-    const stdin = process.stdin;
-
-    stdin.setRawMode(true);
-    stdin.resume();
-    stdin.setEncoding('utf8');
-
-    stdin.on('data', async (char) => {
-      // LEERTASTE = Push-to-Talk
-      if (char === ' ') {
-        if (!this.isListening) {
-          await this.voiceInput();
-        }
-      }
-      // Ctrl+C = Exit
-      else if (char === '\u0003') {
-        process.exit(0);
-      }
     });
   }
 
