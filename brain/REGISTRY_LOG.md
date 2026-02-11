@@ -1184,3 +1184,72 @@
   "critical": false,
   "timestamp": "2026-02-11T21:22:18.582Z"
 }
+
+## [2026-02-11T21:26:49.762Z]
+**Event:** Agent registered: taia-core
+**Metadata:** {
+  "token": "2cf14a0608b50c51...",
+  "capabilities": [
+    "orchestration",
+    "routing",
+    "decision-making"
+  ],
+  "timestamp": "2026-02-11T21:26:49.762Z"
+}
+
+## [2026-02-11T21:26:49.763Z]
+**Event:** Agent registered: doc-sentinel
+**Metadata:** {
+  "token": "3dd8da33bcb77cee...",
+  "capabilities": [
+    "documentation",
+    "monitoring",
+    "synchronization"
+  ],
+  "timestamp": "2026-02-11T21:26:49.763Z"
+}
+
+## [2026-02-11T21:26:49.765Z]
+**Event:** Skill assigned to agent
+**Metadata:** {
+  "agent": "doc-sentinel",
+  "skill": "READ_CODE",
+  "critical": false,
+  "timestamp": "2026-02-11T21:26:49.765Z"
+}
+
+## [2026-02-11T21:26:49.765Z]
+**Event:** Skill assigned to agent
+**Metadata:** {
+  "agent": "doc-sentinel",
+  "skill": "WRITE_DOCS",
+  "critical": false,
+  "timestamp": "2026-02-11T21:26:49.765Z"
+}
+
+## [2026-02-11T21:26:49.766Z]
+**Event:** Skill assigned to agent
+**Metadata:** {
+  "agent": "taia-core",
+  "skill": "READ_CODE",
+  "critical": false,
+  "timestamp": "2026-02-11T21:26:49.766Z"
+}
+
+## [2026-02-11T21:26:49.767Z]
+**Event:** Skill assigned to agent
+**Metadata:** {
+  "agent": "taia-core",
+  "skill": "WRITE_DOCS",
+  "critical": false,
+  "timestamp": "2026-02-11T21:26:49.767Z"
+}
+
+## [2026-02-11T21:26:49.767Z]
+**Event:** Skill assigned to agent
+**Metadata:** {
+  "agent": "taia-core",
+  "skill": "MODIFY_CODE",
+  "critical": false,
+  "timestamp": "2026-02-11T21:26:49.767Z"
+}

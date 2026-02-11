@@ -89,6 +89,9 @@ class AgentCore extends EventEmitter {
       debug: false
     });
 
+    // Voice Mutex: Prevent echo (only ONE voice output per response)
+    this.isSpeaking = false;
+
     // Initialize Groq client
     this.initializeGroqClient();
   }
@@ -125,39 +128,56 @@ class AgentCore extends EventEmitter {
 
   /**
    * DUAL-CHANNEL OUTPUT: Speak and log simultaneously
-   * NEW in v2.1
+   * CRITICAL: Voice Mutex prevents echo (only ONE voice output per response)
    */
   async speakAndLog(text, isThought = false) {
     const prefix = isThought ? '🧠 [Denkvorgang]:' : '🤖 [Antwort]:';
     console.log(`${prefix} ${text}`);
 
-    // Parallel voice output if enabled
-    if (this.config.voiceOutput && this.voice) {
+    // MUTEX: Prevent double speaking (echo problem)
+    if (this.isSpeaking) {
+      if (this.config.debug) {
+        console.log('[VOICE] Skipping (already speaking)');
+      }
+      return;
+    }
+
+    // VOICE OUTPUT: Only speak if enabled AND not already speaking
+    if (this.config.voiceOutput && this.voice && !isThought) {
       try {
-        await this.voice.speak(text, { backend: undefined }); // Auto-select best backend
+        this.isSpeaking = true;
+        await this.voice.speak(text, { backend: undefined });
       } catch (error) {
-        if (this.config.debug) {
-          console.warn(`[VOICE] Error speaking: ${error.message}`);
-        }
+        console.warn(`[VOICE] Error: ${error.message}`);
+      } finally {
+        this.isSpeaking = false;
       }
     }
   }
 
   /**
-   * REFLECTIVE THINKING: Speak out loud before processing
-   * Provides audible feedback during Groq latency
-   * NEW in v2.1
+   * REFLECTIVE THINKING: Show processing status
+   * TEXT-ONLY by default (to prevent echo)
+   * Can be enabled with reflectAloud:true if needed
    */
   async thoughtReflection(prompt) {
-    if (!this.config.reflectAloud || !this.voice) {
-      return;
-    }
-
     // Analyze prompt and generate thought
     const thoughts = this._generateThought(prompt);
 
-    // Speak the thought (non-blocking)
-    await this.speakAndLog(thoughts, true);
+    // Show thought in console (TEXT ONLY)
+    console.log(`🧠 [Denkvorgang]: ${thoughts}`);
+
+    // Optional: Speak the thought ONLY if explicitly enabled AND not in dual-output mode
+    if (this.config.reflectAloud && this.voice && !this.isSpeaking) {
+      try {
+        // Use shorter voice for thinking (doesn't block final response)
+        await this.voice.speak(thoughts, { backend: undefined });
+      } catch (error) {
+        if (this.config.debug) {
+          console.warn(`[VOICE] Reflection speak failed: ${error.message}`);
+        }
+      }
+    }
 
     // Give Groq time to process in parallel
     if (this.config.reflectiveDelay > 0) {
@@ -484,6 +504,18 @@ IMPORTANT REMINDERS:
       console.error(`Channel error (${targetChannel}):`, error);
       throw error;
     }
+  }
+
+  /**
+   * NOTAUS: Stop all voice output immediately
+   * Kills hanging PowerShell processes (anti-echo)
+   */
+  async stopVoice() {
+    if (this.voice && this.voice.stop) {
+      await this.voice.stop();
+    }
+    this.isSpeaking = false;
+    console.log('[VOICE] All voice processes stopped');
   }
 
   /**

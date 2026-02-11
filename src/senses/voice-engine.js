@@ -24,6 +24,7 @@ const execAsync = promisify(exec);
 class VoiceEngine {
   constructor(config = {}) {
     this.platform = process.platform;  // 'win32', 'linux', 'darwin'
+    this.activeProcess = null;  // Track current speech process (anti-echo)
 
     // Windows uses PowerShell, others use backend detection
     const defaultBackend = this.platform === 'win32' ? 'powershell' : 'piper';
@@ -136,14 +137,15 @@ class VoiceEngine {
    */
   async _speakWithPowerShell(text, language) {
     try {
+      // ANTI-ECHO: Kill previous speech if still running
+      await this.stop();
+
       // Sanitize text for PowerShell (remove quotes and backticks)
       const cleanText = text.replace(/["'`]/g, '');
 
       // Windows SAPI command with Rate and Volume optimization
-      // Rate: -10 to 10 (lower = slower/clearer)
-      // Volume: 0 to 100 (percentage)
-      const rate = this.config.rate !== undefined ? this.config.rate : -1;     // Slower for clarity
-      const volume = this.config.volume !== undefined ? this.config.volume : 85; // Slightly quieter to avoid clipping
+      const rate = this.config.rate !== undefined ? this.config.rate : -1;
+      const volume = this.config.volume !== undefined ? this.config.volume : 85;
 
       const psCommand = `
         Add-Type -AssemblyName System.Speech;
@@ -157,15 +159,16 @@ class VoiceEngine {
 
       if (this.config.debug) console.log(`[VOICE] PowerShell: rate=${rate}, volume=${volume}`);
 
-      // Execute without blocking - let it run in background
-      exec(cmd, (error) => {
-        if (error && this.config.debug) {
-          console.warn(`[VOICE] PowerShell warning: ${error.message}`);
-        }
+      // Execute and track process (for anti-echo)
+      return new Promise((resolve) => {
+        this.activeProcess = exec(cmd, (error) => {
+          this.activeProcess = null;
+          if (error && this.config.debug) {
+            console.warn(`[VOICE] PowerShell: ${error.message}`);
+          }
+          resolve({ success: !error, backend: 'powershell', rate, volume });
+        });
       });
-
-      // Resolve immediately (async execution)
-      return { success: true, backend: 'powershell', rate, volume };
     } catch (error) {
       return { success: false, error: error.message, backend: 'powershell' };
     }
@@ -274,6 +277,23 @@ class VoiceEngine {
     } catch {
       this.supportedBackends.espeak.installed = false;
     }
+  }
+
+  /**
+   * ANTI-ECHO: Stop current speech immediately
+   * Kills hanging PowerShell processes to prevent overlapping audio
+   */
+  async stop() {
+    if (this.activeProcess && this.platform === 'win32') {
+      try {
+        execAsync(`taskkill /F /T /PID ${this.activeProcess.pid}`, { timeout: 1000 }).catch(() => {
+          // Process already dead, ignore
+        });
+      } catch (e) {
+        // Ignore kill errors
+      }
+    }
+    this.activeProcess = null;
   }
 
   /**
