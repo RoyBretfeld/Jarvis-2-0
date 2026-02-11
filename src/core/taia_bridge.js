@@ -1,14 +1,17 @@
 /**
- * TAIA MINIMAL BRIDGE (v0.1)
- * Schnittstelle zwischen Claude Code und TAIA-Standard
+ * TAIA BRIDGE v1.0 (Veritas-Ebene)
+ * Nadelöhr für alle KI-Aktionen
  *
- * Implementiert RB-Protokoll:
+ * Implementiert RB-Protokoll + Veritas-Ebene:
  * - Gesetz 1: Glass-Box Auditing
  * - Gesetz 2: Git Checkpoint before Changes
+ * - Gesetz 3: Progressive Escalation
  * - Gesetz 4: Menschliche Hoheit bei kritischen Entscheidungen
+ * - VERITAS: Physische Beweise für alle Aktionen (kein Schwindel)
  */
 
-const fs = require('fs').promises;
+const fs = require('fs');
+const fsPromises = require('fs').promises;
 const path = require('path');
 const { execSync } = require('child_process');
 const chalk = require('chalk');
@@ -17,10 +20,152 @@ class TAIABridge {
     constructor(options = {}) {
         this.namespace = options.namespace || 'taia.default';
         this.auditLog = options.auditLog || 'brain/AUDIT_LOG.md';
+        this.integrityAudit = options.integrityAudit || 'brain/INTEGRITY_AUDIT.md';
         this.requireApprovalOn = options.requireApprovalOn || ['BLOCKER', 'CRITICAL'];
-        this.version = '0.1.0';
+        this.protectedZones = ['src', 'brain', 'config'];
+        this.version = '1.0.0-veritas';
 
-        console.log(chalk.blue(`[TAIA-INIT] Bridge initialized: ${this.namespace} v${this.version}`));
+        console.log(chalk.blue(`[TAIA-INIT] Bridge v${this.version} initialized: ${this.namespace}`));
+        console.log(chalk.yellow(`[VERITAS] Integrity checks ENABLED - no simulations allowed`));
+    }
+
+    /**
+     * VERITAS-EBENE: Verifiziere Aktionen gegen Realität
+     * Kein Schwindel - Physische Beweise erforderlich
+     */
+    async verifyAction(actionType, targetPath, context = {}) {
+        const result = {
+            allowed: false,
+            reason: '',
+            physicalProof: {},
+            gitProof: {},
+            timestamp: new Date().toISOString(),
+            callId: Math.random().toString(36).substr(2, 9)
+        };
+
+        // 1. ZONE-CHECK: Ist es eine geschützte Zone?
+        if (['DELETE', 'REMOVE', 'UNLINK'].includes(actionType)) {
+            const isProtected = this.protectedZones.some(zone =>
+                targetPath.includes(`/${zone}/`) || targetPath.includes(`\\${zone}\\`)
+            );
+
+            if (isProtected) {
+                result.reason = `[VERITAS-BLOCK] ${actionType} in protected zone (${path.dirname(targetPath)}) forbidden`;
+                await this._logIntegrityAudit(result);
+                return result;
+            }
+        }
+
+        // 2. EXISTENZ-CHECK: Ist das Objekt physisch vorhanden?
+        if (!fs.existsSync(targetPath)) {
+            result.reason = `[VERITAS-HONEST] Target does not exist: ${targetPath}. Simulation blocked.`;
+            result.physicalProof = { exists: false };
+            await this._logIntegrityAudit(result);
+            return result;
+        }
+
+        // 3. PHYSISCHER BEWEIS: Sammle File-Info
+        try {
+            const stat = fs.statSync(targetPath);
+            result.physicalProof = {
+                exists: true,
+                size: stat.size,
+                type: stat.isDirectory() ? 'directory' : 'file',
+                modified: stat.mtime.toISOString()
+            };
+        } catch (e) {
+            result.reason = `[VERITAS-ERROR] Cannot stat file: ${e.message}`;
+            await this._logIntegrityAudit(result);
+            return result;
+        }
+
+        // 4. GIT-PROOF: Ist die Datei trackbar?
+        try {
+            const gitHash = execSync(`git hash-object "${targetPath}"`).toString().trim();
+            result.gitProof = {
+                tracked: true,
+                hash: gitHash,
+                recoverable: true
+            };
+        } catch (e) {
+            result.gitProof = { tracked: false };
+        }
+
+        // ✅ AKTION ERLAUBT - mit vollständigen Beweisen
+        result.allowed = true;
+        result.reason = `[VERITAS-OK] Action permitted. Physical + Git proof collected.`;
+        await this._logIntegrityAudit(result);
+        return result;
+    }
+
+    /**
+     * SAFE-DELETE: Archiviere statt zu löschen (Gesetz 2)
+     */
+    async safeDelete(targetPath) {
+        const verification = await this.verifyAction('DELETE', targetPath);
+
+        if (!verification.allowed) {
+            throw new Error(`[INTEGRITY-BLOCK] ${verification.reason}`);
+        }
+
+        // Archiviere statt zu löschen
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+        const archivePath = path.join(
+            process.cwd(),
+            'archive',
+            `${timestamp}_${path.basename(targetPath)}`
+        );
+
+        try {
+            const archiveDir = path.dirname(archivePath);
+            if (!fs.existsSync(archiveDir)) {
+                fs.mkdirSync(archiveDir, { recursive: true });
+            }
+
+            fs.renameSync(targetPath, archivePath);
+
+            const auditEntry = `\n## [${verification.timestamp}] SAFE-DELETE (ID: ${verification.callId})
+- **From:** ${targetPath}
+- **To:** ${archivePath}
+- **Proof:** ${verification.gitProof.tracked ? `Git Hash: ${verification.gitProof.hash}` : 'Untracked'}
+- **Status:** ARCHIVED (recoverable)
+`;
+            await this.appendAuditLog(auditEntry);
+
+            return {
+                action: 'ARCHIVED',
+                from: targetPath,
+                to: archivePath,
+                proof: verification
+            };
+        } catch (error) {
+            throw new Error(`[SAFE-DELETE-ERROR] ${error.message}`);
+        }
+    }
+
+    /**
+     * Integrität-Audit schreiben
+     */
+    async _logIntegrityAudit(result) {
+        try {
+            const entry = `\n## [${result.timestamp}] ACTION: ${result.actionType || 'VERIFY'} (ID: ${result.callId})
+- **Result:** ${result.reason}
+- **Physical:** ${JSON.stringify(result.physicalProof)}
+- **Git:** ${JSON.stringify(result.gitProof)}
+- **Allowed:** ${result.allowed ? '✅' : '❌'}
+`;
+
+            const auditPath = path.join(process.cwd(), this.integrityAudit);
+            const dir = path.dirname(auditPath);
+
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir, { recursive: true });
+            }
+
+            fs.appendFileSync(auditPath, entry, 'utf8');
+        } catch (e) {
+            // Silent fail for audit
+        }
     }
 
     /**
@@ -127,10 +272,10 @@ ${chalk.yellow('Aktion erforderlich: Benutzer muss diesen Fund bestätigen oder 
             const logPath = path.join(process.cwd(), this.auditLog);
 
             // Stelle sicher, dass das Verzeichnis existiert
-            await fs.mkdir(path.dirname(logPath), { recursive: true });
+            await fsPromises.mkdir(path.dirname(logPath), { recursive: true });
 
             // Append zum Log
-            await fs.appendFile(logPath, entry, 'utf8');
+            await fsPromises.appendFile(logPath, entry, 'utf8');
         } catch (error) {
             console.warn(chalk.yellow(`[TAIA-WARN] Could not write audit log: ${error.message}`));
         }
