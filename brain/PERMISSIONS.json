@@ -1,0 +1,7 @@
+{
+  "doc-sentinel:READ_CODE": true,
+  "doc-sentinel:WRITE_DOCS": true,
+  "taia-core:READ_CODE": true,
+  "taia-core:WRITE_DOCS": true,
+  "taia-core:MODIFY_CODE": true
+}

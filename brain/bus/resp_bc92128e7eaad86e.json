@@ -1,0 +1,15 @@
+{
+  "requestId": "bc92128e7eaad86e",
+  "timestamp": "2026-02-11T20:44:02.836Z",
+  "agentId": "code-agent",
+  "status": "SUCCESS",
+  "result": {
+    "success": true,
+    "changes": [
+      "src/feature.js"
+    ],
+    "message": "Feature implemented",
+    "executionTime": 2500
+  },
+  "executionTime": 2500
+}

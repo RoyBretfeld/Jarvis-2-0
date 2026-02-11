@@ -10,11 +10,15 @@
  * - VERITAS: Physische Beweise für alle Aktionen (kein Schwindel)
  */
 
-const fs = require('fs');
-const fsPromises = require('fs').promises;
-const path = require('path');
-const { execSync } = require('child_process');
-const chalk = require('chalk');
+import fs from 'fs';
+import fsPromises from 'fs/promises';
+import path from 'path';
+import { execSync } from 'child_process';
+import chalk from 'chalk';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 class TAIABridge {
     constructor(options = {}) {
@@ -393,4 +397,4 @@ ${chalk.yellow('Aktion erforderlich: Benutzer muss diesen Fund bestätigen oder 
     }
 }
 
-module.exports = { TAIABridge };
+export { TAIABridge };

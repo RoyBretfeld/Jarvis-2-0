@@ -1,0 +1,17 @@
+{
+  "id": "0988378b61ca992f",
+  "timestamp": "2026-02-11T20:44:02.837Z",
+  "origin": "taia-core",
+  "target": "doc-sentinel",
+  "parentToken": "8092ad25",
+  "skill": "WRITE_DOCS",
+  "payload": {
+    "feature": "User Authentication",
+    "docs": "Add OAuth2 to ARCHITECTURE.md"
+  },
+  "quota": {
+    "maxTime": 60000,
+    "maxCalls": 10
+  },
+  "status": "PENDING"
+}
