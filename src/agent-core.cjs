@@ -7,7 +7,7 @@
  */
 
 const EventEmitter = require('events');
-const MarkdownManager = require('./markdown-manager');
+const MarkdownManager = require('./markdown-manager.cjs');
 
 class AgentCore extends EventEmitter {
   constructor(config = {}) {
