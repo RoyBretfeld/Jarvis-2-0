@@ -1,0 +1,49 @@
+#!/bin/bash
+#
+# Git Post-Commit Hook: Trigger Doc-Sentinel
+#
+# Jedes Mal wenn ein Commit erfolgt, wird der Doc-Sentinel
+# angewiesen, die Dokumentation zu synchronisieren.
+#
+# Installation:
+#   git config core.hooksPath .githooks
+#   chmod +x .githooks/post-commit
+#
+
+echo "[DOC-SENTINEL-HOOK] Triggered"
+
+# Get current commit hash
+COMMIT_HASH=$(git rev-parse HEAD)
+echo "[DOC-SENTINEL-HOOK] Processing commit: $COMMIT_HASH"
+
+# Run Doc-Sentinel (Node.js)
+node << 'NODEJS_EOF'
+import { DocSentinel } from './src/core/doc_sentinel.js';
+import { TaiaRegistry } from './src/core/registry.js';
+
+try {
+    const registry = new TaiaRegistry();
+    const sentinel = new DocSentinel({ registry });
+
+    const commitHash = process.env.COMMIT_HASH;
+    console.log(`[DOC-SENTINEL] Starting sync for ${commitHash}`);
+
+    // Run sync
+    const result = await sentinel.syncDocumentation(commitHash);
+    console.log(`[DOC-SENTINEL] Sync result:`, result.status);
+
+} catch (error) {
+    console.error(`[DOC-SENTINEL-HOOK] Error: ${error.message}`);
+    process.exit(1);
+}
+NODEJS_EOF
+
+EXIT_CODE=$?
+
+if [ $EXIT_CODE -eq 0 ]; then
+    echo "[DOC-SENTINEL-HOOK] ✅ Documentation sync completed"
+else
+    echo "[DOC-SENTINEL-HOOK] ⚠️  Sync had issues (exit code: $EXIT_CODE)"
+fi
+
+exit 0
