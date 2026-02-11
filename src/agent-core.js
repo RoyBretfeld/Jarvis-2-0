@@ -11,6 +11,7 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import MarkdownManagerModule from './markdown-manager.cjs';
 import { VoiceEngine } from './senses/voice-engine.js';
+import { EarsEngine } from './senses/ears-engine.js';
 
 const MarkdownManager = MarkdownManagerModule;
 
@@ -37,18 +38,19 @@ class AgentCore extends EventEmitter {
     // Agent Identity
     this.identity = {
       name: 'TAIA',
-      version: '2.1.0',
+      version: '2.2.0',
       description: 'True Artificial Intelligence Agent - Proactive System Enabler',
       capabilities: [
         'proactive_priority_management',
         'tiered_memory_control',
         'sentinel_security',
-        'speech_output',              // Voice synthesis
+        'speech_output',              // Voice synthesis (TTS)
+        'speech_input',               // NEW: Voice recognition (STT)
         'autonomous_skill_execution',
         'intelligent_routing',
         'memory_persistence',
         'multi_channel_communication',
-        'reflective_thinking'         // NEW: Voice reflection
+        'reflective_thinking'         // Voice reflection
       ]
     };
 
@@ -69,7 +71,7 @@ class AgentCore extends EventEmitter {
     // Knowledge Base Manager
     this.knowledgeManager = new MarkdownManager();
 
-    // Voice Engine (NEW) - with Windows optimization
+    // Voice Engine (TTS) - with Windows optimization
     this.voice = new VoiceEngine({
       language: 'de',
       speakAloud: this.config.voiceOutput,
@@ -77,6 +79,14 @@ class AgentCore extends EventEmitter {
       // Windows voice clarity optimization
       rate: -1,      // Slower speech (-10 to 10, lower = slower = clearer)
       volume: 85     // Slightly reduced to avoid clipping (0-100)
+    });
+
+    // Ears Engine (STT) - NEW Push-to-Talk
+    this.ears = new EarsEngine({
+      language: 'de',
+      recordDuration: 5,  // 5 seconds max per recording
+      groqApiKey: this.config.apiKey,
+      debug: false
     });
 
     // Initialize Groq client
@@ -170,6 +180,84 @@ class AgentCore extends EventEmitter {
     // Simple selection based on prompt length (can be enhanced with ML)
     const index = prompt.length % thoughts.length;
     return thoughts[index];
+  }
+
+  /**
+   * PUSH-TO-TALK: Listen to user input and generate response
+   * Komplette Voice I/O Schleife (Ears → Brain → Voice)
+   * NEW in v2.2
+   */
+  async listenAndRespond(context = {}) {
+    try {
+      // A. CAPTURE AUDIO: Push-to-Talk
+      console.log('[VOICE-LOOP] 🎤 Listening...');
+      const audioResult = await this.ears.startListening();
+
+      if (!audioResult.success) {
+        await this.speakAndLog(`Fehler beim Aufnehmen: ${audioResult.error}`, false);
+        return { success: false, error: audioResult.error };
+      }
+
+      const userInput = audioResult.transcription;
+      console.log(`[VOICE-LOOP] 📝 Transkription: "${userInput}"`);
+
+      // B. PROCESS: Generate response with reflective thinking
+      const response = await this.generateResponse(userInput, context);
+
+      // C. OUTPUT: Voice already spoken in generateResponse(), just return
+      return {
+        success: true,
+        input: userInput,
+        response: response
+      };
+    } catch (error) {
+      console.error('[VOICE-LOOP] Error:', error.message);
+      await this.speakAndLog(`Fehler in der Voice-Schleife: ${error.message}`, false);
+      return { success: false, error: error.message };
+    }
+  }
+
+  /**
+   * Interactive Voice Mode
+   * Push-to-Talk mit Tastatur-Steuerung (Leertaste = Aufnehmen)
+   * NEW in v2.2
+   */
+  async interactiveVoiceMode() {
+    console.log('\n[VOICE-LOOP] 🎧 Interaktiver Voice Mode gestartet');
+    console.log('[VOICE-LOOP] Drücke LEERTASTE zum Aufnehmen (q = Beenden)\n');
+
+    const stdin = process.stdin;
+    stdin.setRawMode(true);
+    stdin.resume();
+    stdin.setEncoding('utf8');
+
+    let running = true;
+
+    return new Promise((resolve) => {
+      stdin.on('data', async (char) => {
+        if (char === ' ') {
+          // LEERTASTE: Starte Voice-Loop
+          console.log('\n[VOICE-LOOP] 🎤 Aufnahme läuft...');
+          const result = await this.listenAndRespond({
+            sessionId: 'voice-interactive',
+            channel: 'voice'
+          });
+
+          if (result.success) {
+            console.log(`\n[VOICE-LOOP] ✅ Verarbeitet\n`);
+          } else {
+            console.log(`\n[VOICE-LOOP] ❌ Fehler: ${result.error}\n`);
+          }
+        } else if (char === 'q' || char === '\u0003') {
+          // Q oder Ctrl+C: Beende
+          running = false;
+          stdin.setRawMode(false);
+          stdin.pause();
+          console.log('\n[VOICE-LOOP] 🛑 Mode beendet');
+          resolve({ success: true });
+        }
+      });
+    });
   }
 
   /**
@@ -419,7 +507,8 @@ IMPORTANT REMINDERS:
       },
       sessions: this.sessions.size,
       channels: this.channels.size,
-      voice: this.voice?.getStatus()
+      voice: this.voice?.getStatus(),
+      ears: this.ears?.getStatus()     // NEW: Voice input status
     };
   }
 
@@ -427,9 +516,10 @@ IMPORTANT REMINDERS:
    * Initialize agent
    */
   async initialize() {
-    console.log('🚀 Initializing TAIA Agent (v2.1 with Voice Integration)...');
+    console.log('🚀 Initializing TAIA Agent (v2.2 with Full Voice I/O)...');
     console.log(`🤖 Agent: ${this.identity.name} v${this.identity.version}`);
-    console.log(`🔊 Voice: ${this.config.voiceOutput ? '✅ ENABLED' : '❌ DISABLED'}`);
+    console.log(`🔊 Voice Output: ${this.config.voiceOutput ? '✅ ENABLED' : '❌ DISABLED'}`);
+    console.log(`🎤 Voice Input: ✅ ENABLED (Push-to-Talk)`);
 
     this.emit('agent:initializing');
 

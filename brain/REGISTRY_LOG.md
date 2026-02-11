@@ -839,3 +839,141 @@
   "critical": false,
   "timestamp": "2026-02-11T21:05:18.754Z"
 }
+
+## [2026-02-11T21:07:00.246Z]
+**Event:** Agent registered: taia-core
+**Metadata:** {
+  "token": "b607b13889148462...",
+  "capabilities": [
+    "orchestration",
+    "routing",
+    "decision-making"
+  ],
+  "timestamp": "2026-02-11T21:07:00.246Z"
+}
+
+## [2026-02-11T21:07:00.247Z]
+**Event:** Agent registered: doc-sentinel
+**Metadata:** {
+  "token": "099355f39859c1c4...",
+  "capabilities": [
+    "documentation",
+    "monitoring",
+    "synchronization"
+  ],
+  "timestamp": "2026-02-11T21:07:00.247Z"
+}
+
+## [2026-02-11T21:07:00.248Z]
+**Event:** Skill assigned to agent
+**Metadata:** {
+  "agent": "doc-sentinel",
+  "skill": "READ_CODE",
+  "critical": false,
+  "timestamp": "2026-02-11T21:07:00.248Z"
+}
+
+## [2026-02-11T21:07:00.248Z]
+**Event:** Skill assigned to agent
+**Metadata:** {
+  "agent": "doc-sentinel",
+  "skill": "WRITE_DOCS",
+  "critical": false,
+  "timestamp": "2026-02-11T21:07:00.248Z"
+}
+
+## [2026-02-11T21:07:00.249Z]
+**Event:** Skill assigned to agent
+**Metadata:** {
+  "agent": "taia-core",
+  "skill": "READ_CODE",
+  "critical": false,
+  "timestamp": "2026-02-11T21:07:00.249Z"
+}
+
+## [2026-02-11T21:07:00.250Z]
+**Event:** Skill assigned to agent
+**Metadata:** {
+  "agent": "taia-core",
+  "skill": "WRITE_DOCS",
+  "critical": false,
+  "timestamp": "2026-02-11T21:07:00.250Z"
+}
+
+## [2026-02-11T21:07:00.250Z]
+**Event:** Skill assigned to agent
+**Metadata:** {
+  "agent": "taia-core",
+  "skill": "MODIFY_CODE",
+  "critical": false,
+  "timestamp": "2026-02-11T21:07:00.250Z"
+}
+
+## [2026-02-11T21:07:30.217Z]
+**Event:** Agent registered: taia-core
+**Metadata:** {
+  "token": "30bc28518707d724...",
+  "capabilities": [
+    "orchestration",
+    "routing",
+    "decision-making"
+  ],
+  "timestamp": "2026-02-11T21:07:30.217Z"
+}
+
+## [2026-02-11T21:07:30.218Z]
+**Event:** Agent registered: doc-sentinel
+**Metadata:** {
+  "token": "167cf5502040f8ec...",
+  "capabilities": [
+    "documentation",
+    "monitoring",
+    "synchronization"
+  ],
+  "timestamp": "2026-02-11T21:07:30.218Z"
+}
+
+## [2026-02-11T21:07:30.219Z]
+**Event:** Skill assigned to agent
+**Metadata:** {
+  "agent": "doc-sentinel",
+  "skill": "READ_CODE",
+  "critical": false,
+  "timestamp": "2026-02-11T21:07:30.219Z"
+}
+
+## [2026-02-11T21:07:30.220Z]
+**Event:** Skill assigned to agent
+**Metadata:** {
+  "agent": "doc-sentinel",
+  "skill": "WRITE_DOCS",
+  "critical": false,
+  "timestamp": "2026-02-11T21:07:30.220Z"
+}
+
+## [2026-02-11T21:07:30.220Z]
+**Event:** Skill assigned to agent
+**Metadata:** {
+  "agent": "taia-core",
+  "skill": "READ_CODE",
+  "critical": false,
+  "timestamp": "2026-02-11T21:07:30.220Z"
+}
+
+## [2026-02-11T21:07:30.221Z]
+**Event:** Skill assigned to agent
+**Metadata:** {
+  "agent": "taia-core",
+  "skill": "WRITE_DOCS",
+  "critical": false,
+  "timestamp": "2026-02-11T21:07:30.221Z"
+}
+
+## [2026-02-11T21:07:30.221Z]
+**Event:** Skill assigned to agent
+**Metadata:** {
+  "agent": "taia-core",
+  "skill": "MODIFY_CODE",
+  "critical": false,
+  "timestamp": "2026-02-11T21:07:30.221Z"
+}

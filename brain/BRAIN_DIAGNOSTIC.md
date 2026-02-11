@@ -1,7 +1,7 @@
 # TAIA Brain Diagnostic Report
 
-**Generated:** 2026-02-11T21:06:51.104Z
-**Duration:** 0.924s
+**Generated:** 2026-02-11T21:12:44.810Z
+**Duration:** 0.804s
 
 ## Checklist
 
@@ -16,14 +16,14 @@
 - ℹ️ Check 2: Agent Initialization
 - ✅ AgentCore instantiated
 - ✅ Agent Name: TAIA
-- ✅ Agent Version: 2.1.0
-- ✅ Capabilities: 9
+- ✅ Agent Version: 2.2.0
+- ✅ Capabilities: 10
 - ℹ️ 
 - ℹ️ Check 3: Identity & Response Test
 - ℹ️ Sending test prompt to Groq...
 - ✅ Response received from Groq
 - ✅ Identity preserved in response
-- ✅ Response length: 47 words
+- ✅ Response length: 45 words
 - ✅ Response is in German (as expected)
 - ℹ️ 
 - ℹ️ Check 4: Memory System
@@ -31,8 +31,8 @@
 - ✅ Memory types available: shortTerm, longTerm, semantic, episodic
 - ℹ️ 
 - ℹ️ Check 5: Senses (Voice I/O) Setup
-- ✅ Senses directory found with 9 components
-- ℹ️ Available senses: collector.py, ears.py, eye.js, k8s.py, README.md, vision.py, voice-engine.js, voice.py, __pycache__
+- ✅ Senses directory found with 10 components
+- ℹ️ Available senses: collector.py, ears-engine.js, ears.py, eye.js, k8s.py, README.md, vision.py, voice-engine.js, voice.py, __pycache__
 - ℹ️ 
 - ℹ️ ═══════════════════════════════════════════════
 - ℹ️ 📊 DIAGNOSTIC REPORT
@@ -45,12 +45,12 @@
 - GROQ_API_KEY configured: gsk_uXCxWU...
 - AgentCore instantiated
 - Agent Name: TAIA
-- Agent Version: 2.1.0
-- Capabilities: 9
+- Agent Version: 2.2.0
+- Capabilities: 10
 - Response received from Groq
 - Identity preserved in response
-- Response length: 47 words
+- Response length: 45 words
 - Response is in German (as expected)
 - Short-term memory entries: 1
 - Memory types available: shortTerm, longTerm, semantic, episodic
-- Senses directory found with 9 components
+- Senses directory found with 10 components
