@@ -69,11 +69,14 @@ class AgentCore extends EventEmitter {
     // Knowledge Base Manager
     this.knowledgeManager = new MarkdownManager();
 
-    // Voice Engine (NEW)
+    // Voice Engine (NEW) - with Windows optimization
     this.voice = new VoiceEngine({
       language: 'de',
       speakAloud: this.config.voiceOutput,
-      debug: false
+      debug: false,
+      // Windows voice clarity optimization
+      rate: -1,      // Slower speech (-10 to 10, lower = slower = clearer)
+      volume: 85     // Slightly reduced to avoid clipping (0-100)
     });
 
     // Initialize Groq client

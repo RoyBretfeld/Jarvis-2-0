@@ -35,6 +35,9 @@ class VoiceEngine {
       audioDir: config.audioDir || path.join(__dirname, '../../brain/audio'),
       speakAloud: config.speakAloud !== false,
       debug: config.debug || false,
+      // Windows voice optimization
+      rate: config.rate !== undefined ? config.rate : -1,        // -10 to 10 (lower = slower/clearer)
+      volume: config.volume !== undefined ? config.volume : 85,  // 0 to 100 (percentage)
       ...config
     };
 
@@ -136,11 +139,23 @@ class VoiceEngine {
       // Sanitize text for PowerShell (remove quotes and backticks)
       const cleanText = text.replace(/["'`]/g, '');
 
-      // Windows SAPI command via PowerShell
-      const psCommand = `Add-Type -AssemblyName System.Speech; (New-Object System.Speech.Synthesis.SpeechSynthesizer).Speak('${cleanText}')`;
+      // Windows SAPI command with Rate and Volume optimization
+      // Rate: -10 to 10 (lower = slower/clearer)
+      // Volume: 0 to 100 (percentage)
+      const rate = this.config.rate !== undefined ? this.config.rate : -1;     // Slower for clarity
+      const volume = this.config.volume !== undefined ? this.config.volume : 85; // Slightly quieter to avoid clipping
+
+      const psCommand = `
+        Add-Type -AssemblyName System.Speech;
+        $synth = New-Object System.Speech.Synthesis.SpeechSynthesizer;
+        $synth.Rate = ${rate};
+        $synth.Volume = ${volume};
+        $synth.Speak('${cleanText}');
+      `.replace(/\n/g, ' ').replace(/\s+/g, ' ');
+
       const cmd = `powershell -Command "${psCommand}"`;
 
-      if (this.config.debug) console.log(`[VOICE] PowerShell command: ${cmd}`);
+      if (this.config.debug) console.log(`[VOICE] PowerShell: rate=${rate}, volume=${volume}`);
 
       // Execute without blocking - let it run in background
       exec(cmd, (error) => {
@@ -150,7 +165,7 @@ class VoiceEngine {
       });
 
       // Resolve immediately (async execution)
-      return { success: true, backend: 'powershell' };
+      return { success: true, backend: 'powershell', rate, volume };
     } catch (error) {
       return { success: false, error: error.message, backend: 'powershell' };
     }
