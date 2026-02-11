@@ -8,6 +8,8 @@
     "start": "node src/server.js",
     "dev": "node src/server.js",
     "cli": "node src/main.js",
+    "voice": "node src/voice-chat-direct.js",
+    "vcd": "node src/voice-chat-direct.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:integration": "jest tests/integration",
