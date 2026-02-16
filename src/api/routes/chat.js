@@ -5,6 +5,7 @@
 
 import express from 'express';
 import { spawn } from 'child_process';
+import fs from 'fs/promises';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import chalk from 'chalk';
@@ -12,6 +13,8 @@ import { lookAt } from '../../senses/eye.js';
 
 const router = express.Router();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const PROJECT_ROOT = path.join(__dirname, '../../..');
+const KNOWLEDGE_PATH = path.join(PROJECT_ROOT, 'brain', 'knowledge');
 
 // LLM Provider configuration
 export const llmConfig = {
@@ -26,8 +29,26 @@ export const llmConfig = {
     }
 };
 
+const OLLAMA_TIMEOUT_MS = Number.parseInt(process.env.OLLAMA_TIMEOUT_MS || '45000', 10);
+const OLLAMA_NUM_CTX = Number.parseInt(process.env.OLLAMA_NUM_CTX || '8192', 10);
+const OLLAMA_NUM_PREDICT = Number.parseInt(process.env.OLLAMA_NUM_PREDICT || '256', 10);
+const OLLAMA_KEEP_ALIVE = process.env.OLLAMA_KEEP_ALIVE || '30m';
+
 let currentProvider = process.env.GROQ_API_KEY ? 'groq' : 'ollama';
 let currentModel = process.env.GROQ_API_KEY ? llmConfig.groq.model : llmConfig.ollama.model;
+
+export function getActiveLLMSelection() {
+    return {
+        provider: currentProvider,
+        model: currentModel
+    };
+}
+
+export function setActiveLLMSelection(provider, model) {
+    if (!provider || !model) return;
+    currentProvider = provider;
+    currentModel = model;
+}
 
 /**
  * POST /api/chat
@@ -44,7 +65,7 @@ router.post('/chat', async (req, res) => {
         console.log(chalk.cyan(`[User]: ${message}`));
 
         // Build system context from Python services
-        const context = await buildContextFromPython();
+        let context = await buildContextFromPython();
 
         // Check for image input (vision analysis)
         let userPrompt = message;
@@ -61,11 +82,21 @@ router.post('/chat', async (req, res) => {
             }
         }
 
+        // Knowledge-first behavior for skill/tool requests
+        let knowledgeHits = [];
+        if (shouldUseKnowledgeLookup(message)) {
+            knowledgeHits = await searchKnowledgeBase(message, 2);
+            if (knowledgeHits.length > 0) {
+                context = `${context}\n\nRelevant Knowledge Base snippets:\n${formatKnowledgeHitsForPrompt(knowledgeHits)}`;
+            }
+        }
+
         // Call LLM provider
         const llmResponse = await callLLMProvider(context, userPrompt);
+        const safeResponse = sanitizeIdentityLeak(llmResponse);
 
         // Extract special commands from response (MEM_UPDATE, NAME_UPDATE, ERROR_UPDATE)
-        const { cleanedResponse, updates } = extractSpecialCommands(llmResponse);
+        const { cleanedResponse, updates } = extractSpecialCommands(safeResponse);
 
         // Execute updates asynchronously
         if (updates.memory) {
@@ -91,6 +122,7 @@ router.post('/chat', async (req, res) => {
             updates,
             model: currentModel,
             provider: currentProvider,
+            knowledge_hits: knowledgeHits.length,
             timestamp: new Date().toISOString()
         });
 
@@ -146,9 +178,98 @@ router.post('/compress-memory', async (req, res) => {
  * Build context from Python services
  */
 async function buildContextFromPython() {
-    return `You are The Forge, a helpful AI assistant.
-Keep responses clear, organized, and actionable.
-Use markdown for formatting.`;
+    return `Du bist TAIA von The Forge.
+Halte Antworten klar, strukturiert und umsetzbar.
+Nutze Markdown fuer die Formatierung.
+
+Identitaetsregeln (strikt):
+- Du bist NIEMALS ChatGPT und NIEMALS OpenAI.
+- Wenn gefragt wird, wer du bist, antworte: "Ich bin TAIA von The Forge."
+- Beanspruche keine externe Marke oder Besitzerschaft.`;
+}
+
+function shouldUseKnowledgeLookup(message = '') {
+    const text = String(message || '').toLowerCase();
+    if (!text.trim()) return false;
+
+    const triggers = [
+        'skill',
+        'tool',
+        'api',
+        'endpoint',
+        'workflow',
+        'pattern',
+        'architektur',
+        'guideline',
+        'best practice',
+        'template',
+        'vorlage'
+    ];
+
+    return triggers.some((term) => text.includes(term));
+}
+
+async function searchKnowledgeBase(query, limit = 2) {
+    try {
+        const exists = await fs.access(KNOWLEDGE_PATH).then(() => true).catch(() => false);
+        if (!exists) return [];
+
+        const files = await fs.readdir(KNOWLEDGE_PATH);
+        const mdFiles = files.filter((f) => f.toLowerCase().endsWith('.md'));
+        const terms = query
+            .toLowerCase()
+            .split(/\s+/)
+            .map((t) => t.trim())
+            .filter(Boolean);
+
+        const results = [];
+        for (const file of mdFiles) {
+            const content = await fs.readFile(path.join(KNOWLEDGE_PATH, file), 'utf-8');
+            const lower = content.toLowerCase();
+
+            let score = 0;
+            for (const term of terms) {
+                if (!term) continue;
+                const matches = lower.match(new RegExp(term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'));
+                score += matches ? matches.length : 0;
+            }
+
+            if (score > 0) {
+                results.push({
+                    file,
+                    score,
+                    snippet: buildSnippet(content, query),
+                    path: `brain/knowledge/${file}`
+                });
+            }
+        }
+
+        results.sort((a, b) => b.score - a.score || a.file.localeCompare(b.file));
+        return results.slice(0, limit);
+    } catch (error) {
+        console.warn(chalk.yellow(`[Knowledge Search] Failed: ${error.message}`));
+        return [];
+    }
+}
+
+function buildSnippet(content, query) {
+    const lower = content.toLowerCase();
+    const q = String(query || '').toLowerCase();
+    const idx = q ? lower.indexOf(q) : -1;
+
+    if (idx < 0) {
+        return content.substring(0, 240).replace(/\s+/g, ' ').trim();
+    }
+
+    const start = Math.max(0, idx - 80);
+    const end = Math.min(content.length, idx + q.length + 160);
+    return content.substring(start, end).replace(/\s+/g, ' ').trim();
+}
+
+function formatKnowledgeHitsForPrompt(hits) {
+    return hits.map((hit, index) => {
+        return `${index + 1}. ${hit.path}\nSnippet: ${hit.snippet}`;
+    }).join('\n\n');
 }
 
 /**
@@ -160,6 +281,20 @@ async function callLLMProvider(context, message) {
     } else {
         return await callOllamaAPI(context, message);
     }
+}
+
+function sanitizeIdentityLeak(response = '') {
+    const leakPattern = /(ich bin|i am|as an ai|als ki).*(chatgpt|openai|gpt-?4|gpt)/i;
+    if (!leakPattern.test(response)) return response;
+
+    const filtered = response
+        .split('\n')
+        .filter((line) => !/(chatgpt|openai|gpt-?4|gpt)/i.test(line))
+        .join('\n')
+        .trim();
+
+    const fixedIntro = 'Ich bin TAIA von The Forge.';
+    return filtered ? `${fixedIntro}\n\n${filtered}` : fixedIntro;
 }
 
 /**
@@ -195,24 +330,45 @@ async function callGroqAPI(context, message) {
  * Call Ollama API (local)
  */
 async function callOllamaAPI(context, message) {
-    const response = await fetch(`${llmConfig.ollama.baseUrl}/api/chat`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            model: currentModel,
-            messages: [
-                { role: 'system', content: context },
-                { role: 'user', content: message }
-            ],
-            temperature: 0.7,
-            stream: false
-        })
-    });
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), OLLAMA_TIMEOUT_MS);
+
+    let response;
+    try {
+        response = await fetch(`${llmConfig.ollama.baseUrl}/api/chat`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                model: currentModel,
+                messages: [
+                    { role: 'system', content: context },
+                    { role: 'user', content: message }
+                ],
+                temperature: 0.7,
+                stream: false,
+                keep_alive: OLLAMA_KEEP_ALIVE,
+                options: {
+                    num_ctx: OLLAMA_NUM_CTX,
+                    num_predict: OLLAMA_NUM_PREDICT
+                }
+            }),
+            signal: controller.signal
+        });
+    } catch (error) {
+        if (error.name === 'AbortError') {
+            throw new Error(`Ollama timeout after ${OLLAMA_TIMEOUT_MS}ms`);
+        }
+        throw error;
+    } finally {
+        clearTimeout(timeout);
+    }
 
     if (!response.ok) {
-        throw new Error(`Ollama API Error: ${response.status}`);
+        const err = await response.json().catch(() => ({}));
+        const detail = err?.error ? `: ${err.error}` : '';
+        throw new Error(`Ollama API Error: ${response.status}${detail}`);
     }
 
     const data = await response.json();

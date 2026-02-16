@@ -288,6 +288,32 @@ class TaiaRegistry {
             capabilities: ['documentation', 'monitoring', 'synchronization']
         });
 
+        // === ARBEITSPAKET D: MULTI-AGENTEN-ROLLEN ===
+        
+        // 🎨 Frontend-Agent: UI, Tailwind, DOM
+        this.registerAgent('agent-frontend', {
+            name: 'Frontend Artisan',
+            description: 'Spezialist für UI/UX, HTML, CSS, Tailwind, DOM-Manipulation und responsive Design',
+            capabilities: ['ui-development', 'css-frameworks', 'dom-api', 'responsive-design', 'tailwind'],
+            role: 'frontend'
+        });
+
+        // ⚙️ Backend-Agent: Node.js, Express, Security
+        this.registerAgent('agent-backend', {
+            name: 'Backend Engineer',
+            description: 'Spezialist für Node.js, Express, API-Design, Datenbanken und Security-Patterns',
+            capabilities: ['nodejs', 'express', 'api-design', 'database', 'security-patterns', 'authentication'],
+            role: 'backend'
+        });
+
+        // 🛡️ QA-Agent: Der Sentinel für Bugs und Security-Lecks
+        this.registerAgent('agent-qa', {
+            name: 'Quality Sentinel',
+            description: 'Der Wächter: Findet Bugs, Security-Lecks, Performance-Probleme und Code-Smells',
+            capabilities: ['code-review', 'security-audit', 'bug-detection', 'performance-analysis', 'static-analysis'],
+            role: 'qa'
+        });
+
         // Initialisiere Standard-Skills
         this.registerSkill('READ_CODE', {
             name: 'Read Source Code',
@@ -326,6 +352,72 @@ class TaiaRegistry {
             description: 'Führe Shell-Befehle aus'
         });
 
+        // === NEUE SKILLS FÜR SPEZIALISTEN ===
+
+        // Frontend-Skills
+        this.registerSkill('WRITE_UI_CODE', {
+            name: 'Write UI Code',
+            type: 'write',
+            level: 6,
+            requires: ['READ_CODE'],
+            description: 'Schreibe HTML, CSS, Tailwind, JavaScript für UI'
+        });
+
+        this.registerSkill('MODIFY_STYLES', {
+            name: 'Modify Styles',
+            type: 'write',
+            level: 5,
+            requires: ['READ_CODE'],
+            description: 'Ändere CSS, Tailwind-Klassen, responsive Breakpoints'
+        });
+
+        // Backend-Skills
+        this.registerSkill('WRITE_API_CODE', {
+            name: 'Write API Code',
+            type: 'write',
+            level: 6,
+            requires: ['READ_CODE'],
+            description: 'Schreibe Node.js/Express API-Endpunkte, Middleware, Controller'
+        });
+
+        this.registerSkill('WRITE_DB_CODE', {
+            name: 'Write Database Code',
+            type: 'write',
+            level: 7,
+            requires: ['READ_CODE'],
+            description: 'Schreibe Datenbank-Queries, Schema-Migrationen'
+        });
+
+        this.registerSkill('IMPLEMENT_SECURITY', {
+            name: 'Implement Security',
+            type: 'write',
+            level: 8,
+            requires: ['READ_CODE'],
+            description: 'Implementiere Auth, Validation, Security-Headers, Input-Sanitization'
+        });
+
+        // QA-Skills (Quality Gate)
+        this.registerSkill('REVIEW_CODE', {
+            name: 'Review Code',
+            type: 'read',
+            level: 4,
+            description: 'Code-Review: Bugs, Security, Performance, Best Practices'
+        });
+
+        this.registerSkill('SECURITY_AUDIT', {
+            name: 'Security Audit',
+            type: 'read',
+            level: 6,
+            description: 'Sicherheits-Audit: Lecks, Injection, XSS, CSRF, etc.'
+        });
+
+        this.registerSkill('APPROVE_CHANGES', {
+            name: 'Approve Changes',
+            type: 'execute',
+            level: 8,
+            description: 'Quality Gate: Freigabe für Deployment nach erfolgreichem Review'
+        });
+
         // Gib Doc-Sentinel seine Skills
         this.assignSkill('doc-sentinel', 'READ_CODE');
         this.assignSkill('doc-sentinel', 'WRITE_DOCS');
@@ -334,6 +426,25 @@ class TaiaRegistry {
         this.assignSkill('taia-core', 'READ_CODE');
         this.assignSkill('taia-core', 'WRITE_DOCS');
         this.assignSkill('taia-core', 'MODIFY_CODE');
+
+        // === WEISE SPEZIALISTEN IHRE SKILLS ZU ===
+
+        // Frontend-Agent
+        this.assignSkill('agent-frontend', 'READ_CODE');
+        this.assignSkill('agent-frontend', 'WRITE_UI_CODE');
+        this.assignSkill('agent-frontend', 'MODIFY_STYLES');
+
+        // Backend-Agent
+        this.assignSkill('agent-backend', 'READ_CODE');
+        this.assignSkill('agent-backend', 'WRITE_API_CODE');
+        this.assignSkill('agent-backend', 'WRITE_DB_CODE');
+        this.assignSkill('agent-backend', 'IMPLEMENT_SECURITY');
+
+        // QA-Agent (Der Wächter)
+        this.assignSkill('agent-qa', 'READ_CODE');
+        this.assignSkill('agent-qa', 'REVIEW_CODE');
+        this.assignSkill('agent-qa', 'SECURITY_AUDIT');
+        this.assignSkill('agent-qa', 'APPROVE_CHANGES');
 
         this._savePermissions();
     }

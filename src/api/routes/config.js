@@ -4,14 +4,9 @@
 
 import express from 'express';
 import chalk from 'chalk';
-import { llmConfig } from './chat.js';
+import { llmConfig, getActiveLLMSelection, setActiveLLMSelection } from './chat.js';
 
 const router = express.Router();
-
-// State
-let currentProvider = process.env.GROQ_API_KEY ? 'groq' : 'ollama';
-let currentModel = process.env.GROQ_API_KEY ?
-    llmConfig.groq.model : llmConfig.ollama.model;
 
 /**
  * GET /api/models
@@ -20,6 +15,8 @@ let currentModel = process.env.GROQ_API_KEY ?
 router.get('/models', async (req, res) => {
     try {
         const models = [];
+        const seen = new Set();
+        const activeSelection = getActiveLLMSelection();
 
         // Ollama models (local)
         try {
@@ -27,12 +24,15 @@ router.get('/models', async (req, res) => {
             if (response.ok) {
                 const data = await response.json();
                 (data.models || []).forEach(m => {
+                    const key = `ollama:${m.name}`;
+                    if (seen.has(key)) return;
+                    seen.add(key);
                     models.push({
                         id: m.name,
-                        name: m.name.split(':')[0],
+                        name: m.name,
                         provider: 'ollama',
                         icon: '🖥️',
-                        active: currentProvider === 'ollama' && currentModel === m.name
+                        active: activeSelection.provider === 'ollama' && activeSelection.model === m.name
                     });
                 });
             }
@@ -51,12 +51,15 @@ router.get('/models', async (req, res) => {
                 if (response.ok) {
                     const data = await response.json();
                     (data.data || []).forEach(m => {
+                    const key = `groq:${m.id}`;
+                    if (seen.has(key)) return;
+                    seen.add(key);
                         models.push({
                             id: m.id,
                             name: m.id,
                             provider: 'groq',
                             icon: '☁️',
-                            active: currentProvider === 'groq' && currentModel === m.id
+                        active: activeSelection.provider === 'groq' && activeSelection.model === m.id
                         });
                     });
                 }
@@ -67,10 +70,7 @@ router.get('/models', async (req, res) => {
 
         res.json({
             models,
-            current: {
-                provider: currentProvider,
-                model: currentModel
-            }
+            current: activeSelection
         });
 
     } catch (error) {
@@ -93,8 +93,7 @@ router.post('/model', (req, res) => {
             });
         }
 
-        currentProvider = provider;
-        currentModel = model;
+        setActiveLLMSelection(provider, model);
 
         console.log(chalk.blue(`[Model Switch] ${provider}/${model}`));
 
@@ -116,9 +115,10 @@ router.post('/model', (req, res) => {
  * Get current configuration
  */
 router.get('/config', (req, res) => {
+    const activeSelection = getActiveLLMSelection();
     res.json({
-        current_provider: currentProvider,
-        current_model: currentModel,
+        current_provider: activeSelection.provider,
+        current_model: activeSelection.model,
         providers: {
             ollama: {
                 url: llmConfig.ollama.baseUrl,
@@ -133,4 +133,3 @@ router.get('/config', (req, res) => {
 });
 
 export default router;
-export { currentProvider, currentModel };

@@ -13,10 +13,21 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --forge-bg: #0f1115;
+            --forge-surface: #1a1f27;
+            --forge-surface-2: #232a34;
+            --forge-border: #343d49;
+            --forge-orange: #ff8f2a;
+            --forge-orange-soft: #ffb566;
+            --forge-text: #e6edf5;
+            --forge-muted: #9aa7b8;
+        }
+
         html, body {
             height: 100%;
-            background: #f4f6f9; /* Light Grey/Blue background */
-            color: #2c3e50; /* Dark Blue/Grey text */
+            background: radial-gradient(1200px 500px at 40% -20%, #2a1f13 0%, var(--forge-bg) 55%);
+            color: var(--forge-text);
             font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
         }
 
@@ -27,10 +38,10 @@
 
         /* Navbar */
         .navbar {
-            background: #4682b4 !important; /* Steel Blue */
-            border-bottom: 1px solid #36648b;
+            background: linear-gradient(90deg, #1e242d, #232a34) !important;
+            border-bottom: 1px solid var(--forge-border);
             padding: 1rem 2rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.25);
         }
 
         .navbar-brand {
@@ -66,6 +77,59 @@
         }
 
         /* Main container */
+        #main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            background: var(--forge-surface);
+            border-bottom: 1px solid var(--forge-border);
+            padding: 0 1rem;
+            gap: 0.25rem;
+        }
+
+        .tab-btn {
+            padding: 0.75rem 1.25rem;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: var(--forge-muted);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab-btn:hover {
+            color: var(--forge-text);
+            background: rgba(255, 143, 42, 0.1);
+        }
+
+        .tab-btn.active {
+            color: var(--forge-orange);
+            border-bottom-color: var(--forge-orange);
+            background: rgba(255, 143, 42, 0.15);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            flex: 1;
+            display: none;
+            overflow: hidden;
+        }
+
+        .tab-content.active {
+            display: flex;
+        }
+
+        /* Chat Container */
         #chat-container {
             flex: 1;
             display: flex;
@@ -88,6 +152,176 @@
             border-radius: 4px;
         }
 
+        /* Explorer Panel */
+        .explorer-panel {
+            width: 280px;
+            background: var(--forge-surface);
+            border-right: 1px solid var(--forge-border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .explorer-header {
+            padding: 0.75rem 1rem;
+            background: linear-gradient(90deg, #1e242d, #232a34);
+            border-bottom: 1px solid var(--forge-border);
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--forge-orange-soft);
+        }
+
+        .explorer-tree {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0.5rem;
+        }
+
+        .tree-item {
+            padding: 0.4rem 0.6rem;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .tree-item:hover {
+            background: rgba(255, 143, 42, 0.1);
+        }
+
+        .tree-item.selected {
+            background: rgba(255, 143, 42, 0.2);
+            color: var(--forge-orange);
+        }
+
+        .tree-item.directory {
+            font-weight: 500;
+        }
+
+        .tree-item.file {
+            padding-left: 1.5rem;
+        }
+
+        /* Editor Container */
+        .editor-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .editor-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: var(--forge-surface);
+            border-bottom: 1px solid var(--forge-border);
+        }
+
+        .editor-file-path {
+            font-size: 0.85rem;
+            color: var(--forge-muted);
+            font-family: 'Courier New', monospace;
+        }
+
+        .editor-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .editor-btn {
+            padding: 0.4rem 0.8rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .editor-btn.save {
+            background: linear-gradient(135deg, #ff8f2a, #ff6f1a);
+            color: #fff;
+        }
+
+        .editor-btn.save:hover {
+            opacity: 0.9;
+        }
+
+        #monaco-editor {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Diff Viewer */
+        .diff-container {
+            flex: 1;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .diff-container.active {
+            display: flex;
+        }
+
+        .diff-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: var(--forge-surface);
+            border-bottom: 1px solid var(--forge-border);
+        }
+
+        .diff-title {
+            font-weight: 600;
+            color: var(--forge-text);
+        }
+
+        .diff-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .diff-btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .diff-btn.accept {
+            background: linear-gradient(135deg, #2e7d32, #4caf50);
+            color: #fff;
+        }
+
+        .diff-btn.reject {
+            background: linear-gradient(135deg, #c62828, #f44336);
+            color: #fff;
+        }
+
+        .diff-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        #monaco-diff-editor {
+            flex: 1;
+            overflow: hidden;
+        }
+
         #chat-container::-webkit-scrollbar-thumb:hover {
             background: rgba(102, 126, 234, 0.5);
         }
@@ -104,20 +338,20 @@
         }
 
         .empty-state {
-            color: #7f8c8d;
+            color: var(--forge-muted);
         }
 
         .empty-state-icon {
             font-size: 4rem;
             margin-bottom: 1rem;
             opacity: 0.5;
-            color: #4682b4;
+            color: var(--forge-orange);
         }
         
         .empty-state-text {
             font-size: 1.5rem;
             font-weight: 600;
-            color: #4682b4;
+            color: var(--forge-orange-soft);
         }
 
         .empty-state-subtext {
@@ -160,15 +394,15 @@
         }
 
         .user-msg .message-bubble {
-            background: #4682b4; /* Steel Blue */
+            background: linear-gradient(135deg, #ff8f2a, #ff6f1a);
             color: #fff;
             border-bottom-right-radius: 2px;
         }
 
         .ai-msg .message-bubble {
-            background: #ffffff;
-            color: #2c3e50;
-            border: 1px solid #dce4ec;
+            background: var(--forge-surface);
+            color: var(--forge-text);
+            border: 1px solid var(--forge-border);
             border-bottom-left-radius: 2px;
         }
 
@@ -253,25 +487,25 @@
 
         /* Input area */
         #input-area {
-            background: #fff;
+            background: #151a22;
             padding: 1.5rem;
-            border-top: 1px solid #dce4ec;
+            border-top: 1px solid var(--forge-border);
         }
 
         .input-wrapper {
             display: flex;
             gap: 0.5rem;
-            background: #f8f9fa;
+            background: var(--forge-surface);
             padding: 0.5rem;
             border-radius: 8px;
-            border: 1px solid #dce4ec;
+            border: 1px solid var(--forge-border);
         }
 
         #userInput {
             flex: 1;
             background: transparent !important;
             border: none;
-            color: #2c3e50 !important;
+            color: var(--forge-text) !important;
             padding: 0.75rem;
             font-size: 1rem;
             transition: all 0.3s ease;
@@ -283,17 +517,13 @@
         }
 
         #userInput::placeholder {
-            color: #666 !important;
-        }
-
-        #userInput::placeholder {
-            color: #666 !important;
+            color: var(--forge-muted) !important;
         }
 
         #uploadBtn {
-            background: #f8f9fa;
-            border: 1px solid #dce4ec;
-            color: #7f8c8d;
+            background: var(--forge-surface-2);
+            border: 1px solid var(--forge-border);
+            color: var(--forge-muted);
             border-radius: 8px;
             padding: 0.75rem 1rem;
             margin-right: 0.5rem;
@@ -301,13 +531,13 @@
         }
 
         #uploadBtn:hover {
-            color: #4682b4;
-            border-color: #4682b4;
-            background: #e9ecef;
+            color: var(--forge-orange);
+            border-color: var(--forge-orange);
+            background: #2a323d;
         }
 
         #sendBtn {
-            background: #4682b4;
+            background: linear-gradient(135deg, #ff8f2a, #ff6f1a);
             border: none;
             border-radius: 6px;
             padding: 0 1.5rem;
@@ -316,8 +546,8 @@
         }
 
         #sendBtn:hover {
-            background: #36648b;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            background: #ff7d1f;
+            box-shadow: 0 4px 15px rgba(255, 143, 42, 0.35);
         }
 
         #sendBtn:active {
@@ -337,18 +567,18 @@
             align-items: center;
             gap: 1rem;
             padding: 0.75rem 1rem;
-            background: #f8f9fa;
+            background: var(--forge-surface);
             border-radius: 8px;
-            border: 1px solid #dce4ec;
+            border: 1px solid var(--forge-border);
             font-size: 0.85rem;
-            color: #2c3e50;
+            color: var(--forge-text);
         }
 
         .llm-status {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            color: #2c3e50;
+            color: var(--forge-text);
             font-weight: 500;
         }
 
@@ -363,16 +593,92 @@
 
         .wisdom-quote {
             flex: 1;
-            color: #4682b4;
+            color: var(--forge-orange-soft);
             font-style: italic;
             text-align: center;
             font-weight: 500;
             animation: fadeInOut 8s infinite;
         }
 
+        .forge-logo {
+            width: 100%;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 143, 42, 0.45);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+            margin-bottom: 1rem;
+        }
+
+        .model-sub {
+            font-size: 0.68rem;
+            color: var(--forge-muted);
+            margin-top: 0.2rem;
+            word-break: break-all;
+        }
+
+        .model-dropdown-group {
+            margin-bottom: 0.85rem;
+        }
+
+        .model-dropdown-label {
+            font-size: 0.72rem;
+            color: #ffb566;
+            margin-bottom: 0.35rem;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+        }
+
+        .model-select {
+            width: 100%;
+            background: var(--forge-surface);
+            color: var(--forge-text);
+            border: 1px solid var(--forge-border);
+            border-radius: 8px;
+            padding: 0.55rem 0.65rem;
+            font-size: 0.82rem;
+            outline: none;
+        }
+
+        .model-select:focus {
+            border-color: var(--forge-orange);
+            box-shadow: 0 0 0 2px rgba(255, 143, 42, 0.2);
+        }
+
+        .model-select option {
+            background: #10161f;
+            color: var(--forge-text);
+        }
+
+        .model-hint {
+            font-size: 0.68rem;
+            color: var(--forge-muted);
+            margin-top: 0.35rem;
+        }
+
         @keyframes fadeInOut {
             0%, 100% { opacity: 0.5; }
             50% { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(100px);
+            }
         }
 
         /* Status indicator */
@@ -381,6 +687,35 @@
             gap: 0.4rem;
             align-items: center;
             margin: 1rem 0;
+        }
+
+        .switch-progress-wrap {
+            margin-top: 0.8rem;
+        }
+
+        .switch-progress-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.82rem;
+            color: var(--forge-muted);
+            margin-bottom: 0.35rem;
+        }
+
+        .switch-progress-track {
+            width: 100%;
+            height: 8px;
+            background: #1a2029;
+            border: 1px solid var(--forge-border);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .switch-progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff8f2a, #ffb566);
+            transition: width 0.25s ease;
         }
 
         .loading-dot {
@@ -409,18 +744,18 @@
             position: fixed;
             left: 0;
             top: 0;
-            width: 200px;
+            width: 260px;
             height: 100vh;
-            background: #fff;
-            border-right: 1px solid #dce4ec;
+            background: linear-gradient(180deg, #171b22, #11151b);
+            border-right: 1px solid var(--forge-border);
             padding: 1.5rem 1rem;
             overflow-y: auto;
             z-index: 1000;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+            box-shadow: 2px 0 12px rgba(0,0,0,0.25);
         }
 
         .model-panel h3 {
-            color: #4682b4;
+            color: var(--forge-orange-soft);
             font-size: 0.85rem;
             text-transform: uppercase;
             margin-bottom: 1rem;
@@ -436,36 +771,31 @@
 
         .model-item {
             padding: 0.75rem;
-            background: #f8f9fa;
-            border: 1px solid #dce4ec;
+            background: var(--forge-surface);
+            border: 1px solid var(--forge-border);
             border-radius: 6px;
-            color: #2c3e50;
+            color: var(--forge-text);
             font-size: 0.85rem;
             cursor: pointer;
             transition: all 0.2s ease;
         }
 
         .model-item:hover {
-            background: #e9ecef;
-            color: #4682b4;
-            border-color: #4682b4;
+            background: #2c3542;
+            color: var(--forge-orange-soft);
+            border-color: var(--forge-orange);
         }
 
         .model-item.active {
-            background: #4682b4;
+            background: linear-gradient(135deg, #ff8f2a, #ff6f1a);
             color: #fff;
-            border-color: #4682b4;
+            border-color: #ff8f2a;
             font-weight: 600;
         }
 
         body {
-            margin-left: 0;
-            margin-right: 250px;
-        }
-
-        /* Hide left sidebar for now */
-        .model-panel {
-            display: none;
+            margin-left: 260px;
+            margin-right: 300px;
         }
 
         /* MD Files Panel (Right Sidebar) */
@@ -473,18 +803,18 @@
             position: fixed;
             right: 0;
             top: 0;
-            width: 250px;
+            width: 300px;
             height: 100vh;
-            background: #fff;
-            border-left: 1px solid #dce4ec;
+            background: linear-gradient(180deg, #171b22, #11151b);
+            border-left: 1px solid var(--forge-border);
             padding: 1.5rem 1rem;
             overflow-y: auto;
             z-index: 1000;
-            box-shadow: -2px 0 5px rgba(0,0,0,0.05);
+            box-shadow: -2px 0 12px rgba(0,0,0,0.25);
         }
 
         .md-panel h3 {
-            color: #4682b4;
+            color: var(--forge-orange-soft);
             font-size: 0.85rem;
             text-transform: uppercase;
             margin-bottom: 1rem;
@@ -502,10 +832,10 @@
 
         .md-file-item {
             padding: 0.75rem;
-            background: #f8f9fa;
-            border: 1px solid #dce4ec;
+            background: var(--forge-surface);
+            border: 1px solid var(--forge-border);
             border-radius: 6px;
-            color: #2c3e50;
+            color: var(--forge-text);
             font-size: 0.8rem;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -513,49 +843,49 @@
         }
 
         .md-file-item:hover {
-            background: #e9ecef;
-            color: #4682b4;
-            border-color: #4682b4;
+            background: #2c3542;
+            color: var(--forge-orange-soft);
+            border-color: var(--forge-orange);
         }
 
         .md-file-item.active {
-            background: #4682b4;
+            background: linear-gradient(135deg, #ff8f2a, #ff6f1a);
             color: #fff;
-            border-color: #4682b4;
+            border-color: #ff8f2a;
             font-weight: 600;
         }
 
         .md-preview {
             margin-top: 1rem;
             padding-top: 1rem;
-            border-top: 1px solid #dce4ec;
+            border-top: 1px solid var(--forge-border);
             font-size: 0.75rem;
-            color: #7f8c8d;
+            color: var(--forge-muted);
             max-height: 300px;
             overflow-y: auto;
         }
 
         .md-preview h4 {
-            color: #4682b4;
+            color: var(--forge-orange-soft);
             font-size: 0.8rem;
             margin-bottom: 0.5rem;
             font-weight: 600;
         }
 
         .md-preview-content {
-            background: #f8f9fa;
+            background: #121821;
             padding: 0.75rem;
             border-radius: 4px;
             line-height: 1.5;
-            border: 1px solid #dce4ec;
-            color: #2c3e50;
+            border: 1px solid var(--forge-border);
+            color: var(--forge-text);
         }
 
         /* Model Picker (moved to right bottom) */
         .md-panel .model-section {
             margin-top: auto;
             padding-top: 1.5rem;
-            border-top: 1px solid rgba(102, 126, 234, 0.3);
+            border-top: 1px solid rgba(255, 143, 42, 0.3);
         }
 
         .md-panel .model-section h3 {
@@ -571,8 +901,143 @@
             padding: 0.6rem;
         }
 
+        .approval-panel {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--forge-border);
+        }
+
+        .approval-item {
+            background: rgba(255, 143, 42, 0.1);
+            border: 1px solid rgba(255, 143, 42, 0.45);
+            border-radius: 6px;
+            padding: 0.6rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.75rem;
+            color: #ffd8ab;
+        }
+
+        .approval-actions {
+            display: flex;
+            gap: 0.4rem;
+            margin-top: 0.5rem;
+        }
+
+        .approval-actions button {
+            border: none;
+            border-radius: 4px;
+            padding: 0.3rem 0.5rem;
+            font-size: 0.72rem;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .btn-approve {
+            background: #2e7d32;
+        }
+
+        .btn-reject {
+            background: #c62828;
+        }
+
+        .task-panel {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--forge-border);
+        }
+
+        .projects-panel {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--forge-border);
+        }
+
+        .projects-panel h3 {
+            color: var(--forge-orange-soft);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .task-item {
+            background: #121821;
+            border: 1px solid var(--forge-border);
+            border-radius: 6px;
+            padding: 0.55rem;
+            margin-bottom: 0.45rem;
+            font-size: 0.72rem;
+            color: var(--forge-text);
+        }
+
+        .task-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.4rem;
+            align-items: center;
+        }
+
+        .task-badge {
+            border-radius: 999px;
+            padding: 0.12rem 0.45rem;
+            font-size: 0.66rem;
+            border: 1px solid transparent;
+            white-space: nowrap;
+        }
+
+        .task-badge.blocked {
+            background: rgba(198, 40, 40, 0.2);
+            border-color: rgba(198, 40, 40, 0.6);
+            color: #ffb3b3;
+        }
+
+        .task-meta {
+            color: var(--forge-muted);
+            margin-top: 0.35rem;
+            line-height: 1.35;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 0.3rem;
+            margin-top: 0.45rem;
+            flex-wrap: wrap;
+        }
+
+        .task-actions button {
+            border: none;
+            border-radius: 4px;
+            padding: 0.25rem 0.45rem;
+            font-size: 0.66rem;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .btn-retry {
+            background: #1565c0;
+        }
+
+        .btn-unblock {
+            background: #2e7d32;
+        }
+
+        .btn-cancel-task {
+            background: #6a1b9a;
+        }
+
         /* Responsive design */
         @media (max-width: 768px) {
+            body {
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            .model-panel,
+            .md-panel {
+                display: none;
+            }
+
             .message-bubble {
                 max-width: 85%;
             }
@@ -595,16 +1060,75 @@
 
     <!-- QUICK NAVIGATION (Left Sidebar) -->
     <div class="model-panel">
+        <img
+            class="forge-logo"
+            id="forgeLogo"
+            src="/bilder/logo_1.png?v=2"
+            alt="The Forge Logo"
+            onerror="this.onerror=null; this.src='bilder/logo_1.png?v=2';"
+        >
         <h3>🔗 Quick Links</h3>
         <div class="md-files" style="font-size: 0.8rem;">
-            <div style="padding: 0.75rem; background: #f8f9fa; border: 1px solid #dce4ec; border-radius: 6px; cursor: pointer; color: #2c3e50;" onclick="document.getElementById('userInput').focus();">
+            <div class="model-item" onclick="document.getElementById('userInput').focus();">
                 💬 Chat
             </div>
-            <div style="padding: 0.75rem; background: #f8f9fa; border: 1px solid #dce4ec; border-radius: 6px; cursor: pointer; color: #2c3e50;" onclick="alert('Memory: ' + (new Date().toLocaleDateString()));">
-                📚 View Docs
+            <div class="model-item" onclick="showNewProjectModal();">
+                🆕 Neues Projekt
             </div>
-            <div style="padding: 0.75rem; background: #f8f9fa; border: 1px solid #dce4ec; border-radius: 6px; cursor: pointer; color: #2c3e50;" onclick="alert('Models in right panel');">
-                🧠 Models
+            <div class="model-item" onclick="createTestProject();">
+                🧪 Testprojekt erstellen
+            </div>
+            <div class="model-item" onclick="window.location.href='/project-overview.html';">
+                🗂️ Projektverwaltung
+            </div>
+            <div class="model-item" onclick="loadProjectsList();">
+                📂 Projektliste laden
+            </div>
+        </div>
+
+        <!-- Projects Section -->
+        <div class="projects-panel" style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--forge-border);">
+            <h3 style="font-size: 0.8rem; color: var(--forge-orange-soft); margin-bottom: 0.75rem;">📁 Projekte</h3>
+            <div id="projectsList" class="model-list" style="max-height: 200px; overflow-y: auto;">
+                <div class="model-item" style="opacity: 0.5; font-size: 0.75rem;">Keine Projekte geladen</div>
+            </div>
+        </div>
+
+        <!-- Orchestrator Section -->
+        <div class="orchestrator-panel" style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--forge-border);">
+            <h3 style="font-size: 0.8rem; color: var(--forge-orange-soft); margin-bottom: 0.75rem;">🎛️ Orchestrator</h3>
+            <div class="model-dropdown-group" style="margin-bottom: 0.5rem;">
+                <select id="orchestratorSelect" onchange="switchOrchestratorMode(this.value)" style="
+                    width: 100%;
+                    padding: 0.55rem;
+                    background: var(--forge-surface);
+                    color: var(--forge-text);
+                    border: 1px solid var(--forge-border);
+                    border-radius: 6px;
+                    font-size: 0.8rem;
+                ">
+                    <option value="coder_llm">💻 Coder LLM</option>
+                    <option value="openclaw">🦞 OpenClaw</option>
+                </select>
+            </div>
+            <div id="orchestratorDescription" style="font-size: 0.7rem; color: var(--forge-muted); line-height: 1.4;">
+                Lade Beschreibung...
+            </div>
+        </div>
+
+        <!-- ARBEITSPAKET D: AGENTEN-STATUS -->
+        <div class="agents-panel" style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--forge-border);">
+            <h3 style="font-size: 0.8rem; color: var(--forge-orange-soft); margin-bottom: 0.75rem;">🤖 Agenten</h3>
+            <div id="agentsList" class="model-list" style="max-height: 200px; overflow-y: auto;">
+                <div class="model-item" style="opacity: 0.5; font-size: 0.75rem;">Lade Agenten...</div>
+            </div>
+        </div>
+
+        <!-- ARBEITSPAKET E: QUALITY GATE STATUS -->
+        <div class="qa-panel" style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--forge-border);">
+            <h3 style="font-size: 0.8rem; color: var(--forge-orange-soft); margin-bottom: 0.75rem;">🛡️ Quality Gate</h3>
+            <div id="qaStatusList" class="model-list" style="max-height: 150px; overflow-y: auto;">
+                <div class="model-item" style="opacity: 0.5; font-size: 0.75rem;">Keine Reviews pending</div>
             </div>
         </div>
     </div>
@@ -643,6 +1167,20 @@
                 <div class="model-list" id="modelList">
                     <div class="model-item" style="opacity: 0.5;">Loading models...</div>
                 </div>
+
+                <div class="approval-panel">
+                    <h3>🛡️ Approval Gate</h3>
+                    <div id="approvalList" class="model-list">
+                        <div class="model-item" style="opacity: 0.5;">Keine offenen Freigaben</div>
+                    </div>
+                </div>
+
+                <div class="task-panel">
+                    <h3>⛓️ Blockierte Tasks</h3>
+                    <div id="taskList" class="model-list">
+                        <div class="model-item" style="opacity: 0.5;">Keine blockierten Tasks</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -658,12 +1196,72 @@
         </div>
     </nav>
 
-    <!-- CHAT CONTAINER -->
-    <div id="chat-container">
-        <div class="empty-state">
-            <div class="empty-state-icon">⚒️</div>
-            <div class="empty-state-text">The Forge ist bereit.</div>
-            <div class="empty-state-subtext">Tippe einen Befehl für den AI-Architekten...</div>
+    <!-- MAIN CONTAINER -->
+    <div id="main-container">
+        <!-- Tab Navigation -->
+        <div class="tab-nav">
+            <button class="tab-btn active" data-tab="chat" onclick="switchTab('chat')">
+                💬 Chat
+            </button>
+            <button class="tab-btn" data-tab="editor" onclick="switchTab('editor')">
+                📝 Editor
+            </button>
+        </div>
+
+        <!-- Chat Tab -->
+        <div id="chat-tab" class="tab-content active">
+            <div id="chat-container">
+                <div class="empty-state">
+                    <div class="empty-state-icon">⚒️</div>
+                    <div class="empty-state-text">The Forge ist bereit.</div>
+                    <div class="empty-state-subtext">Tippe einen Befehl für den AI-Architekten...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Editor Tab -->
+        <div id="editor-tab" class="tab-content">
+            <!-- Explorer Panel -->
+            <div class="explorer-panel">
+                <div class="explorer-header">
+                    📁 Explorer
+                </div>
+                <div class="explorer-tree" id="explorerTree">
+                    <div style="padding: 1rem; color: var(--forge-muted); font-size: 0.85rem;">
+                        Kein Projekt geladen<br>
+                        <small>Erstelle ein neues Projekt oder wähle eines aus</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Editor Area -->
+            <div class="editor-container" id="editorContainer">
+                <div class="editor-toolbar">
+                    <span class="editor-file-path" id="currentFilePath">Keine Datei geöffnet</span>
+                    <div class="editor-actions">
+                        <button class="editor-btn save" onclick="saveCurrentFile()" id="saveBtn" style="display: none;">
+                            💾 Speichern
+                        </button>
+                    </div>
+                </div>
+                <div id="monaco-editor"></div>
+            </div>
+
+            <!-- Diff Viewer -->
+            <div class="diff-container" id="diffContainer">
+                <div class="diff-header">
+                    <span class="diff-title">🔍 Änderungen überprüfen</span>
+                    <div class="diff-actions">
+                        <button class="diff-btn reject" onclick="rejectChanges()">
+                            ✗ Verwerfen
+                        </button>
+                        <button class="diff-btn accept" onclick="acceptChanges()">
+                            ✓ Änderung akzeptieren
+                        </button>
+                    </div>
+                </div>
+                <div id="monaco-diff-editor"></div>
+            </div>
         </div>
     </div>
 
@@ -701,6 +1299,9 @@
 
     <!-- MARKED.JS FOR MARKDOWN PARSING -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <!-- MONACO EDITOR -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js"></script>
 
     <script>
         // ================================================================
@@ -772,6 +1373,37 @@
 
             chatContainer.appendChild(msgDiv);
             chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function createSwitchProgressMessage(model, provider) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'message ai-msg';
+
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble';
+
+            const icon = provider === 'groq' ? '☁️' : '🖥️';
+            bubble.innerHTML = `
+                <div><strong>${icon} Modellwechsel:</strong> ${model}</div>
+                <div class="switch-progress-wrap">
+                    <div class="switch-progress-head">
+                        <span>GPU-RAM Warmup</span>
+                        <span class="switch-progress-time">0.0s</span>
+                    </div>
+                    <div class="switch-progress-track">
+                        <div class="switch-progress-fill"></div>
+                    </div>
+                </div>
+            `;
+
+            msgDiv.appendChild(bubble);
+            chatContainer.appendChild(msgDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            const timeEl = bubble.querySelector('.switch-progress-time');
+            const fillEl = bubble.querySelector('.switch-progress-fill');
+
+            return { msgDiv, bubble, timeEl, fillEl };
         }
 
         // ================================================================
@@ -933,6 +1565,8 @@
         let currentProvider = null;
         const modelListEl = document.getElementById('modelList');
         const llmInfoEl = document.getElementById('llm-info');
+        const approvalListEl = document.getElementById('approvalList');
+        const taskListEl = document.getElementById('taskList');
 
         async function loadModels() {
             try {
@@ -949,43 +1583,94 @@
             }
         }
         
+        function splitModelId(modelId = '') {
+            const [base, ...rest] = modelId.split(':');
+            return {
+                base: base || modelId,
+                variant: rest.join(':') || 'default'
+            };
+        }
+
         function renderModelList(models) {
-            if (!models.length) {
+            const uniqueModels = Array.from(
+                new Map(models.map((m) => [`${m.provider}:${m.id}`, m])).values()
+            );
+
+            if (!uniqueModels.length) {
                 modelListEl.innerHTML = '<div class="model-item" style="opacity: 0.5;">No models available</div>';
                 return;
             }
             
-            // Group by provider
-            const ollama = models.filter(m => m.provider === 'ollama');
-            const groq = models.filter(m => m.provider === 'groq');
-            
-            let html = '';
-            
-            if (ollama.length) {
-                html += '<div style="font-size: 0.7rem; color: #667eea; margin: 0.5rem 0 0.3rem;">🖥️ LOCAL (Ollama)</div>';
-                ollama.forEach(m => {
-                    const isActive = m.id === currentModel && m.provider === currentProvider;
-                    html += `<div class="model-item ${isActive ? 'active' : ''}" data-model="${m.id}" data-provider="${m.provider}">${m.name}</div>`;
+            const ollama = uniqueModels.filter(m => m.provider === 'ollama');
+            const groq = uniqueModels.filter(m => m.provider === 'groq');
+            const buildOptions = (items, provider) => {
+                return items.map((model) => {
+                    const parsed = splitModelId(model.id);
+                    const selected = currentProvider === provider && currentModel === model.id ? 'selected' : '';
+                    const label = parsed.variant !== 'default'
+                        ? `${parsed.base} (${parsed.variant})`
+                        : parsed.base;
+                    return `<option value="${model.id}" ${selected}>${label}</option>`;
+                }).join('');
+            };
+
+            const localOptions = ollama.length
+                ? buildOptions(ollama, 'ollama')
+                : '<option value="">Keine lokalen Modelle gefunden</option>';
+            const cloudOptions = groq.length
+                ? buildOptions(groq, 'groq')
+                : '<option value="">Keine Cloud-Modelle gefunden</option>';
+
+            modelListEl.innerHTML = `
+                <div class="model-dropdown-group">
+                    <div class="model-dropdown-label">🖥️ Lokal (Ollama)</div>
+                    <select id="localModelSelect" class="model-select" ${ollama.length ? '' : 'disabled'}>
+                        ${localOptions}
+                    </select>
+                    <div class="model-hint">Ideal fuer stabile lokale Ausfuehrung.</div>
+                </div>
+                <div class="model-dropdown-group">
+                    <div class="model-dropdown-label">☁️ Cloud (Groq)</div>
+                    <select id="cloudModelSelect" class="model-select" ${groq.length ? '' : 'disabled'}>
+                        ${cloudOptions}
+                    </select>
+                    <div class="model-hint">Schnell und stark fuer Konversation.</div>
+                </div>
+            `;
+
+            const localSelect = document.getElementById('localModelSelect');
+            const cloudSelect = document.getElementById('cloudModelSelect');
+
+            if (localSelect) {
+                localSelect.addEventListener('change', () => {
+                    if (!localSelect.value) return;
+                    switchModel(localSelect.value, 'ollama');
                 });
             }
-            
-            if (groq.length) {
-                html += '<div style="font-size: 0.7rem; color: #667eea; margin: 0.5rem 0 0.3rem;">☁️ CLOUD (Groq)</div>';
-                groq.forEach(m => {
-                    const isActive = m.id === currentModel && m.provider === currentProvider;
-                    html += `<div class="model-item ${isActive ? 'active' : ''}" data-model="${m.id}" data-provider="${m.provider}">${m.name}</div>`;
+
+            if (cloudSelect) {
+                cloudSelect.addEventListener('change', () => {
+                    if (!cloudSelect.value) return;
+                    switchModel(cloudSelect.value, 'groq');
                 });
             }
-            
-            modelListEl.innerHTML = html;
-            
-            // Add click handlers
-            modelListEl.querySelectorAll('.model-item[data-model]').forEach(item => {
-                item.addEventListener('click', () => switchModel(item.dataset.model, item.dataset.provider));
-            });
         }
         
         async function switchModel(model, provider) {
+            const progressUi = createSwitchProgressMessage(model, provider);
+            const start = performance.now();
+            let progress = 6;
+            let elapsed = 0;
+            let cancelled = false;
+
+            const timer = setInterval(() => {
+                if (cancelled) return;
+                elapsed = (performance.now() - start) / 1000;
+                progress = Math.min(progress + 2.6, 92);
+                progressUi.fillEl.style.width = `${progress}%`;
+                progressUi.timeEl.textContent = `${elapsed.toFixed(1)}s`;
+            }, 120);
+
             try {
                 const res = await fetch('/api/model', {
                     method: 'POST',
@@ -996,17 +1681,49 @@
                 if (res.ok) {
                     currentModel = model;
                     currentProvider = provider;
+
+                    // Warmup request: forces model load into GPU-RAM.
+                    await fetch('/api/chat', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ message: 'Antwort nur mit: OK' })
+                    });
                     
-                    // Update UI
-                    modelListEl.querySelectorAll('.model-item').forEach(m => m.classList.remove('active'));
-                    modelListEl.querySelector(`[data-model="${model}"][data-provider="${provider}"]`)?.classList.add('active');
+                    // Update UI selections
+                    const localSelect = document.getElementById('localModelSelect');
+                    const cloudSelect = document.getElementById('cloudModelSelect');
+                    if (provider === 'ollama' && localSelect) {
+                        localSelect.value = model;
+                    }
+                    if (provider === 'groq' && cloudSelect) {
+                        cloudSelect.value = model;
+                    }
                     updateLLMInfo();
                     
+                    clearInterval(timer);
+                    elapsed = (performance.now() - start) / 1000;
+                    progressUi.fillEl.style.width = '100%';
+                    progressUi.timeEl.textContent = `${elapsed.toFixed(1)}s`;
+
                     // Notify user
                     const icon = provider === 'groq' ? '☁️' : '🖥️';
-                    appendMessage(`${icon} Model switched to: **${model}**`, false);
+                    progressUi.bubble.innerHTML = `
+                        <div><strong>${icon} Modell aktiv:</strong> ${model}</div>
+                        <div class="switch-progress-wrap">
+                            <div class="switch-progress-head">
+                                <span>GPU-RAM gewechselt / warm</span>
+                                <span>${elapsed.toFixed(1)}s</span>
+                            </div>
+                            <div class="switch-progress-track">
+                                <div class="switch-progress-fill" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                    `;
                 }
             } catch (e) {
+                cancelled = true;
+                clearInterval(timer);
+                progressUi.bubble.innerHTML = `❌ Modellwechsel fehlgeschlagen: ${e.message}`;
                 console.error('Model switch failed:', e);
             }
         }
@@ -1018,6 +1735,158 @@
         
         // Load models on startup
         loadModels();
+
+        // ================================================================
+        // APPROVAL GATE PANEL
+        // ================================================================
+        async function loadApprovals() {
+            try {
+                const res = await fetch('/api/approvals?status=WAITING_FOR_APPROVAL');
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Approval load failed');
+
+                if (!data.items || data.items.length === 0) {
+                    approvalListEl.innerHTML = '<div class="model-item" style="opacity: 0.5;">Keine offenen Freigaben</div>';
+                    return;
+                }
+
+                approvalListEl.innerHTML = data.items.map((approval) => {
+                    const taskCount = approval.payload?.tasks?.length || 0;
+                    const origin = approval.payload?.originAgentId || 'taia-core';
+                    return `
+                        <div class="approval-item">
+                            <div><strong>ID:</strong> ${approval.id}</div>
+                            <div><strong>Origin:</strong> ${origin}</div>
+                            <div><strong>Tasks:</strong> ${taskCount}</div>
+                            <div class="approval-actions">
+                                <button class="btn-approve" onclick="resolveApproval('${approval.id}', true)">Erlauben</button>
+                                <button class="btn-reject" onclick="resolveApproval('${approval.id}', false)">Blockieren</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (e) {
+                approvalListEl.innerHTML = `<div class="model-item" style="color:#c62828;">Approval Fehler: ${e.message}</div>`;
+            }
+        }
+
+        async function resolveApproval(approvalId, approved) {
+            try {
+                const res = await fetch('/api/approve', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        approvalId,
+                        approved,
+                        actor: 'forge-dashboard'
+                    })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Approval update failed');
+
+                appendMessage(`🛡️ Approval ${approvalId} → ${approved ? 'APPROVED' : 'REJECTED'}`, false);
+                loadApprovals();
+            } catch (e) {
+                appendMessage(`❌ Approval-Fehler: ${e.message}`, false);
+            }
+        }
+
+        window.resolveApproval = resolveApproval;
+        loadApprovals();
+        setInterval(loadApprovals, 5000);
+
+        async function loadBlockedTasks() {
+            try {
+                const res = await fetch('/api/bus-status');
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Bus status load failed');
+
+                const blocked = (data.items || [])
+                    .filter((item) => item.status === 'BLOCKED' || item.status === 'FAILED')
+                    .slice(0, 6);
+
+                if (blocked.length === 0) {
+                    taskListEl.innerHTML = '<div class="model-item" style="opacity: 0.5;">Keine blockierten Tasks</div>';
+                    return;
+                }
+
+                taskListEl.innerHTML = blocked.map((task) => `
+                    <div class="task-item">
+                        <div class="task-row">
+                            <strong>${task.skill || 'unknown-skill'}</strong>
+                            <span class="task-badge blocked">${task.status}</span>
+                        </div>
+                        <div class="task-meta">
+                            <div><strong>ID:</strong> ${task.id}</div>
+                            <div><strong>Agent:</strong> ${task.target || '-'}</div>
+                            <div><strong>Warum:</strong> ${task.blockedReason || 'Kein Grund protokolliert'}</div>
+                            <div><strong>Hinweis:</strong> ${task.resolutionHint || 'Retry oder Entblocken pruefen'}</div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="btn-retry" onclick="retryTask('${task.id}')">Retry</button>
+                            <button class="btn-unblock" onclick="unblockTask('${task.id}')">Entblocken</button>
+                            <button class="btn-cancel-task" onclick="cancelTask('${task.id}')">Abbrechen</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                taskListEl.innerHTML = `<div class="model-item" style="color:#c62828;">Task-Fehler: ${e.message}</div>`;
+            }
+        }
+
+        async function retryTask(taskId) {
+            try {
+                const res = await fetch(`/api/tasks/${taskId}/retry`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ actor: 'forge-dashboard', note: 'Manueller Retry aus UI' })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Retry fehlgeschlagen');
+                appendMessage(`🔁 Task ${taskId} wurde erneut in die Queue gestellt.`, false);
+                loadBlockedTasks();
+            } catch (e) {
+                appendMessage(`❌ Retry-Fehler: ${e.message}`, false);
+            }
+        }
+
+        async function unblockTask(taskId) {
+            try {
+                const res = await fetch(`/api/tasks/${taskId}/unblock`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ actor: 'forge-dashboard', note: 'Manuell entblockt aus UI' })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Entblocken fehlgeschlagen');
+                appendMessage(`🛠️ Task ${taskId} wurde entblockt (PENDING).`, false);
+                loadBlockedTasks();
+            } catch (e) {
+                appendMessage(`❌ Entblocken-Fehler: ${e.message}`, false);
+            }
+        }
+
+        async function cancelTask(taskId) {
+            try {
+                const res = await fetch(`/api/tasks/${taskId}/cancel`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ actor: 'forge-dashboard', note: 'Manuell abgebrochen aus UI' })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Abbrechen fehlgeschlagen');
+                appendMessage(`🧹 Task ${taskId} wurde als abgebrochen markiert.`, false);
+                loadBlockedTasks();
+            } catch (e) {
+                appendMessage(`❌ Abbrechen-Fehler: ${e.message}`, false);
+            }
+        }
+
+        window.retryTask = retryTask;
+        window.unblockTask = unblockTask;
+        window.cancelTask = cancelTask;
+        loadBlockedTasks();
+        setInterval(loadBlockedTasks, 7000);
 
         // ================================================================
         // WISDOM QUOTES ROTATION (8 seconds)
@@ -1106,6 +1975,457 @@
             });
         }
         
+        // ===================================
+        // PROJECT MANAGEMENT
+        // ===================================
+        let projectsList = [];
+
+        // Modal Dialog für Neues Projekt
+        const newProjectModal = document.createElement('div');
+        newProjectModal.id = 'newProjectModal';
+        newProjectModal.style.cssText = `
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        `;
+        newProjectModal.innerHTML = `
+            <div style="
+                background: var(--forge-surface);
+                border: 1px solid var(--forge-border);
+                border-radius: 12px;
+                padding: 2rem;
+                width: 90%;
+                max-width: 500px;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            ">
+                <h3 style="color: var(--forge-orange-soft); margin-bottom: 1.5rem;">🆕 Neues Projekt erstellen</h3>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; color: var(--forge-muted); font-size: 0.8rem; margin-bottom: 0.3rem;">Projektname *</label>
+                    <input type="text" id="newProjectName" style="
+                        width: 100%;
+                        padding: 0.75rem;
+                        background: var(--forge-surface-2);
+                        border: 1px solid var(--forge-border);
+                        border-radius: 6px;
+                        color: var(--forge-text);
+                        font-size: 0.95rem;
+                    " placeholder="z.B. mein-neues-projekt">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; color: var(--forge-muted); font-size: 0.8rem; margin-bottom: 0.3rem;">Zielpfad *</label>
+                    <select id="newProjectPath" style="
+                        width: 100%;
+                        padding: 0.75rem;
+                        background: var(--forge-surface-2);
+                        border: 1px solid var(--forge-border);
+                        border-radius: 6px;
+                        color: var(--forge-text);
+                        font-size: 0.95rem;
+                    ">
+                        <option value="E:\\\\_____1111____Projekte-Programmierung\\\\Antigravity">E:\\\\_____1111____Projekte-Programmierung\\\\Antigravity</option>
+                    </select>
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; color: var(--forge-muted); font-size: 0.8rem; margin-bottom: 0.3rem;">Template</label>
+                    <select id="newProjectTemplate" style="
+                        width: 100%;
+                        padding: 0.75rem;
+                        background: var(--forge-surface-2);
+                        border: 1px solid var(--forge-border);
+                        border-radius: 6px;
+                        color: var(--forge-text);
+                        font-size: 0.95rem;
+                    ">
+                        <option value="minimal">Minimal (README, ROADMAP, docs/)</option>
+                        <option value="web-app">Web-App (Frontend + Backend)</option>
+                        <option value="api-only">API-Service (Nur Backend)</option>
+                        <option value="agent-skill">Agent Skill (TAIA Skill)</option>
+                    </select>
+                </div>
+                <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+                    <button onclick="hideNewProjectModal()" style="
+                        padding: 0.6rem 1.2rem;
+                        background: var(--forge-surface-2);
+                        border: 1px solid var(--forge-border);
+                        border-radius: 6px;
+                        color: var(--forge-text);
+                        cursor: pointer;
+                        font-size: 0.9rem;
+                    ">Abbrechen</button>
+                    <button onclick="submitNewProject()" style="
+                        padding: 0.6rem 1.2rem;
+                        background: linear-gradient(135deg, #ff8f2a, #ff6f1a);
+                        border: none;
+                        border-radius: 6px;
+                        color: #fff;
+                        cursor: pointer;
+                        font-size: 0.9rem;
+                        font-weight: 600;
+                    ">Projekt erstellen</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(newProjectModal);
+
+        function showNewProjectModal() {
+            newProjectModal.style.display = 'flex';
+            document.getElementById('newProjectName').focus();
+        }
+
+        function hideNewProjectModal() {
+            newProjectModal.style.display = 'none';
+            document.getElementById('newProjectName').value = '';
+        }
+
+        async function submitNewProject() {
+            const name = document.getElementById('newProjectName').value.trim();
+            const targetPath = document.getElementById('newProjectPath').value;
+            const template = document.getElementById('newProjectTemplate').value;
+
+            if (!name) {
+                alert('Bitte gib einen Projektnamen ein.');
+                return;
+            }
+
+            if (name.length < 2) {
+                alert('Projektname muss mindestens 2 Zeichen lang sein.');
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/projects/create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, targetPath, template })
+                });
+
+                const data = await res.json();
+                
+                if (data.success) {
+                    hideNewProjectModal();
+                    appendMessage(`✅ **Projekt erstellt**: "${name}"\n\n📁 Pfad: ${data.project.path}\n📋 Template: ${template}\n🆔 ID: ${data.project.id}`, false);
+                    loadProjectsList();
+                } else {
+                    alert('Fehler: ' + data.error);
+                }
+            } catch (e) {
+                alert('Fehler beim Erstellen: ' + e.message);
+            }
+        }
+
+        async function createTestProject() {
+            if (!confirm('Testprojekt "Testprojekt-Orchestrierung" erstellen?')) {
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/projects/test', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                const data = await res.json();
+                
+                if (data.success) {
+                    if (data.created) {
+                        appendMessage(`✅ **Testprojekt erstellt**: "${data.project.name}"\n\n📁 Pfad: ${data.project.path}\n📋 Template: ${data.project.template}\n🆔 ID: ${data.project.id}`, false);
+                    } else {
+                        appendMessage(`ℹ️ **Testprojekt existiert bereits**: "${data.project.name}"`, false);
+                    }
+                    loadProjectsList();
+                } else {
+                    alert('Fehler: ' + data.error);
+                }
+            } catch (e) {
+                alert('Fehler beim Erstellen: ' + e.message);
+            }
+        }
+
+        async function loadProjectsList() {
+            try {
+                const res = await fetch('/api/projects');
+                const data = await res.json();
+                
+                if (data.success) {
+                    projectsList = data.projects;
+                    const projectsListEl = document.getElementById('projectsList');
+                    
+                    if (projectsList.length === 0) {
+                        projectsListEl.innerHTML = '<div class="model-item" style="opacity: 0.5; font-size: 0.75rem;">Keine Projekte vorhanden</div>';
+                    } else {
+                        projectsListEl.innerHTML = projectsList.map(p => `
+                            <div class="model-item" style="font-size: 0.75rem; cursor: pointer;" onclick="selectProject('${p.id}')">
+                                <div style="font-weight: 600;">${p.name}</div>
+                                <div style="font-size: 0.7rem; color: var(--forge-muted); margin-top: 0.2rem;">${p.template} • ${new Date(p.createdAt).toLocaleDateString('de-DE')}</div>
+                            </div>
+                        `).join('');
+                    }
+                }
+            } catch (e) {
+                console.error('Fehler beim Laden der Projekte:', e);
+            }
+        }
+
+        function selectProject(projectId) {
+            const project = projectsList.find(p => p.id === projectId);
+            if (project) {
+                appendMessage(`📁 **Projekt ausgewählt**: "${project.name}"\n\n📂 Pfad: ${project.path}\n📋 Template: ${project.template}\n📅 Erstellt: ${new Date(project.createdAt).toLocaleDateString('de-DE')}`, false);
+            }
+        }
+
+        window.showNewProjectModal = showNewProjectModal;
+        window.hideNewProjectModal = hideNewProjectModal;
+        window.submitNewProject = submitNewProject;
+        window.createTestProject = createTestProject;
+        window.loadProjectsList = loadProjectsList;
+        window.selectProject = selectProject;
+
+        // Lade Projekte beim Start
+        loadProjectsList();
+
+        // ===================================
+        // TAB SYSTEM & MONACO EDITOR
+        // ===================================
+        let monacoEditor = null;
+        let monacoDiffEditor = null;
+        let currentFile = null;
+        let currentFileContent = '';
+        let originalFileContent = '';
+        let loadedProjects = [];
+        let currentExplorerPath = null;
+
+        // Tab Switching
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.tab === tabName) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabName + '-tab').classList.add('active');
+
+            // Initialize Monaco if editor tab
+            if (tabName === 'editor' && !monacoEditor) {
+                initMonacoEditor();
+            }
+
+            // Resize editor when switching to editor tab
+            if (tabName === 'editor' && monacoEditor) {
+                setTimeout(() => monacoEditor.layout(), 100);
+            }
+        }
+
+        window.switchTab = switchTab;
+
+        // Initialize Monaco Editor
+        function initMonacoEditor() {
+            if (typeof require === 'undefined') {
+                console.error('Monaco loader not available');
+                return;
+            }
+            
+            require.config({ paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' }});
+            
+            require(['vs/editor/editor.main'], function() {
+                // Define custom theme matching The Forge colors
+                monaco.editor.defineTheme('forge-dark', {
+                    base: 'vs-dark',
+                    inherit: true,
+                    rules: [
+                        { token: 'keyword', foreground: 'ff8f2a', fontStyle: 'bold' },
+                        { token: 'identifier', foreground: 'ffb566' },
+                        { token: 'string', foreground: '7ee787' },
+                        { token: 'comment', foreground: '6b7280', fontStyle: 'italic' }
+                    ],
+                    colors: {
+                        'editor.background': '#0f1115',
+                        'editor.lineHighlightBackground': '#1a1f27',
+                        'editorLineNumber.foreground': '#4b5563',
+                        'editorLineNumber.activeForeground': '#ff8f2a',
+                        'editor.selectionBackground': '#ff8f2a33',
+                        'editor.inactiveSelectionBackground': '#ff8f2a22'
+                    }
+                });
+
+                // Create main editor
+                const editorContainer = document.getElementById('monaco-editor');
+                if (!editorContainer) {
+                    console.error('Editor container not found');
+                    return;
+                }
+                
+                monacoEditor = monaco.editor.create(editorContainer, {
+                    value: '// Wähle eine Datei aus dem Explorer oder erstelle ein neues Projekt',
+                    language: 'javascript',
+                    theme: 'forge-dark',
+                    fontSize: 14,
+                    fontFamily: 'JetBrains Mono, Consolas, monospace',
+                    minimap: { enabled: false },
+                    scrollBeyondLastLine: false,
+                    automaticLayout: true,
+                    lineNumbers: 'on',
+                    renderWhitespace: 'selection',
+                    tabSize: 2,
+                    wordWrap: 'on'
+                });
+
+                console.log('✅ Monaco Editor initialized');
+            });
+        }
+
+        // ===================================
+        // ORCHESTRATOR MODE
+        // ===================================
+        let currentOrchestratorMode = 'coder_llm';
+
+        async function loadOrchestratorMode() {
+            try {
+                const res = await fetch('/api/orchestrator/mode');
+                const data = await res.json();
+                
+                if (data.success) {
+                    currentOrchestratorMode = data.mode;
+                    document.getElementById('orchestratorSelect').value = data.mode;
+                    document.getElementById('orchestratorDescription').textContent = data.description;
+                }
+            } catch (e) {
+                console.error('Fehler beim Laden des Orchestrator-Modus:', e);
+                document.getElementById('orchestratorDescription').textContent = 'Fehler beim Laden';
+            }
+        }
+
+        async function switchOrchestratorMode(mode) {
+            try {
+                const res = await fetch('/api/orchestrator/mode', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mode })
+                });
+
+                const data = await res.json();
+                
+                if (data.success) {
+                    currentOrchestratorMode = mode;
+                    document.getElementById('orchestratorDescription').textContent = data.description;
+                    appendMessage(`🎛️ **Orchestrator umgeschaltet**\n\n${data.previousMode} → **${mode}**\n\n${data.description}`, false);
+                } else {
+                    alert('Fehler: ' + data.error);
+                    document.getElementById('orchestratorSelect').value = currentOrchestratorMode;
+                }
+            } catch (e) {
+                alert('Fehler beim Umschalten: ' + e.message);
+                document.getElementById('orchestratorSelect').value = currentOrchestratorMode;
+            }
+        }
+
+        window.switchOrchestratorMode = switchOrchestratorMode;
+
+        // Lade Orchestrator-Modus beim Start
+        loadOrchestratorMode();
+
+        // ===================================
+        // ARBEITSPAKET D: AGENTEN-STATUS
+        // ===================================
+        async function loadAgents() {
+            try {
+                const res = await fetch('/api/agents');
+                const data = await res.json();
+                
+                if (data.success) {
+                    const agentsListEl = document.getElementById('agentsList');
+                    
+                    if (data.agents.length === 0) {
+                        agentsListEl.innerHTML = '<div class="model-item" style="opacity: 0.5; font-size: 0.75rem;">Keine Agenten gefunden</div>';
+                    } else {
+                        const roleIcons = {
+                            'frontend': '🎨',
+                            'backend': '⚙️',
+                            'qa': '🛡️',
+                            'documentation': '📚',
+                            'general': '🤖'
+                        };
+                        
+                        agentsListEl.innerHTML = data.agents.map(agent => {
+                            const icon = roleIcons[agent.role] || '🤖';
+                            return `
+                                <div class="model-item" style="font-size: 0.75rem; cursor: pointer;" onclick="showAgentDetails('${agent.id}')">
+                                    <div style="font-weight: 600;">${icon} ${agent.name}</div>
+                                    <div style="font-size: 0.7rem; color: var(--forge-muted); margin-top: 0.2rem;">
+                                        ${agent.role || 'general'} • ${agent.skillCount} skills • ${agent.status}
+                                    </div>
+                                </div>
+                            `;
+                        }).join('');
+                    }
+                }
+            } catch (e) {
+                console.error('Fehler beim Laden der Agenten:', e);
+            }
+        }
+
+        async function showAgentDetails(agentId) {
+            try {
+                const res = await fetch(`/api/agents/${agentId}/skills`);
+                const data = await res.json();
+                
+                if (data.success) {
+                    const skillsList = data.skills.map(s => `• ${s.name}`).join('\n');
+                    appendMessage(`🤖 **Agent Details: ${data.agent.name}**\n\n📝 ${data.agent.description}\n🎭 Rolle: ${data.agent.role}\n\n**Skills:**\n${skillsList || 'Keine Skills zugewiesen'}`, false);
+                }
+            } catch (e) {
+                console.error('Fehler beim Laden der Agent-Details:', e);
+            }
+        }
+
+        window.showAgentDetails = showAgentDetails;
+
+        // Lade Agenten beim Start
+        loadAgents();
+
+        // ===================================
+        // ARBEITSPAKET E: QUALITY GATE STATUS
+        // ===================================
+        async function loadQAPending() {
+            try {
+                const res = await fetch('/api/qa/pending-reviews');
+                const data = await res.json();
+                
+                const qaStatusEl = document.getElementById('qaStatusList');
+                
+                if (data.pendingReviews.length === 0) {
+                    qaStatusEl.innerHTML = '<div class="model-item" style="opacity: 0.5; font-size: 0.75rem;">✅ Keine Reviews pending</div>';
+                } else {
+                    qaStatusEl.innerHTML = data.pendingReviews.map(review => `
+                        <div class="model-item" style="font-size: 0.75rem; background: rgba(255, 143, 42, 0.1); border-color: rgba(255, 143, 42, 0.3);">
+                            <div style="font-weight: 600;">⏳ ${review.target}</div>
+                            <div style="font-size: 0.7rem; color: var(--forge-muted); margin-top: 0.2rem;">
+                                ${review.skill} • Wartet auf QA...
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            } catch (e) {
+                console.error('Fehler beim Laden QA Status:', e);
+            }
+        }
+
+        // Periodisches Update der QA-Status
+        loadQAPending();
+        setInterval(loadQAPending, 10000); // Alle 10 Sekunden
+
         // ===================================
         // PASTE HANDLER (Ctrl+V)
         // ===================================

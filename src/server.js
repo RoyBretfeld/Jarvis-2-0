@@ -7,6 +7,11 @@ import { fileURLToPath } from 'url';
 import chalk from 'chalk';
 import multer from 'multer';
 import { lookAt } from './senses/eye.js';
+import projectsRouter from './api/routes/projects.js';
+import orchestratorRouter from './api/routes/orchestrator.js';
+import fsRouter from './api/routes/fs.js';
+import { TaiaRegistry } from './core/registry.js';
+import { AgentBus } from './core/agent_bus.js';
 
 dotenv.config();
 
@@ -19,6 +24,19 @@ const PROJECT_ROOT = path.join(__dirname, '..');
 const BODY_PATH = path.join(PROJECT_ROOT, 'body');
 
 const app = express();
+
+// ============================================================================
+// ARBEITSPAKET D & E: INITIALIZE AGENT REGISTRY & BUS
+// ============================================================================
+const registry = new TaiaRegistry();
+const agentBus = new AgentBus({ registry });
+
+// Store in app.locals for API access
+app.locals.registry = registry;
+app.locals.agentBus = agentBus;
+
+console.log(chalk.blue('[AGENT-SYSTEM] Registry & Agent Bus initialized'));
+console.log(chalk.blue(`[AGENT-SYSTEM] Registered agents: ${registry.getStats().agentCount}`));
 const PORT = process.env.PORT || 3000;
 
 // Ollama (Local)
@@ -53,6 +71,7 @@ let currentModel = GROQ_API_KEY ? GROQ_MODEL : OLLAMA_MODEL;
 // MIDDLEWARE
 // ============================================================================
 app.use(express.static(path.join(PROJECT_ROOT, 'public')));
+app.use('/bilder', express.static(path.join(PROJECT_ROOT, 'bilder')));
 app.use(bodyParser.json());
 
 // ============================================================================
@@ -314,6 +333,8 @@ ${errorDB}
 Du bist "${agentName}", ein Web-basierter AI-Architekt für wahre KI-Agenten.
 Du antwortest in Markdown-Format (nutze **fett**, *kursiv*, \`Code\`, Listen etc.)
 Du bist hilfreich, präzise und enthusiastisch.
+Identitätsregel (strikt): Du bist TAIA/The Forge und niemals ChatGPT oder OpenAI.
+Wenn der Nutzer fragt, wer du bist, antworte eindeutig als TAIA von The Forge.
 
 WICHTIG: Nutze die ERROR DATABASE oben, um bekannte Fehler zu vermeiden!
 
@@ -337,6 +358,20 @@ Beispiele:
     }
 }
 
+function sanitizeIdentityLeak(response = '') {
+    const leakPattern = /(ich bin|i am|as an ai|als ki).*(chatgpt|openai|gpt-?4|gpt)/i;
+    if (!leakPattern.test(response)) return response;
+
+    const filtered = response
+        .split('\n')
+        .filter((line) => !/(chatgpt|openai|gpt-?4|gpt)/i.test(line))
+        .join('\n')
+        .trim();
+
+    const fixedIntro = 'Ich bin TAIA von The Forge.';
+    return filtered ? `${fixedIntro}\n\n${filtered}` : fixedIntro;
+}
+
 // ============================================================================
 // API ROUTES
 // ============================================================================
@@ -347,19 +382,25 @@ Beispiele:
  */
 app.get('/api/models', async (req, res) => {
     const models = [];
+    const seen = new Set();
 
     // Fetch Ollama models (local)
     try {
         const ollamaRes = await fetch(`${OLLAMA_BASE_URL}/api/tags`);
         if (ollamaRes.ok) {
             const data = await ollamaRes.json();
-            (data.models || []).forEach(m => models.push({
-                id: m.name,
-                name: m.name.split(':')[0],
-                provider: 'ollama',
-                icon: '🖥️',
-                active: currentProvider === 'ollama' && currentModel === m.name
-            }));
+            (data.models || []).forEach(m => {
+                const key = `ollama:${m.name}`;
+                if (seen.has(key)) return;
+                seen.add(key);
+                models.push({
+                    id: m.name,
+                    name: m.name,
+                    provider: 'ollama',
+                    icon: '🖥️',
+                    active: currentProvider === 'ollama' && currentModel === m.name
+                });
+            });
         }
     } catch (e) {
         console.log(chalk.gray('[Ollama] Not available'));
@@ -373,13 +414,18 @@ app.get('/api/models', async (req, res) => {
             });
             if (groqRes.ok) {
                 const data = await groqRes.json();
-                (data.data || []).forEach(m => models.push({
-                    id: m.id,
-                    name: m.id,
-                    provider: 'groq',
-                    icon: '☁️',
-                    active: currentProvider === 'groq' && currentModel === m.id
-                }));
+                (data.data || []).forEach(m => {
+                    const key = `groq:${m.id}`;
+                    if (seen.has(key)) return;
+                    seen.add(key);
+                    models.push({
+                        id: m.id,
+                        name: m.id,
+                        provider: 'groq',
+                        icon: '☁️',
+                        active: currentProvider === 'groq' && currentModel === m.id
+                    });
+                });
             }
         } catch (e) {
             console.log(chalk.gray('[Groq] API error'));
@@ -537,6 +583,7 @@ Bitte antworte basierend auf diesem Bildinhalt.`;
             const ollamaData = await ollamaResponse.json();
             reply = ollamaData.message?.content || '';
         }
+        reply = sanitizeIdentityLeak(reply);
         let memoryUpdate = null;
         let nameUpdate = null;
         let errorUpdate = null;
@@ -626,6 +673,305 @@ app.get('/api/memory', async (req, res) => {
         const content = await fs.readFile(memoryPath, 'utf-8');
         res.json({ memory: content });
     } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Register projects routes
+app.use('/api/projects', projectsRouter);
+
+// Register orchestrator routes
+app.use('/api/orchestrator', orchestratorRouter);
+
+// Register filesystem routes
+app.use('/api/fs', fsRouter);
+
+// ============================================================================
+// ARBEITSPAKET D & E: AGENT REGISTRY & QA API
+// ============================================================================
+
+/**
+ * GET /api/agents
+ * List alle registrierten Agenten mit ihren Rollen
+ */
+app.get('/api/agents', (req, res) => {
+    try {
+        // Lazy-load registry
+        const registry = req.app.locals.registry;
+        if (!registry) {
+            return res.status(503).json({ error: 'Registry not initialized' });
+        }
+        
+        const stats = registry.getStats();
+        res.json({
+            success: true,
+            agents: stats.agents,
+            totalAgents: stats.agentCount,
+            totalSkills: stats.skillCount,
+            roles: ['frontend', 'backend', 'qa', 'documentation']
+        });
+    } catch (error) {
+        console.error(chalk.red(`[Agents API Error]: ${error.message}`));
+        res.status(500).json({ error: error.message });
+    }
+});
+
+/**
+ * GET /api/agents/:agentId/skills
+ * Skills eines spezifischen Agenten
+ */
+app.get('/api/agents/:agentId/skills', (req, res) => {
+    try {
+        const registry = req.app.locals.registry;
+        if (!registry) {
+            return res.status(503).json({ error: 'Registry not initialized' });
+        }
+        
+        const { agentId } = req.params;
+        const agent = registry.getAgent(agentId);
+        
+        if (!agent) {
+            return res.status(404).json({ error: `Agent ${agentId} not found` });
+        }
+        
+        const skills = registry.getAgentSkills(agentId);
+        
+        res.json({
+            success: true,
+            agent: {
+                id: agent.id,
+                name: agent.name,
+                role: agent.role || 'general',
+                description: agent.description
+            },
+            skills: skills
+        });
+    } catch (error) {
+        console.error(chalk.red(`[Agent Skills API Error]: ${error.message}`));
+        res.status(500).json({ error: error.message });
+    }
+});
+
+/**
+ * POST /api/qa/submit-review
+ * QA-Agent gibt Review-Ergebnis ab
+ */
+app.post('/api/qa/submit-review', async (req, res) => {
+    try {
+        const agentBus = req.app.locals.agentBus;
+        if (!agentBus) {
+            return res.status(503).json({ error: 'Agent Bus not initialized' });
+        }
+        
+        const { qaRequestId, approved, feedback, issues } = req.body;
+        
+        if (!qaRequestId || approved === undefined) {
+            return res.status(400).json({ 
+                error: 'qaRequestId und approved sind erforderlich' 
+            });
+        }
+        
+        const reviewResult = {
+            approved,
+            feedback: feedback || (approved ? 'Code approved' : 'Issues found'),
+            issues: issues || [],
+            timestamp: new Date().toISOString()
+        };
+        
+        const result = await agentBus.submitQAReview(qaRequestId, reviewResult);
+        
+        res.json({
+            success: true,
+            result,
+            message: result.message
+        });
+    } catch (error) {
+        console.error(chalk.red(`[QA Submit Error]: ${error.message}`));
+        res.status(500).json({ error: error.message });
+    }
+});
+
+/**
+ * GET /api/qa/pending-reviews
+ * Liste alle Reviews die auf QA warten
+ */
+app.get('/api/qa/pending-reviews', (req, res) => {
+    try {
+        const agentBus = req.app.locals.agentBus;
+        if (!agentBus) {
+            return res.status(503).json({ error: 'Agent Bus not initialized' });
+        }
+        
+        // Suche nach REVIEW_PENDING Status im Queue
+        const pendingReviews = [];
+        for (const [requestId, entry] of agentBus.requestQueue.entries()) {
+            if (entry.status === 'REVIEW_PENDING') {
+                pendingReviews.push({
+                    requestId,
+                    origin: entry.request.origin,
+                    target: entry.request.target,
+                    skill: entry.request.skill,
+                    timestamp: entry.request.timestamp
+                });
+            }
+        }
+        
+        res.json({
+            success: true,
+            pendingReviews,
+            count: pendingReviews.length
+        });
+    } catch (error) {
+        console.error(chalk.red(`[QA Pending Error]: ${error.message}`));
+        res.status(500).json({ error: error.message });
+    }
+});
+
+/**
+ * GET /api/bus-status
+ * Status aller Bus-Requests
+ */
+app.get('/api/bus-status', (req, res) => {
+    try {
+        const agentBus = req.app.locals.agentBus;
+        if (!agentBus) {
+            return res.status(503).json({ error: 'Agent Bus not initialized' });
+        }
+        
+        const requests = [];
+        for (const [requestId, entry] of agentBus.requestQueue.entries()) {
+            requests.push({
+                id: requestId,
+                status: entry.status,
+                origin: entry.request?.origin,
+                target: entry.request?.target,
+                skill: entry.request?.skill,
+                result: entry.response?.result,
+                timestamp: entry.request?.timestamp
+            });
+        }
+        
+        res.json({
+            status: 'ok',
+            requests: requests,
+            count: requests.length
+        });
+    } catch (error) {
+        console.error(chalk.red(`[Bus Status Error]: ${error.message}`));
+        res.status(500).json({ error: error.message });
+    }
+});
+
+/**
+ * POST /api/projects/pack
+ * Erstellt Projekt-Dump für LLM-Analyse
+ */
+app.post('/api/projects/pack', async (req, res) => {
+    try {
+        const { projectPath } = req.body;
+        if (!projectPath) {
+            return res.status(400).json({ error: 'projectPath required' });
+        }
+        
+        // Einfacher Pack-Algorithmus
+        const fs = await import('fs/promises');
+        const path = await import('path');
+        
+        async function collectFiles(dir, basePath, maxFiles = 50) {
+            const files = [];
+            const entries = await fs.readdir(dir, { withFileTypes: true });
+            
+            for (const entry of entries.slice(0, maxFiles)) {
+                if (entry.name.startsWith('.') || entry.name === 'node_modules') continue;
+                
+                const fullPath = path.join(dir, entry.name);
+                if (entry.isDirectory()) {
+                    files.push(`[DIR] ${path.relative(basePath, fullPath)}`);
+                } else if (entry.isFile() && entry.size < 50000) {
+                    try {
+                        const content = await fs.readFile(fullPath, 'utf8');
+                        const relPath = path.relative(basePath, fullPath);
+                        files.push(`\n--- FILE: ${relPath} ---\n${content.substring(0, 5000)}`);
+                    } catch (e) {
+                        files.push(`[FILE] ${path.relative(basePath, fullPath)} (binary)`);
+                    }
+                }
+            }
+            return files.join('\n');
+        }
+        
+        const dumpContent = await collectFiles(projectPath, projectPath);
+        const sizeKB = Math.round(dumpContent.length / 1024);
+        const fileCount = (dumpContent.match(/--- FILE:/g) || []).length;
+        
+        res.json({
+            success: true,
+            dumpContent,
+            sizeKB,
+            fileCount
+        });
+    } catch (error) {
+        console.error(chalk.red(`[Pack Error]: ${error.message}`));
+        res.status(500).json({ error: error.message });
+    }
+});
+
+/**
+ * POST /api/projects/analyze
+ * LLM-Analyse des Projekt-Dumps
+ */
+app.post('/api/projects/analyze', async (req, res) => {
+    try {
+        const { dumpContent, projectName } = req.body;
+        if (!dumpContent) {
+            return res.status(400).json({ error: 'dumpContent required' });
+        }
+        
+        const prompt = `Analysiere dieses Projekt und erstelle eine präzise Zusammenfassung:
+
+Projekt: ${projectName || 'Unbekannt'}
+
+DUMP (erste 10000 Zeichen):
+${dumpContent.substring(0, 10000)}
+
+Format:
+1) **Projekttyp**: (Web-App, API, Library, etc.)
+2) **Tech-Stack**: (Frameworks, Sprachen, DB)
+3) **Struktur**: (Ordner, wichtige Dateien)
+4) **Status**: (Was ist bereits implementiert?)
+5) **Empfohlene Next Steps**: (Was sollte als nächstes gebaut werden?)
+
+Antwort auf Deutsch, kurz und prägnant.`;
+
+        // LLM-Call
+        const GROQ_API_KEY = process.env.GROQ_API_KEY;
+        const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${GROQ_API_KEY}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                model: 'llama-3.3-70b-versatile',
+                messages: [{ role: 'user', content: prompt }],
+                temperature: 0.3,
+                max_tokens: 1000
+            })
+        });
+        
+        if (!groqResponse.ok) {
+            throw new Error('LLM API Error');
+        }
+        
+        const groqData = await groqResponse.json();
+        const analysis = groqData.choices?.[0]?.message?.content || 'Keine Analyse verfügbar';
+        
+        res.json({
+            success: true,
+            analysis
+        });
+    } catch (error) {
+        console.error(chalk.red(`[Analyze Error]: ${error.message}`));
         res.status(500).json({ error: error.message });
     }
 });

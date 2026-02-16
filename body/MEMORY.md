@@ -42,3 +42,4 @@
 * [2026-02-03] Geänderte Identität: Forge wurde zu Jarvis
 * [2026-02-04] Erster Kontakt mit Benutzer hergestellt
 * [2026-02-04] Erster Kontakt mit Benutzer hergestellt
+* [2026-02-16] Zum Speichern wichtiger Informationen für zukünftige Gespräche

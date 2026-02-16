@@ -27,3 +27,4 @@ Thumbs.db
 # IDE
 .claude/settings.local.json
 *.code-workspace
+nul

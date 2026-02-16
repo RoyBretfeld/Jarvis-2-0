@@ -11,10 +11,13 @@
  */
 
 import express from 'express';
+import fs from 'fs/promises';
+import path from 'path';
 import { MetricsBridge } from './core/metrics_bridge.js';
 
 const app = express();
 const PORT = process.env.DASHBOARD_PORT || 3001;
+const BUS_PATH = path.join(process.cwd(), 'brain', 'bus');
 
 // Initialize metrics collector
 const metrics = new MetricsBridge({
@@ -23,6 +26,65 @@ const metrics = new MetricsBridge({
 
 // Start metric collection
 metrics.startCollection();
+
+async function getBusStatusPayload() {
+    const exists = await fs.access(BUS_PATH).then(() => true).catch(() => false);
+    if (!exists) {
+        return {
+            total: 0,
+            pending: 0,
+            running: 0,
+            success: 0,
+            failed: 0,
+            items: []
+        };
+    }
+
+    const files = await fs.readdir(BUS_PATH);
+    const requestFiles = files.filter((f) => f.endsWith('.json') && !f.startsWith('resp_'));
+    const responseFiles = files.filter((f) => f.startsWith('resp_') && f.endsWith('.json'));
+
+    const responseMap = new Map();
+    for (const responseFile of responseFiles) {
+        try {
+            const responseRaw = await fs.readFile(path.join(BUS_PATH, responseFile), 'utf-8');
+            const response = JSON.parse(responseRaw);
+            responseMap.set(response.requestId, response);
+        } catch {
+            // ignore malformed response files
+        }
+    }
+
+    const items = [];
+    for (const requestFile of requestFiles) {
+        try {
+            const requestRaw = await fs.readFile(path.join(BUS_PATH, requestFile), 'utf-8');
+            const request = JSON.parse(requestRaw);
+            const response = responseMap.get(request.id);
+
+            items.push({
+                id: request.id,
+                target: request.target,
+                skill: request.skill,
+                status: response?.status || request.status || 'PENDING',
+                timestamp: request.timestamp
+            });
+        } catch {
+            // ignore malformed request files
+        }
+    }
+
+    items.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+    return {
+        total: items.length,
+        pending: items.filter((i) => i.status === 'PENDING').length,
+        running: items.filter((i) => i.status === 'RUNNING').length,
+        success: items.filter((i) => i.status === 'SUCCESS').length,
+        failed: items.filter((i) => i.status === 'FAILED').length,
+        items
+    };
+}
 
 // Middleware
 app.use(express.static('public'));
@@ -39,6 +101,7 @@ app.set('views', './src/views');
  */
 app.get('/', async (req, res) => {
     const status = metrics.getStatusJSON();
+    const bus = await getBusStatusPayload();
 
     res.send(`
 <!DOCTYPE html>
@@ -200,6 +263,38 @@ app.get('/', async (req, res) => {
         .memory-tier.archive {
             border-left-color: #3fb950;
         }
+
+        .status-pill {
+            display: inline-block;
+            border-radius: 12px;
+            padding: 2px 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .pill-pending { background: #f0883e33; color: #f0883e; }
+        .pill-running { background: #58a6ff33; color: #58a6ff; }
+        .pill-success { background: #3fb95033; color: #3fb950; }
+        .pill-failed { background: #f8514933; color: #f85149; }
+
+        .bus-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 0.85rem;
+        }
+
+        .bus-table th,
+        .bus-table td {
+            text-align: left;
+            border-bottom: 1px solid #21262d;
+            padding: 6px 4px;
+        }
+
+        .bus-table th {
+            color: #8b949e;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -283,6 +378,43 @@ app.get('/', async (req, res) => {
                     </span>
                 </div>
             </div>
+
+            <!-- Agent Bus Live -->
+            <div class="metric-card" style="grid-column: 1 / -1;">
+                <h3>🧵 Agent Bus Live (Glass-Box)</h3>
+                <div class="metrics-grid" style="margin-bottom: 10px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
+                    <div class="metric-item"><span class="metric-label">Total</span><span class="metric-value">${bus.total}</span></div>
+                    <div class="metric-item"><span class="metric-label">Pending</span><span class="metric-value status-warning">${bus.pending}</span></div>
+                    <div class="metric-item"><span class="metric-label">Running</span><span class="metric-value">${bus.running}</span></div>
+                    <div class="metric-item"><span class="metric-label">Success</span><span class="metric-value status-good">${bus.success}</span></div>
+                    <div class="metric-item"><span class="metric-label">Failed</span><span class="metric-value status-critical">${bus.failed}</span></div>
+                </div>
+                <table class="bus-table">
+                    <thead>
+                        <tr>
+                            <th>Agent</th>
+                            <th>Skill</th>
+                            <th>Status</th>
+                            <th>Zeit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${bus.items.slice(0, 12).map((item) => `
+                        <tr>
+                            <td>${item.target || '-'}</td>
+                            <td>${item.skill || '-'}</td>
+                            <td>
+                                <span class="status-pill ${item.status === 'SUCCESS' ? 'pill-success' : item.status === 'FAILED' ? 'pill-failed' : item.status === 'RUNNING' ? 'pill-running' : 'pill-pending'}">
+                                    ${item.status}
+                                </span>
+                            </td>
+                            <td>${new Date(item.timestamp).toLocaleTimeString('de-DE')}</td>
+                        </tr>
+                        `).join('')}
+                        ${bus.items.length === 0 ? '<tr><td colspan="4" style="color:#8b949e;">Keine Bus-Requests gefunden.</td></tr>' : ''}
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div class="footer">
@@ -298,7 +430,7 @@ app.get('/', async (req, res) => {
     </div>
 
     <script>
-        // Auto-refresh metrics
+        // Auto-refresh metrics + bus status
         setInterval(() => {
             location.reload();
         }, 5000);
@@ -323,6 +455,22 @@ app.get('/api/metrics', (req, res) => {
 app.get('/api/metrics/markdown', (req, res) => {
     res.header('Content-Type', 'text/markdown');
     res.send(metrics.getMarkdownReport());
+});
+
+/**
+ * GET /api/bus-status
+ * JSON Agent Bus Status Endpoint
+ */
+app.get('/api/bus-status', async (req, res) => {
+    try {
+        const payload = await getBusStatusPayload();
+        res.json({
+            status: 'ok',
+            ...payload
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
 /**

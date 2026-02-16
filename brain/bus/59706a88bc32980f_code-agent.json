@@ -1,0 +1,23 @@
+{
+  "id": "59706a88bc32980f",
+  "timestamp": "2026-02-15T17:40:58.227Z",
+  "origin": "taia-core",
+  "target": "code-agent",
+  "parentToken": "8246ac0586e3",
+  "skill": "MODIFY_CODE",
+  "payload": {
+    "file": "src/test.js",
+    "action": "create module"
+  },
+  "quota": {
+    "maxTime": 120000,
+    "maxCalls": 20
+  },
+  "status": "SUCCESS",
+  "metadata": {
+    "workerId": "code-agent",
+    "startedAt": "2026-02-15T17:40:59.361Z",
+    "finishedAt": "2026-02-15T17:41:00.197Z",
+    "batchId": "8246ac0586e3"
+  }
+}

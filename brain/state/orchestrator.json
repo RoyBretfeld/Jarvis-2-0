@@ -1,0 +1,17 @@
+{
+  "mode": "coder_llm",
+  "version": "1.0.0",
+  "lastChanged": "2026-02-16T18:57:37.060Z",
+  "history": [
+    {
+      "from": "coder_llm",
+      "to": "openclaw",
+      "timestamp": "2026-02-16T18:11:50.595Z"
+    },
+    {
+      "from": "openclaw",
+      "to": "coder_llm",
+      "timestamp": "2026-02-16T18:57:37.060Z"
+    }
+  ]
+}

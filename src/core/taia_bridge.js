@@ -31,6 +31,8 @@ class TAIABridge {
 
         // Registry reference (injected later to avoid circular deps)
         this.registry = options.registry || null;
+        this.ioQueue = Promise.resolve();
+        this.ioQueueDepth = 0;
 
         console.log(chalk.blue(`[TAIA-INIT] Bridge v${this.version} initialized: ${this.namespace}`));
         console.log(chalk.yellow(`[VERITAS] Integrity checks ENABLED - no simulations allowed`));
@@ -236,9 +238,12 @@ class TAIABridge {
 
         try {
             console.log(chalk.cyan(`[TAIA-CALL] ${toolName} (${callId})`));
+            const runLogic = async () => toolLogic(args);
 
-            // Führe das Tool aus
-            const result = await toolLogic(args);
+            // Mutating calls are serialized to avoid race conditions (git index.lock, overwrite conflicts)
+            const result = this._isMutatingTool(toolName)
+                ? await this._enqueueMutatingOperation(toolName, runLogic)
+                : await runLogic();
 
             // Auditlog Entry SUCCESS
             await this.appendAuditLog(`- **Status:** SUCCESS\n- **Result:** ${JSON.stringify(result).substring(0, 200)}...\n`);
@@ -329,6 +334,82 @@ ${chalk.yellow('Aktion erforderlich: Benutzer muss diesen Fund bestätigen oder 
         } catch (error) {
             console.warn(chalk.yellow(`[TAIA-WARN] Could not write audit log: ${error.message}`));
         }
+    }
+
+    _isMutatingTool(toolName = '') {
+        const normalized = String(toolName || '').toLowerCase();
+        const mutatingTools = [
+            'write_file',
+            'writefile',
+            'apply_patch',
+            'applypatch',
+            'edit',
+            'delete',
+            'command',
+            'shell',
+            'git'
+        ];
+
+        return mutatingTools.some((name) => normalized.includes(name));
+    }
+
+    async _enqueueMutatingOperation(label, operation) {
+        this.ioQueueDepth += 1;
+        const position = this.ioQueueDepth;
+        console.log(chalk.yellow(`[TAIA-QUEUE] ${label} queued (position=${position})`));
+
+        const next = this.ioQueue
+            .then(async () => {
+                console.log(chalk.yellow(`[TAIA-QUEUE] ${label} started`));
+                return operation();
+            })
+            .finally(() => {
+                this.ioQueueDepth = Math.max(0, this.ioQueueDepth - 1);
+            });
+
+        // Keep chain alive even when a task fails
+        this.ioQueue = next.catch(() => { });
+        return next;
+    }
+
+    checkSentinelBlacklist(command = '') {
+        const normalized = String(command || '').toLowerCase();
+        const blocked = [
+            'rm -rf /',
+            'git reset --hard',
+            'format c:',
+            'del /f /q',
+            'shutdown /s'
+        ];
+
+        if (blocked.some((entry) => normalized.includes(entry))) {
+            throw new Error(`[SENTINEL] Command blocked by blacklist: ${command}`);
+        }
+    }
+
+    /**
+     * Liberty-Enforcer: einzige sichere Ausführungsschiene für Worker-IO
+     */
+    async safeExecuteTool(type, payload = {}, executor = null) {
+        const label = `${type}:${payload.path || payload.command || 'n/a'}`;
+
+        return this._enqueueMutatingOperation(label, async () => {
+            // §2 Revidierbarkeit: Git checkpoint vor mutierenden Aktionen
+            if (type === 'WRITE_FILE' || type === 'EXEC_COMMAND') {
+                await this.gitCheckpoint(`[SAFE-EXEC] ${label}`);
+            }
+
+            if (type === 'EXEC_COMMAND') {
+                this.checkSentinelBlacklist(payload.command || '');
+            }
+
+            if (typeof executor === 'function') {
+                return executor();
+            }
+
+            // Default: no-op if no executor function was provided
+            return { success: true, type, payload };
+        });
     }
 
     /**

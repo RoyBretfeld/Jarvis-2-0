@@ -3,5 +3,16 @@
   "doc-sentinel:WRITE_DOCS": true,
   "taia-core:READ_CODE": true,
   "taia-core:WRITE_DOCS": true,
-  "taia-core:MODIFY_CODE": true
+  "taia-core:MODIFY_CODE": true,
+  "agent-frontend:READ_CODE": true,
+  "agent-frontend:WRITE_UI_CODE": true,
+  "agent-frontend:MODIFY_STYLES": true,
+  "agent-backend:READ_CODE": true,
+  "agent-backend:WRITE_API_CODE": true,
+  "agent-backend:WRITE_DB_CODE": true,
+  "agent-backend:IMPLEMENT_SECURITY": true,
+  "agent-qa:READ_CODE": true,
+  "agent-qa:REVIEW_CODE": true,
+  "agent-qa:SECURITY_AUDIT": true,
+  "agent-qa:APPROVE_CHANGES": true
 }

@@ -1,0 +1,22 @@
+{
+  "id": "f41796b71b3e4658",
+  "timestamp": "2026-02-15T17:47:50.526Z",
+  "origin": "taia-core",
+  "target": "code-agent",
+  "parentToken": null,
+  "skill": "MODIFY_CODE",
+  "payload": {
+    "test": true
+  },
+  "quota": {
+    "maxTime": 60000,
+    "maxCalls": 10
+  },
+  "status": "SUCCESS",
+  "metadata": {
+    "workerId": "code-agent",
+    "startedAt": "2026-02-15T17:47:50.739Z",
+    "finishedAt": "2026-02-15T17:47:51.002Z",
+    "batchId": null
+  }
+}

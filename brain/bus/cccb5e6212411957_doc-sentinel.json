@@ -1,0 +1,23 @@
+{
+  "id": "cccb5e6212411957",
+  "timestamp": "2026-02-15T17:40:58.228Z",
+  "origin": "taia-core",
+  "target": "doc-sentinel",
+  "parentToken": "8246ac0586e3",
+  "skill": "WRITE_DOCS",
+  "payload": {
+    "file": "docs/test.md",
+    "action": "document module"
+  },
+  "quota": {
+    "maxTime": 120000,
+    "maxCalls": 20
+  },
+  "status": "SUCCESS",
+  "metadata": {
+    "workerId": "doc-sentinel",
+    "startedAt": "2026-02-15T17:40:59.812Z",
+    "finishedAt": "2026-02-15T17:41:00.559Z",
+    "batchId": "8246ac0586e3"
+  }
+}

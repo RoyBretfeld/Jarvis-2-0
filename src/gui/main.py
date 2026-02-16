@@ -303,7 +303,9 @@ with col1:
 with col2:
     st.metric("💾 Disk Access", "GRANTED", "body/ writable")
 with col3:
-    st.metric("🧠 LLM", "Groq", "llama-3.3-70b")
+    current_provider = getattr(agent.llm, "active_provider", "unknown").upper()
+    current_model = getattr(agent.llm, "active_model", "n/a")
+    st.metric("🧠 LLM", current_provider, current_model)
 
 st.divider()
 

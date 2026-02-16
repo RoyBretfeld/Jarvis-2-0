@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="de" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🗂️ The Forge | Projektverwaltung</title>
+    <style>
+        :root {
+            --bg: #0f1115;
+            --surface: #1a1f27;
+            --surface2: #121821;
+            --border: #343d49;
+            --text: #e6edf5;
+            --muted: #9aa7b8;
+            --accent: #ff8f2a;
+            --accentSoft: #ffb566;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --error: #f44336;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            color: var(--text);
+            background: radial-gradient(1200px 500px at 40% -20%, #2a1f13 0%, var(--bg) 55%);
+        }
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid var(--border);
+            background: linear-gradient(90deg, #1e242d, #232a34);
+        }
+        .title { color: var(--accentSoft); font-weight: 700; }
+        .back-link {
+            color: var(--muted);
+            text-decoration: none;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            padding: 0.35rem 0.55rem;
+            font-size: 0.85rem;
+        }
+        .back-link:hover { border-color: var(--accent); color: var(--text); }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 300px 1fr 400px;
+            gap: 1rem;
+            height: calc(100vh - 58px);
+            padding: 1rem;
+        }
+        
+        .panel {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        h3 {
+            margin: 0 0 0.75rem;
+            font-size: 0.85rem;
+            color: var(--accentSoft);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .root-path {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.6rem;
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-bottom: 0.75rem;
+            font-family: monospace;
+            word-break: break-all;
+        }
+
+        .project-list {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .project-item {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.6rem 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .project-item:hover {
+            border-color: var(--accent);
+            background: rgba(255, 143, 42, 0.1);
+        }
+
+        .project-item.active {
+            border-color: var(--accent);
+            background: rgba(255, 143, 42, 0.15);
+        }
+
+        .project-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .project-path {
+            color: var(--muted);
+            font-size: 0.7rem;
+            margin-top: 0.15rem;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 6px;
+            padding: 0.5rem 0.75rem;
+            color: #fff;
+            background: #2b3440;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn.primary {
+            background: linear-gradient(135deg, #ff8f2a, #ff6f1a);
+            font-weight: 600;
+        }
+
+        .btn.success {
+            background: linear-gradient(135deg, #2e7d32, var(--success));
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .folder-tree {
+            flex: 1;
+            overflow-y: auto;
+            font-size: 0.85rem;
+        }
+
+        .tree-item {
+            padding: 0.3rem 0.5rem;
+            cursor: pointer;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .tree-item:hover {
+            background: rgba(255, 143, 42, 0.1);
+        }
+
+        .tree-item.file {
+            padding-left: 1.25rem;
+            color: var(--muted);
+            font-size: 0.8rem;
+        }
+
+        /* TASK BEREICH */
+        .task-section {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 2px solid var(--border);
+        }
+
+        .agent-select {
+            width: 100%;
+            padding: 0.5rem;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .task-input {
+            width: 100%;
+            min-height: 100px;
+            padding: 0.6rem;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.85rem;
+            resize: vertical;
+        }
+
+        .task-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        /* RECHTE SPALTE - STATUS */
+        .status-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .status-card {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.75rem;
+        }
+
+        .status-card h4 {
+            margin: 0 0 0.5rem;
+            font-size: 0.8rem;
+            color: var(--accentSoft);
+        }
+
+        .task-list {
+            max-height: 150px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .task-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .task-item.pending {
+            border-left: 3px solid var(--warning);
+        }
+
+        .task-item.review {
+            border-left: 3px solid var(--accent);
+        }
+
+        .task-item.success {
+            border-left: 3px solid var(--success);
+        }
+
+        .task-item.failed {
+            border-left: 3px solid var(--error);
+        }
+
+        .task-status {
+            font-size: 0.7rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
+        }
+
+        /* ERGEBNIS ANZEIGE */
+        .result-box {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.75rem;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            white-space: pre-wrap;
+        }
+
+        .diff-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .loading, .empty-state {
+            text-align: center;
+            color: var(--muted);
+            padding: 2rem 1rem;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        .modal {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            width: 90%;
+            max-width: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div class="topbar">
+        <div class="title">🗂️ The Forge | Projektverwaltung</div>
+        <a class="back-link" href="/">← Zurück zum Chat</a>
+    </div>
+
+    <div class="layout">
+        <!-- SPALTE 1: PROJEKTE -->
+        <div class="panel">
+            <h3>📁 WORKSPACE</h3>
+            <div class="root-path">E:\_____1111____Projekte-Programmierung\Antigravity</div>
+            
+            <h3>📂 PROJEKTE</h3>
+            <div id="projectList" class="project-list">
+                <div class="loading">Lade Projekte...</div>
+            </div>
+
+            <div class="actions">
+                <button class="btn primary" onclick="showCreateModal()">➕ Neu</button>
+                <button class="btn" onclick="loadProjects()">🔄</button>
+            </div>
+        </div>
+
+        <!-- SPALTE 2: ORDNER & TASK -->
+        <div class="panel">
+            <h3>📂 ORDNERSTRUKTUR</h3>
+            <div id="folderTree" class="folder-tree" style="max-height: 45%;">
+                <div class="empty-state">Wähle ein Projekt</div>
+            </div>
+
+            <div class="task-section">
+                <h3>📝 TASK AN AGENTEN</h3>
+                
+                <select id="agentSelect" class="agent-select">
+                    <option value="agent-frontend">🎨 Frontend-Agent (UI, HTML, CSS)</option>
+                    <option value="agent-backend">⚙️ Backend-Agent (API, Node.js)</option>
+                    <option value="agent-qa">🛡️ QA-Agent (Review, Security)</option>
+                </select>
+
+                <textarea id="taskInput" class="task-input" placeholder="Beschreibe hier was entwickelt werden soll...&#10;&#10;Beispiel:&#10;Erstelle einen Taschenrechner in HTML mit Tailwind CSS. Er soll Grundrechenarten können und modern aussehen."></textarea>
+
+                <div class="actions">
+                    <button class="btn" onclick="loadContext()">📖 Kontext</button>
+                    <button class="btn success" onclick="sendTask()" id="sendBtn" disabled>🚀 An Agent senden</button>
+                </div>
+                
+                <div id="taskMsg" style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--muted);"></div>
+            </div>
+        </div>
+
+        <!-- SPALTE 3: KONTEXT, STATUS & ERGEBNISSE -->
+        <div class="panel status-panel">
+            <h3>🧠 PROJEKT KONTEXT (LLM)</h3>
+            <div class="status-card" style="max-height: 35%; overflow-y: auto;">
+                <div id="projectContext" style="font-size: 0.8rem; line-height: 1.5;">
+                    <div class="empty-state" style="padding: 0.5rem;">Klicke "📖 Kontext laden" für Projekt-Analyse</div>
+                </div>
+                <div class="actions" style="margin-top: 0.5rem; padding-top: 0.5rem;">
+                    <button class="btn" onclick="analyzeProjectWithLLM()" id="analyzeBtn" disabled>🧠 Dump analysieren</button>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 0.5rem;">🔄 TASK STATUS</h3>
+            <div class="status-card">
+                <div id="activeTasks" class="task-list">
+                    <div class="empty-state" style="padding: 1rem;">Keine aktiven Tasks</div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 0.5rem;">✅ ERGEBNIS</h3>
+            <div class="status-card" style="flex: 1;">
+                <div id="resultBox" style="height: 100%;">
+                    <div class="empty-state">Hier erscheint das Ergebnis nachdem der Agent fertig ist</div>
+                </div>
+            </div>
+
+            <div class="actions" id="resultActions" style="display: none;">
+                <button class="btn" onclick="rejectResult()">❌ Ablehnen</button>
+                <button class="btn success" onclick="acceptResult()">✅ Übernehmen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Neues Projekt -->
+    <div id="createModal" class="modal-overlay">
+        <div class="modal">
+            <h3>🆕 Neues Projekt</h3>
+            <input type="text" id="newProjectName" class="agent-select" placeholder="Projektname" style="margin-bottom: 0.75rem;">
+            <select id="newProjectTemplate" class="agent-select">
+                <option value="minimal">Minimal</option>
+                <option value="web-app">Web-App</option>
+                <option value="api-only">API-Service</option>
+            </select>
+            <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
+                <button class="btn" onclick="hideCreateModal()">Abbrechen</button>
+                <button class="btn primary" onclick="createProject()">Erstellen</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ROOT_PATH = 'E:\\\\_____1111____Projekte-Programmierung\\\\Antigravity';
+        let projects = [];
+        let selectedProject = null;
+        let activeTaskId = null;
+
+        // Lade Projekte
+        async function loadProjects() {
+            try {
+                const res = await fetch(`/api/fs/list?path=${encodeURIComponent(ROOT_PATH)}`);
+                const data = await res.json();
+                
+                if (data.success) {
+                    projects = data.items.filter(i => i.type === 'directory');
+                    renderProjects();
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function renderProjects() {
+            const list = document.getElementById('projectList');
+            if (projects.length === 0) {
+                list.innerHTML = '<div class="empty-state">Keine Projekte</div>';
+                return;
+            }
+            
+            list.innerHTML = projects.map((p, i) => `
+                <div class="project-item" data-idx="${i}" onclick="selectProject(${i})">
+                    <div class="project-name">📁 ${p.name}</div>
+                    <div class="project-path">${p.path}</div>
+                </div>
+            `).join('');
+        }
+
+        async function selectProject(idx) {
+            selectedProject = projects[idx];
+            
+            document.querySelectorAll('.project-item').forEach(el => el.classList.remove('active'));
+            document.querySelector(`[data-idx="${idx}"]`).classList.add('active');
+            
+            document.getElementById('sendBtn').disabled = false;
+            document.getElementById('analyzeBtn').disabled = false;
+            
+            // Reset Kontext
+            document.getElementById('projectContext').innerHTML = 
+                '<div class="empty-state" style="padding: 0.5rem;">Klicke "🧠 Dump analysieren" für LLM-Zusammenfassung</div>';
+            
+            // Lade Ordner
+            const tree = document.getElementById('folderTree');
+            tree.innerHTML = '<div class="loading">Lade...</div>';
+            
+            try {
+                const res = await fetch(`/api/fs/list?path=${encodeURIComponent(selectedProject.path)}`);
+                const data = await res.json();
+                
+                if (data.success) {
+                    tree.innerHTML = data.items.map(item => {
+                        const icon = item.type === 'directory' ? '📁' : '📄';
+                        return `<div class="tree-item ${item.type}"><span>${icon}</span><span>${item.name}</span></div>`;
+                    }).join('');
+                }
+            } catch (e) {
+                tree.innerHTML = '<div class="error">Fehler beim Laden</div>';
+            }
+            
+            updateStatusMsg(`Projekt geladen: ${selectedProject.name}`);
+            
+            // Auto-Analyse starten
+            await analyzeProjectWithLLM();
+        }
+
+        // Projekt mit LLM analysieren
+        async function analyzeProjectWithLLM() {
+            if (!selectedProject) return;
+            
+            const ctxBox = document.getElementById('projectContext');
+            ctxBox.innerHTML = '<div class="loading">🧠 Erstelle Projekt-Dump...</div>';
+            
+            try {
+                // 1. Erstelle Projekt-Dump
+                const packerRes = await fetch('/api/projects/pack', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ projectPath: selectedProject.path })
+                });
+                
+                const packerData = await packerRes.json();
+                
+                if (!packerData.success) {
+                    ctxBox.innerHTML = `<div class="error">Dump-Fehler: ${packerData.error}</div>`;
+                    return;
+                }
+                
+                ctxBox.innerHTML = '<div class="loading">🧠 LLM analysiert Projekt...</div>';
+                
+                // 2. LLM-Analyse
+                const analyzeRes = await fetch('/api/projects/analyze', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        dumpContent: packerData.dumpContent,
+                        projectName: selectedProject.name
+                    })
+                });
+                
+                const analyzeData = await analyzeRes.json();
+                
+                if (analyzeData.success) {
+                    ctxBox.innerHTML = `
+                        <div style="white-space: pre-wrap;">${analyzeData.analysis}</div>
+                        <div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid var(--border); font-size: 0.7rem; color: var(--muted);">
+                            📊 ${packerData.fileCount} Dateien analysiert | ${packerData.sizeKB} KB
+                        </div>
+                    `;
+                    
+                    // Speichere für Task-Kontext
+                    window.projectAnalysis = analyzeData.analysis;
+                    window.projectDumpStats = { count: packerData.fileCount, size: packerData.sizeKB };
+                } else {
+                    ctxBox.innerHTML = `<div class="error">Analyse-Fehler: ${analyzeData.error}</div>`;
+                }
+            } catch (e) {
+                ctxBox.innerHTML = `<div class="error">Fehler: ${e.message}</div>`;
+            }
+        }
+
+        function loadContext() {
+            if (!selectedProject) return alert('Wähle zuerst ein Projekt');
+            
+            const textarea = document.getElementById('taskInput');
+            let context = `Projekt: ${selectedProject.name}\nPfad: ${selectedProject.path}\n`;
+            
+            // Wenn LLM-Analyse vorhanden, nutze sie
+            if (window.projectAnalysis) {
+                context += `\n--- LLM Projektanalyse ---\n${window.projectAnalysis}\n`;
+            }
+            
+            context += `\n--- Task ---\n`;
+            
+            const currentText = textarea.value.trim();
+            if (currentText) {
+                textarea.value = context + currentText;
+            } else {
+                textarea.value = context;
+            }
+        }
+
+        async function sendTask() {
+            if (!selectedProject) return alert('Wähle zuerst ein Projekt');
+            
+            const task = document.getElementById('taskInput').value.trim();
+            if (!task) return alert('Gib einen Task ein');
+            
+            const agent = document.getElementById('agentSelect').value;
+            const skill = agent === 'agent-frontend' ? 'WRITE_UI_CODE' : 
+                         agent === 'agent-backend' ? 'WRITE_API_CODE' : 'REVIEW_CODE';
+            
+            updateStatusMsg('Sende Task an Agent...');
+            
+            try {
+                const res = await fetch('/api/projects/coder-task', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        projectPath: selectedProject.path,
+                        task: task,
+                        agent: agent,
+                        skill: skill
+                    })
+                });
+                
+                const data = await res.json();
+                
+                if (data.status === 'ok') {
+                    activeTaskId = data.requestId;
+                    addTaskToList(data.requestId, task, 'pending');
+                    updateStatusMsg(`Task gesendet! ID: ${data.requestId}`);
+                    document.getElementById('taskInput').value = '';
+                    
+                    // Starte Polling für Status
+                    startStatusPolling(data.requestId);
+                } else {
+                    updateStatusMsg('Fehler: ' + (data.message || data.error));
+                }
+            } catch (e) {
+                updateStatusMsg('Fehler: ' + e.message);
+            }
+        }
+
+        function addTaskToList(id, task, status) {
+            const list = document.getElementById('activeTasks');
+            if (list.querySelector('.empty-state')) list.innerHTML = '';
+            
+            const div = document.createElement('div');
+            div.className = `task-item ${status}`;
+            div.id = `task-${id}`;
+            div.innerHTML = `
+                <div style="font-weight: 600;">${task.substring(0, 40)}...</div>
+                <div class="task-status">Status: ${status} | ID: ${id.substring(0, 8)}</div>
+            `;
+            list.appendChild(div);
+        }
+
+        function updateTaskStatus(id, status, result) {
+            const task = document.getElementById(`task-${id}`);
+            if (task) {
+                task.className = `task-item ${status}`;
+                task.querySelector('.task-status').textContent = `Status: ${status}`;
+            }
+            
+            if (status === 'success' || status === 'review') {
+                showResult(result);
+            }
+        }
+
+        function showResult(result) {
+            const box = document.getElementById('resultBox');
+            box.innerHTML = `<div class="result-box">${result || 'Keine Details verfügbar'}</div>`;
+            document.getElementById('resultActions').style.display = 'flex';
+        }
+
+        function acceptResult() {
+            updateStatusMsg('✅ Ergebnis übernommen');
+            document.getElementById('resultActions').style.display = 'none';
+            // Hier könnte der Code in Dateien geschrieben werden
+        }
+
+        function rejectResult() {
+            updateStatusMsg('❌ Ergebnis abgelehnt');
+            document.getElementById('resultActions').style.display = 'none';
+        }
+
+        async function startStatusPolling(requestId) {
+            // Einfaches Polling alle 3 Sekunden
+            const poll = setInterval(async () => {
+                try {
+                    const res = await fetch(`/api/bus-status`);
+                    const data = await res.json();
+                    
+                    // Suche nach unserem Request
+                    const request = data.requests?.find(r => r.id === requestId);
+                    if (request) {
+                        updateTaskStatus(requestId, request.status.toLowerCase(), request.result);
+                        
+                        if (request.status === 'SUCCESS' || request.status === 'FAILED') {
+                            clearInterval(poll);
+                        }
+                    }
+                } catch (e) {
+                    console.error('Polling error:', e);
+                }
+            }, 3000);
+        }
+
+        function updateStatusMsg(msg) {
+            document.getElementById('taskMsg').textContent = msg;
+        }
+
+        // Modal
+        function showCreateModal() {
+            document.getElementById('createModal').classList.add('active');
+        }
+
+        function hideCreateModal() {
+            document.getElementById('createModal').classList.remove('active');
+        }
+
+        async function createProject() {
+            const name = document.getElementById('newProjectName').value.trim();
+            if (!name) return alert('Name eingeben');
+            
+            try {
+                const res = await fetch('/api/projects/create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: name,
+                        targetPath: ROOT_PATH,
+                        template: document.getElementById('newProjectTemplate').value
+                    })
+                });
+                
+                const data = await res.json();
+                if (data.success) {
+                    hideCreateModal();
+                    loadProjects();
+                }
+            } catch (e) {
+                alert('Fehler: ' + e.message);
+            }
+        }
+
+        // Init
+        loadProjects();
+    </script>
+</body>
+</html>

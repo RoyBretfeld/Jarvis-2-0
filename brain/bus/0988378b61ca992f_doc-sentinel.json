@@ -13,5 +13,10 @@
     "maxTime": 60000,
     "maxCalls": 10
   },
-  "status": "PENDING"
+  "status": "SUCCESS",
+  "metadata": {
+    "workerId": "doc-sentinel",
+    "startedAt": "2026-02-15T17:40:58.226Z",
+    "finishedAt": "2026-02-15T17:40:59.496Z"
+  }
 }
